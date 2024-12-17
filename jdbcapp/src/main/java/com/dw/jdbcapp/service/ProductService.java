@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class ProductService {
     @Autowired
-    @Qualifier("ProductTemplateRepository")
+    @Qualifier("productTemplateRepository")
     ProductRepository productRepository;
 
     public List<Product> getAllProducts() {

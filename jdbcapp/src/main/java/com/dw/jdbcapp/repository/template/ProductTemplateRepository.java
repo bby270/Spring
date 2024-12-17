@@ -17,7 +17,8 @@ public class ProductTemplateRepository implements ProductRepository {
     @Autowired
     JdbcTemplate jdbcTemplate;
 
-    private final RowMapper<Product> productRowMapper = new RowMapper<Product>() {
+    private final RowMapper<Product> productRowMapper
+            = new RowMapper<Product>() {
         @Override
         public Product mapRow(ResultSet rs, int rowNum) throws SQLException {
             Product product =new Product();
@@ -44,16 +45,34 @@ public class ProductTemplateRepository implements ProductRepository {
 
     @Override
     public Product saveProduct(Product product) {
-        return null;
+        String query = "insert into 제품(제품번호,제품명,포장단위,단가,재고)" +
+                "values(?,?,?,?,?)";
+      jdbcTemplate.update(query,
+              product.getProductId(),
+              product.getProductName(),
+              product.getPackageUnit(),
+              product.getPackageUnit(),
+              product.getStock());
+      return product;
     }
 
     @Override
     public Product updateProduct(Product product) {
-        return null;
+        String query = "update 제품 set 제품명 = ?, 포장단위?,단가?,"+
+                "재고? where 제품번호=?";
+      jdbcTemplate.update(query,
+              product.getProductName(),
+              product.getPackageUnit(),
+              product.getUnitPrice(),
+              product.getStock(),
+              product.getProductId());
+      return product;
     }
 
     @Override
     public int deleteProduct(int id) {
-        return 0;
+        String query = "delete from 제품 where 제품번호=?";
+        jdbcTemplate.update(query,id);
+        return id;
     }
 }
