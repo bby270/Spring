@@ -13,7 +13,7 @@ public class DepartmentService {
     @Autowired
     DepartmentJdbcRepository departmentRepository;
 
-    public List<Department> getAllDepartments(){
+    public List<Department> getAllDepartments() {
         return departmentRepository.getAllDepartments();
     }
 

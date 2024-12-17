@@ -1,8 +1,10 @@
 package com.dw.jdbcapp.service;
 
 import com.dw.jdbcapp.model.Product;
+import com.dw.jdbcapp.repository.iface.ProductRepository;
 import com.dw.jdbcapp.repository.jdbc.ProductJdbcRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -10,25 +12,33 @@ import java.util.List;
 @Service
 public class ProductService {
     @Autowired
-    ProductJdbcRepository productRepository;
+    @Qualifier("ProductTemplateRepository")
+    ProductRepository productRepository;
 
     public List<Product> getAllProducts() {
         return productRepository.getAllProducts();
     }
 
-    public Product getProductByNumber(String number) {
-        return productRepository.getProductByNumber(number);
+    public Product getProductById(int productNumber) {
+        return productRepository.getProductById(productNumber);
     }
 
     public Product saveProduct(Product product) {
         return productRepository.saveProduct(product);
     }
 
-    public List<Product> saveProdudctList(
-            List<Product> productList) {
+    public List<Product> saveProductList(List<Product> productList) {
         for (Product data : productList) {
-            productRepository.saveProductList(data);
+            productRepository.saveProduct(data);
         }
         return productList;
+    }
+
+    public Product updateProduct(Product product) {
+        return productRepository.updateProduct(product);
+    }
+
+    public int deleteProduct(int id) {
+        return productRepository.deleteProduct(id);
     }
 }

@@ -16,25 +16,21 @@ public class EmployeeService {
     @Autowired
     EmployeeJdbcRepository employeeRepository;
 
-    public List<Employee> getAllEmployees() {
+    public List<Employee> getAllEmployees(){
         return employeeRepository.getAllEmployees();
     }
-
     public Employee getEmployeeById(String id) {
         return employeeRepository.getEmployeeById(id);
     }
-
-    public List<Map<String, Object>> getEmployeesWithDepartName() {
+    public List<Map<String,Object>> getEmployeesWithDepartName(){
         return employeeRepository.getEmployeesWithDepartName();
     }
-
-    public List<EmployeeDepartmentDTO> getEmployeesWithDepartName2() {
+    public List<EmployeeDepartmentDTO> getEmployeesWithDepartName2(){
         List<EmployeeDepartmentDTO> employeeDepartmentDTOList = new ArrayList<>();
-        List<Map<String, Object>> mapList =
-                employeeRepository.getEmployeesWithDepartName();
-        for (Map<String, Object> data : mapList) {
+        List<Map<String,Object>> mapList = employeeRepository.getEmployeesWithDepartName();
+        for (Map<String,Object> data : mapList) {
             EmployeeDepartmentDTO temp = new EmployeeDepartmentDTO(
-                    LocalDate.parse((String) data.get("입사일")),
+                    LocalDate.parse((String)data.get("입사일")),
                     (String) data.get("부서명"),
                     (String) data.get("이름")
             );
@@ -42,10 +38,10 @@ public class EmployeeService {
         }
         return employeeDepartmentDTOList;
     }
- //   public Employee getEmployeeByNumber(String number,String position) {
-   //      return employeeRepository.toString(number,position);
-    //}
- public Employee saveemployee(Employee employee) {
-     return employeeRepository.saveemployee(employee);
- }
+    public Employee getEmployeeByNumber(String number, String position) {
+        return employeeRepository.getEmployeeByNumber(number, position);
+    }
+    public Employee saveemployee (Employee employee) {
+        return employeeRepository.saveemployee(employee);
+    }
 }

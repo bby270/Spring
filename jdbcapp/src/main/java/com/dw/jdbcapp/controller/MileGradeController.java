@@ -1,7 +1,5 @@
 package com.dw.jdbcapp.controller;
 
-
-
 import com.dw.jdbcapp.model.Customer;
 import com.dw.jdbcapp.model.MileGrade;
 import com.dw.jdbcapp.service.CustomerService;
