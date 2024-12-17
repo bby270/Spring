@@ -1,5 +1,6 @@
 package com.dw.jdbcapp.service;
 
+import com.dw.jdbcapp.model.Department;
 import com.dw.jdbcapp.model.Employee;
 import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.repository.ProductRepository;
@@ -19,5 +20,17 @@ public class ProductService {
 
     public Product getProductByNumber(String number) {
         return productRepository.getProductByNumber(number);
+    }
+
+    public Product saveProduct(Product product) {
+        return productRepository.saveProduct(product);
+    }
+
+    public List<Product> saveProdudctList(
+            List<Product> productList) {
+        for (Product data : productList) {
+            productRepository.saveProductList(data);
+        }
+        return productList;
     }
 }

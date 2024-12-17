@@ -1,7 +1,11 @@
 package com.dw.jdbcapp.controller;
 
+
+
 import com.dw.jdbcapp.model.Customer;
+import com.dw.jdbcapp.model.MileGrade;
 import com.dw.jdbcapp.service.CustomerService;
+import com.dw.jdbcapp.service.MileGradeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,12 +15,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class CustomerController {
+public class MileGradeController {
     @Autowired
-    CustomerService customerService;
+    MileGradeService mileGradeService;
 
-    @GetMapping("/find-all-customers")
-    public List<Customer> getAllCustomers() {
-        return customerService.getAllCustomers();
+    @GetMapping("/find-all-mileage")
+    public List<MileGrade> getAllMileages() {
+        return mileGradeService.getAllMileages();
     }
 }

@@ -38,6 +38,7 @@ public class ProductRepository {
         }
         return products;
     }
+
     //#1번
     public Product getProductByNumber(String number) {
         Product product = new Product();
@@ -45,7 +46,7 @@ public class ProductRepository {
         try (
                 Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
                 PreparedStatement pstmt = connection.prepareStatement(query)
-        ){
+        ) {
             pstmt.setString(1, number);
             try (ResultSet resultSet = pstmt.executeQuery()) {
                 while (resultSet.next()) {
@@ -61,4 +62,39 @@ public class ProductRepository {
         }
         return product;
     }
+
+    public Product saveProduct(Product product) {
+        String query = "insert into 제품(제품번호,제품명,포장단위,단가,재고) "
+                + "values (?, ?, ?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, product.getProductId());
+            pstmt.setString(2, product.getProductName());
+            pstmt.setString(3, product.getPackageUnit());
+            pstmt.setDouble(4, product.getUnitPrice());
+            pstmt.setInt(5, product.getStock());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return product;
+    }
+
+    public Product saveProductList(Product product) {
+        String query = "insert into 제품(제품번호,제품명,포장단위,단가,재고) "
+                + "values (?, ?, ?, ?, ?)";
+        try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+             PreparedStatement pstmt = conn.prepareStatement(query)) {
+            pstmt.setInt(1, product.getProductId());
+            pstmt.setString(2, product.getProductName());
+            pstmt.setString(3, product.getPackageUnit());
+            pstmt.setDouble(4, product.getUnitPrice());
+            pstmt.setInt(5, product.getStock());
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return product;
+    }
 }
+

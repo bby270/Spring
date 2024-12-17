@@ -102,9 +102,9 @@ public class EmployeeRepository {
         }
         return employees;
     }
-    public Employee getOrderByNumber(String number) {
+    public Employee getEmployeeByNumber(String number) {
        Employee employee = new Employee();
-        String query = "select * from 주문 where 주문번호 = ?";
+        String query = "select * from 사원 where 사원번호 = ?";
         try (
                 Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
                 PreparedStatement pstmt = connection.prepareStatement(query)
@@ -112,17 +112,51 @@ public class EmployeeRepository {
             pstmt.setString(1, number);
             try (ResultSet resultSet = pstmt.executeQuery()) {
                 while (resultSet.next()) {
-                    order.setOrderId(resultSet.getString("주문번호"));
-                    order.setCustomerId(resultSet.getString("고객번호"));
-                    order.setEmployeeId(resultSet.getString("사원번호"));
-                    order.setOrderDate(LocalDate.parse(resultSet.getString("주문일")));
-                    order.setRequestDate(LocalDate.parse(resultSet.getString("요청일")));
-                    order.setShippingDate(LocalDate.parse(resultSet.getString("발송일")));
+                    employee.setEmployeeId(resultSet.getString("사원번호"));
+                    employee.setEnglishName(resultSet.getString("영문이름"));
+                    employee.setName(resultSet.getString("이름"));
+                    employee.setPosition(resultSet.getString("직위"));
+                    employee.setGender(resultSet.getString("성별"));
+                    employee.setBirthDate(LocalDate.parse(resultSet.getString("생일")));
+                    employee.setHireDate(LocalDate.parse(resultSet.getString("입사일")));
+                    employee.setAddress(resultSet.getString("주소"));
+                    employee.setCity(resultSet.getString("도시"));
+                    employee.setRegion(resultSet.getString("지역"));
+                    employee.setHomePhone(resultSet.getString("집전화"));
+                    employee.setSupervisorId(resultSet.getString("상사번호"));
+                    employee.setDepartmentId(resultSet.getString("부서번호"));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return order;
+        return employee;
     }
+
+   public Employee saveemployee(Employee employee) {
+       String query = "insert into 사원(사원번호,이름,영문이름,직위,성별,생일," +
+               "입사일,주소,도시,지역,집전화,상사번호,부서번호) "
+               +"values (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+       try (Connection conn = DriverManager.getConnection(URL, USER, PASSWORD);
+            PreparedStatement pstmt = conn.prepareStatement(query)) {
+           pstmt.setString(1, employee.getEmployeeId());
+           pstmt.setString(2, employee.getName());
+           pstmt.setString(3, employee.getEnglishName());
+           pstmt.setString(4, employee.getPosition());
+           pstmt.setString(5, employee.getGender());
+           pstmt.setString(6, employee.getBirthDate().toString());
+           pstmt.setString(7, employee.getHireDate().toString());
+           pstmt.setString(8, employee.getAddress());
+           pstmt.setString(9, employee.getCity());
+           pstmt.setString(10, employee.getRegion());
+           pstmt.setString(11, employee.getHomePhone());
+           pstmt.setString(12, employee.getSupervisorId());
+           pstmt.setString(13,employee.getDepartmentId());
+                     pstmt.executeUpdate();
+       } catch (SQLException e) {
+           e.printStackTrace();
+       }
+       return employee;
+   }
 }
+

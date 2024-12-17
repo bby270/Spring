@@ -2,17 +2,17 @@ package com.dw.jdbcapp.controller;
 
 import com.dw.jdbcapp.dto.EmployeeDepartmentDTO;
 import com.dw.jdbcapp.model.Employee;
+import com.dw.jdbcapp.model.Order;
+import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
@@ -22,7 +22,7 @@ public class EmployeeController {
         return employeeService.getAllEmployees();
     }
 
-    // Quety param
+    // Query param
     @GetMapping("/employee")
     public Employee getEmployeeById(@RequestParam String id) {
         return employeeService.getEmployeeById(id);
@@ -40,6 +40,15 @@ public class EmployeeController {
     @GetMapping("/employees/department2")
     public List<EmployeeDepartmentDTO> getEmployeesWithDepartName2() {
         return employeeService.getEmployeesWithDepartName2();
+    }
+    @GetMapping("/Employees/{EmployeeNumber}")
+    public Employee getEmployeeByNumber(@PathVariable String EmployeeNumber) {
+        return employeeService.getEmployeeById(EmployeeNumber);
+    }
+
+    @PostMapping("/post/employee")
+    public Employee saveemployee(@RequestBody Employee employee) {
+        return employeeService.saveemployee(employee);
     }
 }
 

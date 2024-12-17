@@ -3,6 +3,8 @@ package com.dw.jdbcapp.service;
 import com.dw.jdbcapp.dto.EmployeeDepartmentDTO;
 import com.dw.jdbcapp.model.Department;
 import com.dw.jdbcapp.model.Employee;
+import com.dw.jdbcapp.model.Order;
+import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.repository.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,18 +30,25 @@ public class EmployeeService {
     public List<Map<String, Object>> getEmployeesWithDepartName() {
         return employeeRepository.getEmployeesWithDepartName();
     }
+
     public List<EmployeeDepartmentDTO> getEmployeesWithDepartName2() {
         List<EmployeeDepartmentDTO> employeeDepartmentDTOList = new ArrayList<>();
-        List<Map<String,Object>> mapList =
-        employeeRepository.getEmployeesWithDepartName();
-        for (Map<String,Object> data : mapList) {
-            EmployeeDepartmentDTO temp =new EmployeeDepartmentDTO(
-                    LocalDate.parse((String)data.get("입사일")),
-                            (String)data.get("부서명"),
-                            (String)data.get("이름")
+        List<Map<String, Object>> mapList =
+                employeeRepository.getEmployeesWithDepartName();
+        for (Map<String, Object> data : mapList) {
+            EmployeeDepartmentDTO temp = new EmployeeDepartmentDTO(
+                    LocalDate.parse((String) data.get("입사일")),
+                    (String) data.get("부서명"),
+                    (String) data.get("이름")
             );
             employeeDepartmentDTOList.add(temp);
         }
         return employeeDepartmentDTOList;
     }
+ //   public Employee getEmployeeByNumber(String number,String position) {
+   //      return employeeRepository.toString(number,position);
+    //}
+ public Employee saveemployee(Employee employee) {
+     return employeeRepository.saveemployee(employee);
+ }
 }
