@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
+@RequestMapping("/api")
 public class EmployeeController {
     @Autowired
     EmployeeService employeeService;
@@ -26,7 +27,7 @@ public class EmployeeController {
     @GetMapping("/employee")
     public ResponseEntity <Employee> getEmployeeById(@RequestParam String id) {
         return  new ResponseEntity<>(employeeService.getEmployeeById(id),
-                HttpStatus.CONTINUE);
+                HttpStatus.OK);
     }
     // Path Parameters(경로 매개변수)
     @GetMapping("/employee/{id}")
@@ -45,12 +46,12 @@ public class EmployeeController {
         return  new ResponseEntity<>(employeeService.getEmployeesWithDepartName2(),
                 HttpStatus.BAD_GATEWAY);
     }
-    @GetMapping("/api/employees/{departmentNumber}/{position}")
+    @GetMapping("/employees/{departmentNumber}/{position}")
     public ResponseEntity <Employee> getEmployeeByNumber(@PathVariable String departmentNumber, @PathVariable String position) {
         return  new ResponseEntity<>(employeeService.getEmployeeByNumber(departmentNumber, position),
                 HttpStatus.EARLY_HINTS);
     }
-    @PostMapping("api/post/employee")
+    @PostMapping("/post/employee")
     public ResponseEntity<Employee> saveemployee(@RequestBody Employee employee) {
         return  new ResponseEntity<>(employeeService.saveemployee(employee),
                 HttpStatus.CONTINUE);

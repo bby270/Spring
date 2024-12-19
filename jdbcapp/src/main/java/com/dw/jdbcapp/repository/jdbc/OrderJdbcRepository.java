@@ -48,10 +48,9 @@ public class OrderJdbcRepository implements OrderRepository {
         Order order = new Order();
         String query = "select * from 주문 where 주문번호 = ?";
         try (
-                Connection connection = DriverManager.getConnection(
-                        URL, USER, PASSWORD);
-                PreparedStatement pstmt = connection.prepareStatement(query)) {
-            System.out.println("데이터베이스 연결 성공");
+                Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                PreparedStatement pstmt = connection.prepareStatement(query)
+        ){
             pstmt.setString(1, orderNumber);
             try(ResultSet resultSet = pstmt.executeQuery()) {
                 while (resultSet.next()) {
