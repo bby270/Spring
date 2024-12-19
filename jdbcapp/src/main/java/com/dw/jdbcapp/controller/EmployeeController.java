@@ -5,6 +5,8 @@ import com.dw.jdbcapp.model.Employee;
 import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,34 +18,41 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @GetMapping("/find-all-employees")
-    public List<Employee> getAllEmployees() {
-        return employeeService.getAllEmployees();
+    public ResponseEntity <List<Employee>> getAllEmployees() {
+        return  new ResponseEntity<>(employeeService.getAllEmployees(),
+                HttpStatus.ACCEPTED);
     }
     // Query Parameters (쿼리 문자열)
     @GetMapping("/employee")
-    public Employee getEmployeeById(@RequestParam String id) {
-        return employeeService.getEmployeeById(id);
+    public ResponseEntity <Employee> getEmployeeById(@RequestParam String id) {
+        return  new ResponseEntity<>(employeeService.getEmployeeById(id),
+                HttpStatus.CONTINUE);
     }
     // Path Parameters(경로 매개변수)
     @GetMapping("/employee/{id}")
-    public Employee getEmployeeById_2(@PathVariable String id) {
-        return employeeService.getEmployeeById(id);
+    public ResponseEntity <Employee> getEmployeeById_2(@PathVariable String id) {
+        return  new ResponseEntity<>(employeeService.getEmployeeById(id),
+                HttpStatus.CONFLICT);
     }
 
     @GetMapping("/employees/department")
-    public List<Map<String, Object>> getEmployeesWithDepartName() {
-        return employeeService.getEmployeesWithDepartName();
+    public ResponseEntity <List<Map<String, Object>>> getEmployeesWithDepartName() {
+        return new ResponseEntity<>( employeeService.getEmployeesWithDepartName(),
+                HttpStatus.ALREADY_REPORTED);
     }
     @GetMapping("/employees/department2")
-    public List<EmployeeDepartmentDTO> getEmployeesWithDepartName2() {
-        return employeeService.getEmployeesWithDepartName2();
+    public ResponseEntity <List<EmployeeDepartmentDTO>> getEmployeesWithDepartName2() {
+        return  new ResponseEntity<>(employeeService.getEmployeesWithDepartName2(),
+                HttpStatus.BAD_GATEWAY);
     }
     @GetMapping("/api/employees/{departmentNumber}/{position}")
-    public Employee getEmployeeByNumber(@PathVariable String departmentNumber, @PathVariable String position) {
-        return employeeService.getEmployeeByNumber(departmentNumber, position);
+    public ResponseEntity <Employee> getEmployeeByNumber(@PathVariable String departmentNumber, @PathVariable String position) {
+        return  new ResponseEntity<>(employeeService.getEmployeeByNumber(departmentNumber, position),
+                HttpStatus.EARLY_HINTS);
     }
     @PostMapping("api/post/employee")
-    public Employee saveemployee(@RequestBody Employee employee) {
-        return employeeService.saveemployee(employee);
+    public ResponseEntity<Employee> saveemployee(@RequestBody Employee employee) {
+        return  new ResponseEntity<>(employeeService.saveemployee(employee),
+                HttpStatus.CONTINUE);
     }
 }
