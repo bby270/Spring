@@ -19,41 +19,41 @@ public class EmployeeController {
     EmployeeService employeeService;
 
     @GetMapping("/find-all-employees")
-    public ResponseEntity <List<Employee>> getAllEmployees() {
-        return  new ResponseEntity<>(employeeService.getAllEmployees(),
-                HttpStatus.ACCEPTED);
+    public ResponseEntity<List<Employee>> getAllEmployees() {
+        return new ResponseEntity<>(employeeService.getAllEmployees(),
+                HttpStatus.CONFLICT);
     }
     // Query Parameters (쿼리 문자열)
     @GetMapping("/employee")
-    public ResponseEntity <Employee> getEmployeeById(@RequestParam String id) {
-        return  new ResponseEntity<>(employeeService.getEmployeeById(id),
-                HttpStatus.OK);
+    public ResponseEntity<Employee> getEmployeeById(@RequestParam String id) {
+        return new ResponseEntity<>(employeeService.getEmployeeById(id),
+                HttpStatus.CONFLICT);
     }
     // Path Parameters(경로 매개변수)
     @GetMapping("/employee/{id}")
-    public ResponseEntity <Employee> getEmployeeById_2(@PathVariable String id) {
-        return  new ResponseEntity<>(employeeService.getEmployeeById(id),
+    public ResponseEntity<Employee> getEmployeeById_2(@PathVariable String id) {
+        return new ResponseEntity<>(employeeService.getEmployeeById(id),
                 HttpStatus.CONFLICT);
     }
 
     @GetMapping("/employees/department")
-    public ResponseEntity <List<Map<String, Object>>> getEmployeesWithDepartName() {
-        return new ResponseEntity<>( employeeService.getEmployeesWithDepartName(),
-                HttpStatus.ALREADY_REPORTED);
+    public ResponseEntity<List<Map<String, Object>>> getEmployeesWithDepartName() {
+        return new ResponseEntity<>(employeeService.getEmployeesWithDepartName(),
+                HttpStatus.CONFLICT);
     }
     @GetMapping("/employees/department2")
-    public ResponseEntity <List<EmployeeDepartmentDTO>> getEmployeesWithDepartName2() {
-        return  new ResponseEntity<>(employeeService.getEmployeesWithDepartName2(),
-                HttpStatus.BAD_GATEWAY);
+    public ResponseEntity<List<EmployeeDepartmentDTO>> getEmployeesWithDepartName2() {
+        return new ResponseEntity<>(employeeService.getEmployeesWithDepartName2(),
+                HttpStatus.CONFLICT);
     }
     @GetMapping("/employees/{departmentNumber}/{position}")
-    public ResponseEntity <Employee> getEmployeeByNumber(@PathVariable String departmentNumber, @PathVariable String position) {
-        return  new ResponseEntity<>(employeeService.getEmployeeByNumber(departmentNumber, position),
-                HttpStatus.EARLY_HINTS);
+    public ResponseEntity<List<Employee>> getEmployeeByNumber(@PathVariable String departmentNumber, @PathVariable String position) {
+        return new ResponseEntity<>(employeeService.getEmployeeByNumber(departmentNumber, position),
+                HttpStatus.CONFLICT);
     }
     @PostMapping("/post/employee")
     public ResponseEntity<Employee> saveemployee(@RequestBody Employee employee) {
-        return  new ResponseEntity<>(employeeService.saveemployee(employee),
-                HttpStatus.CONTINUE);
+        return new ResponseEntity<>(employeeService.saveemployee(employee),
+                HttpStatus.CONFLICT);
     }
 }

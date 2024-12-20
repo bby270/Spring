@@ -20,6 +20,6 @@ public class OrderDetailController {
     @GetMapping("find-all-orderdetails")
     public ResponseEntity <List<OrderDetail>> getAllOrderDetails() {
         return  new ResponseEntity<>(orderDetailService.getAllOrderDetails(),
-                HttpStatus.CONTINUE);
+                HttpStatus.CONFLICT);
     }
 }

@@ -1,8 +1,8 @@
 package com.dw.jdbcapp.controller;
 
-import com.dw.jdbcapp.model.Customer;
+import com.dw.jdbcapp.model.Employee;
 import com.dw.jdbcapp.model.Order;
-import com.dw.jdbcapp.service.CustomerService;
+import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,22 +21,18 @@ public class OrderController {
     OrderService orderService;
 
     @GetMapping("/find-all-orders")
-    public ResponseEntity <List<Order>> getAllOrders() {
-        return new ResponseEntity<>( orderService.getAllOrders(),
+    public ResponseEntity<List<Order>> getAllOrders(){
+        return new ResponseEntity<>(orderService.getAllOrders(),
                 HttpStatus.OK);
     }
-
-    // 과제 1-2 주문번호를 기준으로 주문 정보를 조회하는 API
     @GetMapping("/orders/{orderNumber}")
-    public  ResponseEntity<Order> getOrderById(@PathVariable String orderNumber) {
-        return  new ResponseEntity<>(orderService.getOrderById(orderNumber),
-                HttpStatus.ACCEPTED);
+    public ResponseEntity<Order> getOrderByNumber(@PathVariable String orderNumber) {
+        return new ResponseEntity<>(orderService.getOrderByNumber(orderNumber),
+                HttpStatus.OK);
     }
-
-    // 과제 1-4 제품번호와 고객번호를 기준으로 해당 제품을 주문한 특정 고객의 주문 내역을 조회하는 API
     @GetMapping("/orders/{productNumber}/{customerId}")
-    public ResponseEntity <List<Order>> getOrderByIdAndCustomer(@PathVariable int productNumber, @PathVariable String customerId) {
-        return  new ResponseEntity<>(orderService.getOrderByIdAndCustomer(productNumber, customerId),
-                HttpStatus.ALREADY_REPORTED);
+    public ResponseEntity<List<Order>> getOrderProductNumber (@PathVariable String productNumber, @PathVariable String customerId) {
+        return new ResponseEntity<>(orderService.getOrderProductNumber (productNumber, customerId),
+                HttpStatus.OK);
     }
 }

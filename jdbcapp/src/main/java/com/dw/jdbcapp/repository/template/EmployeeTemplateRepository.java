@@ -53,7 +53,7 @@ public class EmployeeTemplateRepository implements EmployeeRepository {
         try {
             return jdbcTemplate.queryForObject(query, employeeRowMapper, id);
         }catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("사원번호가 올바르지 않습니다:" + id);
+            throw new ResourceNotFoundException("사원번호가 올바르지 않습니다: " + id);
         }
     }
 
@@ -82,9 +82,9 @@ public class EmployeeTemplateRepository implements EmployeeRepository {
     }
 
     @Override
-    public Employee getEmployeeByNumber(String number, String position) {
-        String query = "select * from 사원" + "inner join 부서 on 사원.부서번호 = 부서.부서번호 where 부서번호 = ? and ?";
-        return jdbcTemplate.queryForObject(query, employeeRowMapper, number, position);
+    public List<Employee> getEmployeeByNumber(String number, String position) {
+        String query = "select * from 사원 where 부서번호 = ? and 직위 = ?";
+        return jdbcTemplate.query(query, employeeRowMapper, number, position);
     }
 
     @Override

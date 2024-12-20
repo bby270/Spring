@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDate;
-import java.util.Collections;
 import java.util.List;
 
 @Repository
@@ -40,20 +39,18 @@ public class OrderTemplateRepository implements OrderRepository {
     }
 
     @Override
-    public Order getOrderById(String number) {
+    public Order getOrderByNumber(String number) {
         String query = "select * from 주문 where 주문번호 = ?";
         try {
             return jdbcTemplate.queryForObject(query, orderRowMapper, number);
         }catch (EmptyResultDataAccessException e) {
-            throw new ResourceNotFoundException("주문번호가 올바르지 않습니다:" + number);
+            throw new ResourceNotFoundException("주문번호가 올바르지 않습니다: " + number);
         }
     }
 
     @Override
-    public List<Order> getOrderByIdAndCustomer(int productNumber, String customerId) {
-        String query = "select * from 제품" + "inner join 주문세부 on 제품.고객번호 = " +
-                "주문세부.고객번호 where 제품번호 = ? and ?";
-        return Collections.singletonList(jdbcTemplate.queryForObject(query, orderRowMapper,
-                productNumber, customerId));
+    public List<Order> getOrderProductNumber(String number, String id) {
+        String query = "select * from 제품 where 제품번호 = ?  and 주문번호 = ?";
+        return jdbcTemplate.query(query, orderRowMapper, number, id);
     }
 }

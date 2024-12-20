@@ -20,7 +20,7 @@ public class DepartmentController {
     @GetMapping("/find-all-departments")
     public ResponseEntity <List<Department>> getAllDepartments() {
         return new ResponseEntity<>(departmentService.getAllDepartments(),
-                HttpStatus.CONFLICT);
+                HttpStatus.CREATED);
     }
 
     // single data (저장할 데이터 객체 1개 처리용)
@@ -37,7 +37,7 @@ public class DepartmentController {
             @RequestBody List<Department> departmentList) {
         return new ResponseEntity<>(
                 departmentService.saveDepartmentList(departmentList),
-                HttpStatus.OK);
+                HttpStatus.CREATED);
     }
 
     @PutMapping("/put/department")
@@ -51,6 +51,6 @@ public class DepartmentController {
     public ResponseEntity<String> deleteDepartment(@PathVariable String id) {
         return  new ResponseEntity<>("부서번호 : " + departmentService.deleteDepartment(id)
                 + " 가 삭제되었습니다.",
-                HttpStatus.CONFLICT);
+                HttpStatus.CREATED);
     }
 }

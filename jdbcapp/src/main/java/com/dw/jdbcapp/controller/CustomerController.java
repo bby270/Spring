@@ -20,6 +20,6 @@ public class CustomerController {
     @GetMapping("/find-all-customers")
     public ResponseEntity<List<Customer>> getAllCustomers() {
         return new ResponseEntity<>(customerService.getAllCustomers(), // 첫번째 매개변수 데이터
-                HttpStatus.ALREADY_REPORTED );
+                HttpStatus.OK );
     }
 }

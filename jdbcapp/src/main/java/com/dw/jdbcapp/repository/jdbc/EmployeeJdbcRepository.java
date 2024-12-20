@@ -46,7 +46,6 @@ public class EmployeeJdbcRepository implements EmployeeRepository {
         }
         return employees;
     }
-
     @Override
     public Employee getEmployeeById(String id) {
         Employee employee = new Employee();
@@ -78,7 +77,6 @@ public class EmployeeJdbcRepository implements EmployeeRepository {
         }
         return employee;
     }
-
     @Override
     public List<Map<String, Object>> getEmployeesWithDepartName() {
         String query = "select 이름, 입사일, 부서명 from 사원 " + "inner join 부서 on 사원.부서번호 = 부서.부서번호";
@@ -101,10 +99,9 @@ public class EmployeeJdbcRepository implements EmployeeRepository {
         }
         return employees;
     }
-
     @Override
-    public Employee getEmployeeByNumber(String number,String position) {
-        Employee employee = new Employee();
+    public List<Employee> getEmployeeByNumber(String number,String position) {
+        List<Employee> employees = new ArrayList<>();
         String query = "select * from 사원" + "inner join 부서 on 사원.부서번호 = 부서.부서번호 where 부서번호 = ? and ?";
         try (
                 Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
@@ -114,6 +111,7 @@ public class EmployeeJdbcRepository implements EmployeeRepository {
             pstmt.setString(1, position);
             try (ResultSet resultSet = pstmt.executeQuery()) {
                 while (resultSet.next()) {
+                    Employee employee = new Employee();
                     employee.setEmployeeId(resultSet.getString("사원번호"));
                     employee.setEnglishName(resultSet.getString("영문이름"));
                     employee.setName(resultSet.getString("이름"));
@@ -127,12 +125,14 @@ public class EmployeeJdbcRepository implements EmployeeRepository {
                     employee.setHomePhone(resultSet.getString("집전화"));
                     employee.setSupervisorId(resultSet.getString("상사번호"));
                     employee.setDepartmentId(resultSet.getString("부서번호"));
+
+                    employees.add(employee);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return employee;
+        return employees;
     }
     @Override
     public Employee saveemployee(Employee employee) {
@@ -161,4 +161,3 @@ public class EmployeeJdbcRepository implements EmployeeRepository {
         return employee;
     }
 }
-

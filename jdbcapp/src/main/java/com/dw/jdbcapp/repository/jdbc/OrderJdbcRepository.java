@@ -20,14 +20,11 @@ public class OrderJdbcRepository implements OrderRepository {
         List<Order> orders = new ArrayList<>();
         String query = "select * from 주문";
         try (
-                Connection connection = DriverManager.getConnection(
-                        URL, USER, PASSWORD);
+                Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
                 Statement statement = connection.createStatement();
                 ResultSet resultSet = statement.executeQuery(query)) {
-            System.out.println("데이터베이스 연결 성공");
             while (resultSet.next()) {
                 Order order = new Order();
-
                 order.setOrderId(resultSet.getString("주문번호"));
                 order.setCustomerId(resultSet.getString("고객번호"));
                 order.setEmployeeId(resultSet.getString("사원번호"));
@@ -42,17 +39,16 @@ public class OrderJdbcRepository implements OrderRepository {
         }
         return orders;
     }
-
     @Override
-    public Order getOrderById(String orderNumber) {
+    public Order getOrderByNumber(String number) {
         Order order = new Order();
         String query = "select * from 주문 where 주문번호 = ?";
         try (
                 Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
                 PreparedStatement pstmt = connection.prepareStatement(query)
         ){
-            pstmt.setString(1, orderNumber);
-            try(ResultSet resultSet = pstmt.executeQuery()) {
+            pstmt.setString(1, number);
+            try (ResultSet resultSet = pstmt.executeQuery()) {
                 while (resultSet.next()) {
                     order.setOrderId(resultSet.getString("주문번호"));
                     order.setCustomerId(resultSet.getString("고객번호"));
@@ -67,20 +63,17 @@ public class OrderJdbcRepository implements OrderRepository {
         }
         return order;
     }
-
     @Override
-    public List<Order> getOrderByIdAndCustomer(int productNumber, String customerId) {
+    public List<Order> getOrderProductNumber(String number, String id) {
         List<Order> orders = new ArrayList<>();
-        String query = "select * from 주문 where 고객번호 = ? and" +
-                " 주문번호 in (select 주문번호 from 주문세부 where 제품번호 = ?)";
+        String query = "select * from 제품" + "inner join 주문세부 on 제품.고객번호 = 주문세부.고객번호 where 제품번호 = ? and ?";
         try (
-                Connection connection = DriverManager.getConnection(
-                        URL, USER, PASSWORD);
-                PreparedStatement pstmt = connection.prepareStatement(query)) {
-            System.out.println("데이터베이스 연결 성공");
-            pstmt.setString(1, customerId);
-            pstmt.setInt(2, productNumber);
-            try(ResultSet resultSet = pstmt.executeQuery()) {
+                Connection connection = DriverManager.getConnection(URL, USER, PASSWORD);
+                PreparedStatement pstmt = connection.prepareStatement(query)
+        ){
+            pstmt.setString(1, number);
+            pstmt.setString(1, id);
+            try (ResultSet resultSet = pstmt.executeQuery()) {
                 while (resultSet.next()) {
                     Order order = new Order();
                     order.setOrderId(resultSet.getString("주문번호"));
@@ -89,7 +82,9 @@ public class OrderJdbcRepository implements OrderRepository {
                     order.setOrderDate(LocalDate.parse(resultSet.getString("주문일")));
                     order.setRequestDate(LocalDate.parse(resultSet.getString("요청일")));
                     order.setShippingDate(LocalDate.parse(resultSet.getString("발송일")));
+
                     orders.add(order);
+
                 }
             }
         } catch (SQLException e) {
