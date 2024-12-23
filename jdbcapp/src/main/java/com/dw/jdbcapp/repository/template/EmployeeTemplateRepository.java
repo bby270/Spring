@@ -1,9 +1,11 @@
 package com.dw.jdbcapp.repository.template;
 
+import com.dw.jdbcapp.exception.InvalidRequestException;
 import com.dw.jdbcapp.exception.ResourceNotFoundException;
 import com.dw.jdbcapp.model.Employee;
 import com.dw.jdbcapp.repository.iface.EmployeeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -52,16 +54,16 @@ public class EmployeeTemplateRepository implements EmployeeRepository {
         String query = "select * from 사원 where 사원번호 = ?";
         try {
             return jdbcTemplate.queryForObject(query, employeeRowMapper, id);
-        }catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new ResourceNotFoundException("사원번호가 올바르지 않습니다: " + id);
         }
     }
 
     @Override
-    public List<Map<String, Object>> getEmployeesWithDepartName(){
+    public List<Map<String, Object>> getEmployeesWithDepartName() {
         String query = "select 이름, 입사일, 부서명 from 사원 " +
                 "inner join 부서 on 사원.부서번호 = 부서.부서번호";
-        return jdbcTemplate.query(query, (rs, rowNum)->{
+        return jdbcTemplate.query(query, (rs, rowNum) -> {
             Map<String, Object> employee = new HashMap<>();
             employee.put("이름", rs.getString("이름"));
             employee.put("입사일", rs.getString("입사일"));
@@ -107,4 +109,26 @@ public class EmployeeTemplateRepository implements EmployeeRepository {
                 employee.getDepartmentId());
         return employee;
     }
+
+    @Override
+    public List<Employee> getEmployeeByDate(String date) {
+        String query = "select * from 사원 where 입사일 > ? ";
+        return jdbcTemplate.query(query, employeeRowMapper, date);
+    }
+
+    @Override
+    public List<Employee> getEmployeesByHiredate(String hiredate) {
+        String query = "select * from 사원 where 입사일 = ?";
+        try {
+            LocalDate hiredate2 = LocalDate.parse(hiredate);
+            return jdbcTemplate.query(query, employeeRowMapper, hiredate2);
+        } catch (DataAccessException e) {
+            throw new InvalidRequestException("입력하신 입사일이 올바르지 않습니다:" + hiredate);
+        }
+    }
+    public List<Employee> getEmployeesByHiredate1() {
+        String query = "select * from 사원 order by 입사일 desc limit 1";
+        return jdbcTemplate.query(query,employeeRowMapper);
+    }
 }
+

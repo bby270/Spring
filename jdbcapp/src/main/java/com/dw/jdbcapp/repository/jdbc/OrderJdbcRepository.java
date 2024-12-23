@@ -92,4 +92,9 @@ public class OrderJdbcRepository implements OrderRepository {
         }
         return orders;
     }
+
+    @Override
+    public int saveOrder(Order order) {
+        return 0;
+    }
 }

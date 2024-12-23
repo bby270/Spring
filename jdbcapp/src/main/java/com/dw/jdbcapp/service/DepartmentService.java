@@ -13,7 +13,7 @@ import java.util.List;
 @Service
 public class DepartmentService {
     @Autowired
-    @Qualifier("DepartmentTemplateRepository")
+    @Qualifier("departmentTemplateRepository")
     DepartmentRepository departmentRepository;
 
     public List<Department> getAllDepartments() {

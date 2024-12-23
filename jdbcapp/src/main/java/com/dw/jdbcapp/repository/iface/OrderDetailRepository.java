@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface OrderDetailRepository {
     List<OrderDetail> getAllOrderDetails();
+    int saveOrderDetail(OrderDetail orderDetail);
 }

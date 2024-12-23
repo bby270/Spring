@@ -39,4 +39,20 @@ public class CustomerTemplateRepository implements CustomerRepository {
         String query = "select * from 고객";
         return jdbcTemplate.query(query, customerRowMapper);
     }
+
+    @Override
+    public List<Customer> getCustomersWithHighMileThanAvg() {
+        String query = "select * from 고객 where 마일리지 > (select avg(마일리지) from 고객) order by 마일리지";
+        return jdbcTemplate.query(query, customerRowMapper);
+    }
+
+    @Override
+    public List<Customer> getCustomersByMileageGrade(String grade) {
+        String query = "select * from 고객 " +
+                "inner join 마일리지등급 " +
+                " on 고객.마일리지 >= 마일리지등급.하한마일리지 " +
+                " and 고객.마일리지 <= 마일리지등급.상한마일리지 " +
+                 "where 등급명 = ?";
+        return jdbcTemplate.query(query, customerRowMapper,grade);
+    }
 }

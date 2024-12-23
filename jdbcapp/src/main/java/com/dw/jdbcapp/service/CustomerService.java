@@ -13,9 +13,17 @@ import java.util.List;
 public class CustomerService {
     @Autowired
     @Qualifier("customerTemplateRepository")
-   CustomerRepository customerRepository;
+    CustomerRepository customerRepository;
 
     public List<Customer> getAllCustomers() {
         return customerRepository.getAllCustomers();
+    }
+
+    public List<Customer> getCustomersWithHighMileThanAvg() {
+        return customerRepository.getCustomersWithHighMileThanAvg();
+    }
+
+    public List<Customer> getCustomersByMileageGrade(String grade) {
+        return customerRepository.getCustomersByMileageGrade(grade);
     }
 }

@@ -44,4 +44,34 @@ public class CustomerJdbcRepository implements CustomerRepository {
         }
         return customers;
     }
+
+    @Override
+    public List<Customer> getCustomersWithHighMileThanAvg() {
+        List<Customer> customers = new ArrayList<>();
+        String query = "select * from 고객 where 마일리지 > avg(마일리지)";
+        try (
+                Connection connection = DriverManager.getConnection(
+                        URL, USER, PASSWORD);
+                Statement statement = connection.createStatement();
+                ResultSet resultSet = statement.executeQuery(query)) {
+            System.out.println("데이터베이스 연결 성공");
+            while (resultSet.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerId(resultSet.getString("고객번호"));
+                customer.setCompanyName(resultSet.getString("고객회사명"));
+                customer.setMileage(resultSet.getInt("마일리지"));
+                customers.add(customer);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return customers;
+    }
+
+    @Override
+    public List<Customer> getCustomersByMileageGrade(String grade) {
+        return List.of();
+    }
 }
+
+

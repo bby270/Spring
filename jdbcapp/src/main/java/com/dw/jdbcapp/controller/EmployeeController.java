@@ -2,7 +2,6 @@ package com.dw.jdbcapp.controller;
 
 import com.dw.jdbcapp.dto.EmployeeDepartmentDTO;
 import com.dw.jdbcapp.model.Employee;
-import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.service.EmployeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -56,4 +55,18 @@ public class EmployeeController {
         return new ResponseEntity<>(employeeService.saveemployee(employee),
                 HttpStatus.CONFLICT);
     }
+
+    @GetMapping("/employee/date/{date}")
+    public ResponseEntity<List<Employee>> getEmployeeByDate(@PathVariable String date) {
+        return new ResponseEntity<>(employeeService.getEmployeeByDate(date),
+                HttpStatus.CONFLICT);
+    }
+
+    @GetMapping("/employees/hiredate/{hiredate}")
+    public ResponseEntity<List<Employee>>  getEmployeesByHiredate(@PathVariable String hiredate) {
+        return new ResponseEntity<>(employeeService.getEmployeesByHiredate(hiredate),
+                HttpStatus.OK);
+    }
+
+
 }

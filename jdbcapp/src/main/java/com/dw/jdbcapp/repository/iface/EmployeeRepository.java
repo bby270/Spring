@@ -12,4 +12,7 @@ public interface EmployeeRepository {
     public List<Map<String, Object>> getEmployeesWithDepartName();
     public List<Employee> getEmployeeByNumber(String number,String position);
     public Employee saveemployee(Employee employee);
+    List<Employee> getEmployeeByDate (String date);
+    List<Employee> getEmployeesByHiredate(String hiredate);
+    List<Employee> getEmployeesByHiredate1();
 }
