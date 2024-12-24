@@ -1,5 +1,6 @@
 package com.dw.jdbcapp.controller;
 
+import com.dw.jdbcapp.dto.ProductDTO;
 import com.dw.jdbcapp.model.Customer;
 import com.dw.jdbcapp.model.Product;
 import com.dw.jdbcapp.service.CustomerService;
@@ -57,5 +58,24 @@ public class ProductController {
     public ResponseEntity <String> deleteProduct(@RequestParam int id) {
         return  new ResponseEntity<>("제품번호: " + productService.deleteProduct(id) + " 삭제됨",
                 HttpStatus.CREATED);
+    }
+
+    @PutMapping("/products/update")
+    public ResponseEntity<String> updateProductWithStock(@RequestParam int id, @RequestParam int stock) {
+        return new ResponseEntity<>(productService.updateProductWithStock(id,stock),
+        HttpStatus.CREATED);
+    }
+
+    @GetMapping ("/products/name/{name}")
+    public ResponseEntity<List<Product>> getProductByProductName(@PathVariable String name) {
+        return new ResponseEntity<>
+                (productService.getProductByProductName(name),
+        HttpStatus.CREATED);
+    }
+
+    @GetMapping("/products/stockvalue")
+    public ResponseEntity<List<ProductDTO>> getProductsByStockValue(){
+        return new ResponseEntity<>(productService.getProductsByStockValue(),
+        HttpStatus.CREATED);
     }
 }
