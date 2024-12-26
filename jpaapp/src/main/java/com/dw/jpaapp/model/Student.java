@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -21,4 +24,7 @@ public class Student {
     private String name;
     @Column(name = "email",nullable = false, unique = true)
     private String email;
+
+    @ManyToMany(mappedBy = "studentList")
+    private List<Course> courseList = new ArrayList<>();
 }
