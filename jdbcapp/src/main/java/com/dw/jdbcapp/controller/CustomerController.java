@@ -23,17 +23,16 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.getAllCustomers(), // 첫번째 매개변수 데이터
                 HttpStatus.OK);
     }
-
+    // 1-1
     @GetMapping("/customers/high-mile-than-avg")
     public ResponseEntity<List<Customer>> getCustomersWithHighMileThanAvg() {
         return new ResponseEntity<>(customerService.getCustomersWithHighMileThanAvg(),
                 HttpStatus.OK);
     }
-
+    //1-2
     @GetMapping("/customers/grade/{grade}")
     public ResponseEntity<List<Customer>> getCustomersByMileageGrade(@PathVariable String grade) {
-        return new ResponseEntity<>(
-                customerService.getCustomersByMileageGrade(grade),
-        HttpStatus.OK);
+        return new ResponseEntity<>(customerService.getCustomersByMileageGrade(grade),
+                HttpStatus.OK);
     }
 }
