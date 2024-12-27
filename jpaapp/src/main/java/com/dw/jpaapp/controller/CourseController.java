@@ -1,5 +1,6 @@
 package com.dw.jpaapp.controller;
 
+import com.dw.jpaapp.dto.CourseDTO;
 import com.dw.jpaapp.model.Course;
 import com.dw.jpaapp.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ public class CourseController {
     CourseService courseService;
 
     @GetMapping("/courses")
-    public ResponseEntity<List<Course>> getAllCourse() {
+    public ResponseEntity<List<CourseDTO>> getAllCourse() {
         return new ResponseEntity<>(courseService.getAllCourse(),
                 HttpStatus.OK);
     }
