@@ -25,6 +25,6 @@ public class Instructor {
     @Column(name = "career")
     private String career;
 
-    @OneToMany(mappedBy = "instructor_fk")
-    private List<Course>courseList=new ArrayList<>();
+//    @OneToMany(mappedBy = "instructor_fk")
+//    private List<Course>courseList=new ArrayList<>();
 }
