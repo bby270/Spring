@@ -29,6 +29,6 @@ public class Student {
 
     public StudentDTO toDTO() {
         List<Long> courseIds = courseList.stream().map(Course::getId).toList();
-        return new StudentDTO(this.id,this.name,this.email);
+        return new StudentDTO(this.id,this.name,this.email,courseIds);
     }
 }

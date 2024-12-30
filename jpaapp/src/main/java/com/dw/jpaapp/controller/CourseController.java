@@ -6,9 +6,7 @@ import com.dw.jpaapp.service.CourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -22,5 +20,19 @@ public class CourseController {
     public ResponseEntity<List<CourseDTO>> getAllCourse() {
         return new ResponseEntity<>(courseService.getAllCourse(),
                 HttpStatus.OK);
+    }
+    // 과재 1번
+    @GetMapping("/course/search")
+    public ResponseEntity<List<CourseDTO>>getCoursesLike(@RequestParam String title){
+        return new ResponseEntity<>(courseService.getCoursesLike(title),
+        HttpStatus.OK);
+    }
+    //과재 2번
+    @PostMapping("/course/save")
+    public ResponseEntity<CourseDTO> saveCourse(
+            @RequestBody CourseDTO courseDTO) {
+        return new ResponseEntity<>(courseService.saveCourse),
+        HttpStatus.OK);
+
     }
 }
