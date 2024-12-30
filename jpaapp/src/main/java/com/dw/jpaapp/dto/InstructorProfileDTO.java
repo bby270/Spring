@@ -1,15 +1,14 @@
 package com.dw.jpaapp.dto;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
+
 public class InstructorProfileDTO {
     private Long id;
     private String bio;

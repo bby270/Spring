@@ -22,4 +22,10 @@ public class StudentController {
         return new ResponseEntity<>(studentService.getAllStudent(),
         HttpStatus.OK);
     }
+
+    @GetMapping("/info")
+    public ResponseEntity<String> getAllStudentInfo() {
+        return new ResponseEntity<>(studentService.getAllStudentInfo(),
+        HttpStatus.OK);
+    }
 }

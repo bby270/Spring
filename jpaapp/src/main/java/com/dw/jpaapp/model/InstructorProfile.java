@@ -3,16 +3,14 @@ package com.dw.jpaapp.model;
 
 import com.dw.jpaapp.dto.InstructorProfileDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
 @Entity
+@ToString
 @Table(name = "Instructor_Profile")
 public class InstructorProfile {
     @Id
