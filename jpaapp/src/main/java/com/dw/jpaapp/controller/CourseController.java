@@ -17,8 +17,9 @@ public class CourseController {
     CourseService courseService;
 
     @GetMapping("/courses")
-    public ResponseEntity<List<CourseDTO>> getAllCourse() {
-        return new ResponseEntity<>(courseService.getAllCourse(),
+    public ResponseEntity<List<CourseDTO>>getAllCourses() {
+        return new ResponseEntity<>(
+                courseService.getAllCourses(),
                 HttpStatus.OK);
     }
     // 과재 1번
@@ -31,8 +32,9 @@ public class CourseController {
     @PostMapping("/course/save")
     public ResponseEntity<CourseDTO> saveCourse(
             @RequestBody CourseDTO courseDTO) {
-        return new ResponseEntity<>(courseService.saveCourse),
-        HttpStatus.OK);
+        return new ResponseEntity<>(
+                courseService.saveCourse(courseDTO),
+                HttpStatus.CREATED);
 
     }
 }

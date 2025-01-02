@@ -16,15 +16,15 @@ public class StudentController {
     StudentService studentService;
 
     @GetMapping("/student")
-    public ResponseEntity<List<StudentDTO>> getAllStudent() {
-        return new ResponseEntity<>(studentService.getAllStudent(),
-        HttpStatus.OK);
+    public ResponseEntity<List<StudentDTO>> getAllStudents() {
+        return new ResponseEntity<>(
+                studentService.getAllStudents(),
+                HttpStatus.OK);
     }
-
     @GetMapping("/info")
     public ResponseEntity<String> getAllStudentInfo() {
         return new ResponseEntity<>(studentService.getAllStudentInfo(),
-        HttpStatus.OK);
+                HttpStatus.OK);
     }
 
     @PostMapping("/student/save")

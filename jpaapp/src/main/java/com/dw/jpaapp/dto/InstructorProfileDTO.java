@@ -8,7 +8,6 @@ import lombok.*;
 @Getter
 @Setter
 @ToString
-
 public class InstructorProfileDTO {
     private Long id;
     private String bio;

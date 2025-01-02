@@ -14,8 +14,12 @@ public class InstructorService {
     @Autowired
     InstructorRepository instructorRepository;
 
-    public List<InstructorDTO> getAllInstructor() {
+    public List<InstructorDTO> getAllInstructors() {
         return instructorRepository.findAll().stream().map(Instructor::toDTO).
                 collect(Collectors.toList());
+    }
+    public InstructorDTO getInstructor(Long id) {
+        Instructor instructor = instructorRepository.findById(id).orElseThrow();
+        return instructor.toDTO();
     }
 }

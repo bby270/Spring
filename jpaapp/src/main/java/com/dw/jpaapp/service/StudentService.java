@@ -20,11 +20,10 @@ public class StudentService {
     @Autowired
     CourseRepository courseRepository;
 
-    public List<StudentDTO> getAllStudent() {
+    public List<StudentDTO>getAllStudents(){
         return studentRepository.findAll().stream().map(Student::toDTO).
                 collect(Collectors.toList());
     }
-
     // JPA 메서드 쿼리를 연습하기 위한 예제
     // 여러 방식의 메서드 쿼리를 수행해보는 연습 메서드
     public String getAllStudentInfo() {
@@ -54,9 +53,9 @@ public class StudentService {
         for (Long id : studentDTO.getCourseIds()) {
             Optional<Course> courseOptional = courseRepository.findById(id);
             if (courseOptional.isPresent()) {
-             Course course = courseOptional.get();
-             course.getStudentList().add(student);
-             courseList.add(course);
+                Course course = courseOptional.get();
+                course.getStudentList().add(student);
+                courseList.add(course);
             }
         }
         student.setCourseList(courseList);

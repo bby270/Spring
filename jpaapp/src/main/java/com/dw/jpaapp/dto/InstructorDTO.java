@@ -1,16 +1,23 @@
 package com.dw.jpaapp.dto;
 
 
-import lombok.*;
+import com.dw.jpaapp.model.Course;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
 @Setter
-@ToString
-
 public class InstructorDTO {
     private Long id;
-    private String name;
+    private String title;
     private String career;
+    private List<Long> courseList = new ArrayList<>();
+
 }

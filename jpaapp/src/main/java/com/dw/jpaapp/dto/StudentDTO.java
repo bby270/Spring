@@ -11,10 +11,9 @@ import java.util.List;
 @Getter
 @Setter
 @ToString
-
 public class StudentDTO {
     private Long id;
     private String name;
     private String email;
-    private List<Long> CourseIds = new ArrayList<>();
+    private List<Long> courseIds = new ArrayList<>();
 }

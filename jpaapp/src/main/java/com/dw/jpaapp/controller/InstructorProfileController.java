@@ -24,4 +24,3 @@ public class InstructorProfileController {
                 HttpStatus.OK);
     }
 }
-
