@@ -1,6 +1,7 @@
 package com.dw.jpaapp.controller;
 
 import com.dw.jpaapp.dto.StudentDTO;
+import com.dw.jpaapp.dto.StudentSummaryDTO;
 import com.dw.jpaapp.service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ public class StudentController {
                 studentService.getAllStudents(),
                 HttpStatus.OK);
     }
+
     @GetMapping("/info")
     public ResponseEntity<String> getAllStudentInfo() {
         return new ResponseEntity<>(studentService.getAllStudentInfo(),
@@ -32,5 +34,19 @@ public class StudentController {
             @RequestBody StudentDTO studentDTO) {
         return new ResponseEntity<>(studentService.saveStudent(studentDTO),
                 HttpStatus.CREATED);
+    }
+
+    @GetMapping("/student/summary")
+    public ResponseEntity<List<StudentSummaryDTO>> getStudentSummary() {
+        return new ResponseEntity<>(
+                studentService.getStudentSummary(),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/student/summary/native")
+    public ResponseEntity<List<StudentSummaryDTO>> getStudentSummaryNativeSQL() {
+        return new ResponseEntity<>(
+                studentService.getStudentSummaryNativeSQL(),
+                HttpStatus.OK);
     }
 }

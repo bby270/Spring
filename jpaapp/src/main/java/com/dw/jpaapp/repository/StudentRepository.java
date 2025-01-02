@@ -1,5 +1,6 @@
 package com.dw.jpaapp.repository;
 
+import com.dw.jpaapp.dto.StudentSummaryDTO;
 import com.dw.jpaapp.model.Student;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -27,4 +28,16 @@ public interface StudentRepository extends JpaRepository<Student,Long> {
     List<Student> findByEmail(String email);
     List<Student> findByNameAndEmail(String name, String email);
     List<Student> findByNameLike(String name);
+
+    @Query("select new com.dw.jpaapp.dto.StudentSummaryDTO(s.id, s.name, c.title, i.name) " +
+            "from Course c join c.studentList s join c.instructor_fk i order by s.id, c.id")
+    List<StudentSummaryDTO> getStudentSummary();
+
+    @Query(value = "select student.id, student.name, course.title , instructor.name " +
+            "from course " +
+            "join instructor on course.instructor_id = instructor.id " +
+            "join course_student on course.id = course_student.course_id " +
+            "join student on student.id = course_student.student_id " +
+            "order by student.id, course.id", nativeQuery = true)
+    List<Object[]> getStudentSummaryNativeSQL();
 }

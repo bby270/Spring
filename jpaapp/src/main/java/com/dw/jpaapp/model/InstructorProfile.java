@@ -19,7 +19,7 @@ public class InstructorProfile {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "bio", length = 3000) // length는 글자수(바이트수 아님)
+    @Column(name = "bio", length = 3000) // length 는 글자수(바이트수 아님)
     private String bio;
 
     @Column(name = "github_url")
