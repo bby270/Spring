@@ -6,6 +6,9 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.*;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Setter
@@ -15,16 +18,18 @@ import lombok.*;
 @Table(name="user")
 public class User {
     @Id
-    @Column(name = "userName")
+    @Column(name = "user_Name")
     private String userName;
     @Column(name = "password")
     private String password;
     @Column(name = "email")
     private String email;
-    @Column(name = "realName")
+    @Column(name = "real_Name")
     private String realName;
-    @Column(name = "role")// 역할
+    @Column(name = "role")
     private String role;
-    @Column(name = "createdAt")// 생성
-    private String createdAt;
+    @Column(name = "created_at")
+    private LocalDateTime createdAt;
 }
+
+// LocalDateTime
