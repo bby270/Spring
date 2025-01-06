@@ -68,23 +68,13 @@ public class EmployeeService {
     // 과제 4-3 입사일을 매개변수로 해당 입사일 이후로 입사한 사원들을 조회하는 API
     // hiredate를 0으로 입력하면 가장 최근 입사한 사원의 정보를 조회하시오.
     public List<Employee> getEmployeesByHiredate(String hiredate) {
-        if (hiredate == null || hiredate.trim().isEmpty()) {
-            throw new IllegalArgumentException("입력된 입사일이 비어있습니다.");
-        }
         if (hiredate.equals("0")) {
-            return employeeRepository.getMostRecentEmployees();
-        } else {
-            try {
-                DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-                LocalDate hiredate1 = LocalDate.parse(hiredate, formatter);
-                return employeeRepository.getEmployeesByHiredate(hiredate1);
-            } catch (DateTimeParseException e) {
-                throw new IllegalArgumentException("입력하신 입사일 형식이 올바르지 않습니다: " + hiredate, e);
-            }
+            return employeeRepository.findByHireDate2();
         }
+        LocalDate hireDate = LocalDate.parse(hiredate);
+        return employeeRepository.findByHireDate(hireDate);
     }
 }
-
 
 
 

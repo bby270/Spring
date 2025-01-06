@@ -17,7 +17,10 @@ public interface EmployeeRepository extends JpaRepository<Employee, String> {
     @Query("select new com.dw.companyapp.dto.EmployeeDepartmentDTO(e.hireDate, d.departmentName, e.name) " +
             "from Employee e join e.department d")
     List<EmployeeDepartmentDTO> getEmployeesWithDepartName2();
-    List<Employee>getMostRecentEmployees();
-    @Query("SELECT e FROM Employee e WHERE e.hiredate = :hiredate")
-   List<Employee>getEmployeesByHiredate(LocalDate hiredate1);
+    @Query("select e from Employee e where e.hireDate > :hireDate")
+    List<Employee> findByHireDate(LocalDate hireDate);
+
+    @Query("select e from Employee e order by e.hireDate desc limit 1")
+    List<Employee> findByHireDate2();
 }
+

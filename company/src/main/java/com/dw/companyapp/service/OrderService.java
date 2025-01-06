@@ -1,7 +1,10 @@
 package com.dw.companyapp.service;
 
 import com.dw.companyapp.dto.OrderRequestDTO;
+import com.dw.companyapp.exception.ResourceNotFoundException;
 import com.dw.companyapp.model.Order;
+import com.dw.companyapp.repository.OrderRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -11,21 +14,31 @@ import java.util.Map;
 @Transactional
 @Service
 public class OrderService {
+@Autowired
+    OrderRepository orderRepository;
 
     public List<Order> getAllOrders() {
-        return null;
+        return orderRepository.findAll();
     }
 
     // 과제 1-2 주문번호를 기준으로 주문 정보를 조회하는 API
     // 과제 3-2 주문정보를 조회할때 주문번호가 올바르지 않은 경우의 예외 처리
     public Order getOrderById(String orderNumber) {
-        return null;
+        if (!orderNumber.matches("\\d+")) {
+        throw new IllegalArgumentException("주문번호 형식이 올바르지 않습니다");
+        }
+        return orderRepository.findById(orderNumber)
+                .orElseThrow(() -> new ResourceNotFoundException("해당 주문번호로 주문을 찾을 수 없습니다."));
     }
 
     // 과제 1-4 제품번호와 고객번호를 기준으로 해당 제품을 주문한 특정 고객의 주문 내역을 조회하는 API
     // 과제 3-4 제품번호와 고객번호로 주문정보를 조회할때 데이터가 없는 경우의 예외처리
     public List<Order> getOrderByIdAndCustomer(int productNumber, String customerId) {
-        return null;
+        List<Order> orders = orderRepository.findByProductNumberPosition(productNumber,customerId).stream().toList();
+        if (orders.isEmpty()){
+            throw new ResourceNotFoundException("제품번호가 올바르지 않습니다.");
+        }
+        return orders;
     }
 
     public OrderRequestDTO saveOrder(OrderRequestDTO orderRequestDTO) {

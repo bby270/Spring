@@ -35,9 +35,11 @@ public class OrderService {
     public List<Order> getAllOrders() {
         return orderRepository.getAllOrders();
     }
+
     public Order getOrderByNumber(String number) {
         return orderRepository.getOrderByNumber(number);
     }
+
     public List<Order> getOrderProductNumber (String number, String id) {
         List<Order> order = orderRepository.getOrderProductNumber (number, id);
         if (order.isEmpty()) {
@@ -45,6 +47,7 @@ public class OrderService {
         }
         return order;
     }
+
     public OrderRequestDTO saveOrder(OrderRequestDTO orderRequestDTO) {
         // 1. DTO 에서 주문정보를 꺼내 주문테이블에 insert
         orderRepository.saveOrder(orderRequestDTO.toOrder());
