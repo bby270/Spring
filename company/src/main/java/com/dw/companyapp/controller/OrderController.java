@@ -1,6 +1,8 @@
 package com.dw.companyapp.controller;
 
+import com.dw.companyapp.dto.CityOrderAmountDTO;
 import com.dw.companyapp.dto.OrderRequestDTO;
+import com.dw.companyapp.dto.YearOrderCountDTO;
 import com.dw.companyapp.model.Order;
 import com.dw.companyapp.service.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +39,7 @@ public class OrderController {
     // 과제 3-4 제품번호와 고객번호로 주문정보를 조회할때 데이터가 없는 경우의 예외처리
     @GetMapping("/orders/{productNumber}/{customerId}")
     public ResponseEntity<List<Order>> getOrderByIdAndCustomer(@PathVariable int productNumber,
-                @PathVariable String customerId) {
+                                                               @PathVariable String customerId) {
         return new ResponseEntity<>(
                 orderService.getOrderByIdAndCustomer(productNumber, customerId),
                 HttpStatus.OK);
@@ -62,8 +64,8 @@ public class OrderController {
 
     // 과제 4-5 도시별로 주문금액합 결과를 내림차순 정렬하여 조회하는 API
     @GetMapping("/orders/city/orderamount/{limit}")
-    public ResponseEntity<List<Map<String, Double>>>
-        getTopCitiesByTotalOrderAmount(@PathVariable int limit) {
+    public ResponseEntity<List<CityOrderAmountDTO>>
+    getTopCitiesByTotalOrderAmount(@PathVariable int limit) {
         return new ResponseEntity<>(
                 orderService.getTopCitiesByTotalOrderAmount(limit),
                 HttpStatus.OK);
@@ -71,8 +73,8 @@ public class OrderController {
 
     // 과제 4-6 도시를 매개변수로 해당 도시의 년도별 주문건수를 조회하는 API
     @GetMapping("/orders/ordercount/year/{city}")
-    public ResponseEntity<List<Map<String, Double>>>
-        getOrderCountByYearForCity(@PathVariable String city) {
+    public ResponseEntity<List<YearOrderCountDTO>>
+    getOrderCountByYearForCity(@PathVariable String city) {
         return new ResponseEntity<>(
                 orderService.getOrderCountByYearForCity(city),
                 HttpStatus.OK);
