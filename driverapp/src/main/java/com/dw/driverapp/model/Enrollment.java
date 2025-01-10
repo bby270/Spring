@@ -22,13 +22,6 @@ public class Enrollment {
      @ManyToOne
     @JoinColumn(name="subject_id")
     private Subject subject_fk;
-     @ManyToOne
-     @JoinColumn(name="subject_price")
-     private Subject subject;
-     @ManyToOne
-     @JoinColumn(name="user_point")
-     private User user;
     @Column(name="purchase_time")
     private LocalDateTime purchaseTime;
-
 }

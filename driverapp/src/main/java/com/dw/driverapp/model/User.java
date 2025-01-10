@@ -1,5 +1,6 @@
 package com.dw.driverapp.model;
 
+import com.dw.driverapp.dto.UserDTO;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,4 +34,18 @@ public class User {
     private LocalDateTime createdAt;
     @Column(name="point")
     private int point;
+
+
+    public UserDTO toDTO(){
+        return new UserDTO(
+                this.userName,
+                null,
+                this.email,
+                this.realName,
+                this.birthdate,
+                authority.getAuthorityName(),
+                this.point
+        );
+
+    }
 }
