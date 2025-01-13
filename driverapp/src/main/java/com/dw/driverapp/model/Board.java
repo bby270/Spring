@@ -29,7 +29,6 @@ public class Board {
     private LocalDateTime createdDate = LocalDateTime.now();
     @Column(name="modified_date", nullable = false)
     private LocalDateTime modifiedDate = LocalDateTime.now();
-    @OneToMany
-    @JoinColumn(name="comment_id")
+    @OneToMany(mappedBy = "board")
     private List<Comment>commentList = new ArrayList<>();
 }

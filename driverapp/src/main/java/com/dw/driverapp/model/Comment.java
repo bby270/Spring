@@ -21,5 +21,7 @@ public class Comment {
     private User user;
     @Column(name = "comment", nullable = false, columnDefinition = "TEXT") // 65535 byte
     private String comment;
-
+    @ManyToOne
+    @JoinColumn(name="board_id")
+    private Board board;
 }

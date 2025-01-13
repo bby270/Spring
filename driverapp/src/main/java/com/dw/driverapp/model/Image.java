@@ -19,7 +19,7 @@ public class Image {
     private String imageUrl;
 
     @ManyToOne
-    @JoinColumn(name="subject_image")
+    @JoinColumn(name="subject_id")
     private Subject subject;
 
 }
