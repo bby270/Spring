@@ -3,6 +3,9 @@ package com.dw.driverapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -18,20 +21,20 @@ public class Subject {
     private String title;
     @Column(name="explanation")
     private String explanation;
-    @Column(name="type")
-    private String type;
+
+
+    @ManyToMany
+    @JoinTable(name = "subject_type",
+            joinColumns = @JoinColumn(name = "subject_id"),
+            inverseJoinColumns = @JoinColumn(name = "type_id"))
+    private List<Type> typeList = new ArrayList<>();
+
     @Column(name="price")
     private double price;
-    @Column(name ="image_url",nullable = false)
-    private String imageUrl;
-    @Column(name ="image_url1")
-    private String imageUrl1;
-    @Column(name ="image_url2")
-    private String imageUrl2;
-    @Column(name="video_url")
-    private String videoUrl;
+    
+
     @ManyToOne
     @JoinColumn(name="instructor_name")
-    private Instructor instructor_fk;
+    private User user_fk;
 
 }

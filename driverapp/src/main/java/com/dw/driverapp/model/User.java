@@ -43,8 +43,11 @@ public class User {
                 this.email,
                 this.realName,
                 this.birthdate,
+
+
                 authority.getAuthorityName(),
                 this.point
+
         );
 
     }

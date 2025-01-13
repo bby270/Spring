@@ -24,4 +24,7 @@ public class UserDTO {
     private String birthdate;
     private String role;
     private int point;
+
+
+
 }

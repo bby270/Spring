@@ -17,9 +17,6 @@ public class Notice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name="user_name")
-    private User user_fk;
     @Column(name="title")
     private String title;
     @Column(name = "content", nullable = false, columnDefinition = "TEXT") // 65535 byte

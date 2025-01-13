@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -27,4 +29,7 @@ public class Board {
     private LocalDateTime createdDate = LocalDateTime.now();
     @Column(name="modified_date", nullable = false)
     private LocalDateTime modifiedDate = LocalDateTime.now();
+    @OneToMany
+    @JoinColumn(name="comment_id")
+    private List<Comment>commentList = new ArrayList<>();
 }
