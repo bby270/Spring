@@ -60,7 +60,10 @@ VALUES
 
 -- 수강신청
 INSERT INTO 수강신청 (user_name,subject_id,purchase_time)
-VALUES ('totoro',2,'2024-10-27 10:00:00')
+VALUES ('totoro',2,'2024-10-27 10:00:00')//
+
+
+
 
 -- 장바구니
 INSERT INTO 장바구니 (subject_id,user_name)
