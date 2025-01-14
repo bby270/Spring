@@ -44,11 +44,8 @@ public class User {
                 this.realName,
                 this.birthdate,
 
-
                 authority.getAuthorityName(),
                 this.point
-
         );
-
     }
 }
