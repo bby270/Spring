@@ -31,7 +31,7 @@ public class Subject {
 
     @Column(name="price")
     private double price;
-    
+
 
     @ManyToOne
     @JoinColumn(name="instructor_name")
