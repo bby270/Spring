@@ -10,8 +10,10 @@ import com.dw.driverapp.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -53,7 +55,7 @@ public class UserService {
 
     public boolean validateUser(String username, String password) {
         User user = userRepository.findById(username)
-                .orElseThrow(()->new InvalidRequestException("사용자의 이름이 잘못되었습니다."));
+                .orElseThrow(() -> new InvalidRequestException("사용자의 이름이 잘못되었습니다."));
         return passwordEncoder.matches(password, user.getPassword());
     }
 
@@ -65,8 +67,22 @@ public class UserService {
 
         String userName = (String) session.getAttribute("username");
         return userRepository.findById(userName)
-                .orElseThrow(()->new InvalidRequestException("No username"));
+                .orElseThrow(() -> new InvalidRequestException("No username"));
+    }
+
+    public User usernameFind(String username) {
+        return userRepository.findById(username).orElseThrow(() ->
+                new ResourceNotFoundException("입력하신 회원이 존재하지 않습니다."));
+    }
+
+    public User userEmailFind(String email) {
+        return userRepository.findByEmail(email).orElseThrow(() ->
+                new ResourceNotFoundException("입력하신 회원이 이메일이 존재하지 않습니다."));
+    }
+
+   public User userRealNameFind(String realname) {
+        return userRepository.findByRealName(realname)
+                .orElseThrow(()-> new ResourceNotFoundException("입력하신 회원이 존재하지 않습니다"));
     }
 }
-
 

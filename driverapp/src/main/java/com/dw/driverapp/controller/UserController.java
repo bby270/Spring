@@ -4,16 +4,14 @@ import com.dw.driverapp.dto.UserDTO;
 import com.dw.driverapp.exception.UnauthorizedUserException;
 import com.dw.driverapp.model.User;
 import com.dw.driverapp.service.UserService;
+import com.fasterxml.jackson.core.sym.Name;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -68,6 +66,22 @@ public class UserController {
         return new ResponseEntity<>(user.toDTO(), HttpStatus.OK);
 
     }
+
+    @GetMapping("/user/{username}")
+    public ResponseEntity<User> usernameFind(@PathVariable String username) {
+        return new ResponseEntity<>(userService.usernameFind(username),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/user/email/{email}")
+    public ResponseEntity<User> userEmailFind(@PathVariable String email) {
+        return new ResponseEntity<>(userService.userEmailFind(email),
+                HttpStatus.OK);
+    }
+
+    @GetMapping("/user/realname/{realname}")
+    public ResponseEntity<User> userRealNameFind(@PathVariable String realname) {
+        return new ResponseEntity<>(userService.userRealNameFind(realname),
+                HttpStatus.OK);
+    }
 }
-
-
