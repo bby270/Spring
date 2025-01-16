@@ -7,7 +7,10 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -26,14 +29,17 @@ public class User {
     @Column(name = "real_name", nullable = false)
     private String realName;
     @Column(name="birthdate",nullable = false, unique = true)
-    private String birthdate;
+    private LocalDate birthdate;
     @ManyToOne
     @JoinColumn(name = "user_authority")
     private Authority authority;
     @Column(name="created_at", updatable = false)
-    private LocalDateTime createdAt;
+    private LocalDate createdAt;
     @Column(name="point")
     private int point;
+
+
+
 
 
     public UserDTO toDTO(){
@@ -43,9 +49,10 @@ public class User {
                 this.email,
                 this.realName,
                 this.birthdate,
-
                 authority.getAuthorityName(),
                 this.point
+
         );
+
     }
 }

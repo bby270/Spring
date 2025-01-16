@@ -20,5 +20,5 @@ public class Video {
     private String videoUrl;
     @ManyToOne
     @JoinColumn(name="subject_id")
-    private Subject subject_fk;
+    private Subject subject_fk; // 외래키로 과목의 타이틀을 불러옴
 }

@@ -1,6 +1,7 @@
 package com.dw.driverapp.dto;
 
 import com.dw.driverapp.model.Authority;
+import com.dw.driverapp.model.Subject;
 import jakarta.persistence.Column;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
@@ -10,7 +11,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -21,10 +24,9 @@ public class UserDTO {
     private String password;
     private String email;
     private String realName;
-    private String birthdate;
+    private LocalDate birthdate;
     private String role;
     private int point;
-
 
 
 }
