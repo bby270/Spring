@@ -225,7 +225,7 @@ public class UserController {
         }
         List<User> users = userService.userbetweenFind(date1, date2);
         if (users.isEmpty()) {
-            return new ResponseEntity<>("No users found in the given date range", HttpStatus.NO_CONTENT);
+            return new ResponseEntity<>("지정된 날짜 범위에서 사용자를 찿을 수 없습니다.", HttpStatus.NO_CONTENT);
         }
         for (User user : users) {
             user.setemail(userDTO.getEmail());
@@ -234,7 +234,7 @@ public class UserController {
             user.setPoint(userDTO.getPoint());
             userService.saveUser(user);
         }
-        return new ResponseEntity<>("Users updated successfully", HttpStatus.OK);
+        return new ResponseEntity<>("사용자 업데이트 완료", HttpStatus.OK);
     }
 }
 
