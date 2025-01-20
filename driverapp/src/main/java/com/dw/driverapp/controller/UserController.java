@@ -211,7 +211,7 @@ public class UserController {
         }
         return new ResponseEntity<>("사용자가 삭제가 완료 되었습니다.",HttpStatus.OK);
     }
-
+    //두개의 지정 날짜 사이에 가입한 회원 조회
     @PutMapping("/update/{date1}/{date2}")
     public ResponseEntity<String> updateUsersBetweenDates(
             @PathVariable LocalDate date1,
