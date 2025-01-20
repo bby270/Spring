@@ -2,10 +2,7 @@ package com.dw.driverapp.model;
 
 import com.dw.driverapp.dto.UserDTO;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -23,6 +20,7 @@ public class User {
     @Column(name="user_name")
     private String userName;
     @Column(name="password", nullable = false)
+    @Setter
     private String password;
     @Column(name="email", nullable = false, unique = true)
     private String email;
@@ -55,4 +53,5 @@ public class User {
         );
 
     }
+
 }

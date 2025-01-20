@@ -1,5 +1,6 @@
 package com.dw.driverapp.model;
 
+import com.dw.driverapp.dto.EnrollmentDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,10 +19,18 @@ public class Enrollment {
     private Long id;
     @ManyToOne
     @JoinColumn(name="user_name")
-    private User user_fk;
+    private User user;
      @ManyToOne
     @JoinColumn(name="subject_id")
-    private Subject subject_fk;
+    private Subject subject;
     @Column(name="purchase_time")
     private LocalDateTime purchaseTime;
+
+    public EnrollmentDTO TOdto(){
+        EnrollmentDTO enrollmentDTO = new EnrollmentDTO();
+        enrollmentDTO.setUsername(this.user.getUserName());
+        enrollmentDTO.setSubjectName(this.subject.getTitle());
+        enrollmentDTO.setPrice(this.subject.getPrice());
+        return enrollmentDTO;
+    }
 }

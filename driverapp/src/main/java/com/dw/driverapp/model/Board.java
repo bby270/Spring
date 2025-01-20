@@ -2,6 +2,7 @@ package com.dw.driverapp.model;
 
 import com.dw.driverapp.dto.BoardAllDTO;
 import com.dw.driverapp.dto.BoardDTO;
+import com.dw.driverapp.dto.SubjectDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,7 +16,6 @@ import java.util.List;
 @Getter
 @ToString
 @Entity
-@Builder
 @Table(name="게시판")
 public class Board {
     @Id
@@ -34,6 +34,7 @@ public class Board {
     private LocalDateTime modifiedDate = LocalDateTime.now();
     @OneToMany(mappedBy = "board")
     private List<Comment> commentList = new ArrayList<>();
+
 
     public BoardDTO toDTO() {
         BoardDTO boardDTO = new BoardDTO();

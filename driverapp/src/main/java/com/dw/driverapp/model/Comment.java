@@ -1,5 +1,6 @@
 package com.dw.driverapp.model;
 
+import com.dw.driverapp.dto.CommentDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -24,4 +25,13 @@ public class Comment {
     @ManyToOne
     @JoinColumn(name="board_id")
     private Board board;
+
+    public CommentDTO toDTO(){
+        CommentDTO commentDTO = new CommentDTO();
+        commentDTO.setId(this.id);
+        commentDTO.setUser(this.user.getUserName());
+        commentDTO.setComment(this.comment);
+        commentDTO.setBoardId(this.board.getId());
+        return commentDTO;
+    }
 }

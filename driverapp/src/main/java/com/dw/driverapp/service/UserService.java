@@ -121,9 +121,34 @@ public class UserService {
     }
 
     //유저- 지정된 날짜 사이에 가입한 정보 조회
-    public List<User> userbetweenFind(LocalDate date1, LocalDate date2){
-        return userRepository.createdAtbetweendate(date1,date2)
+    public List<User> userbetweenFind(LocalDate date1, LocalDate date2) {
+        return userRepository.createdAtbetweendate(date1, date2)
                 .filter(users -> !users.isEmpty())
                 .orElseThrow(() -> new ResourceNotFoundException("입력하신 날짜에 사이에 가입한 회원이 없습니다."));
     }
+
+    // 유저 - 비밀번호 변경
+    public User userUpdatePassWord(User user) {
+        User user1 = userRepository.findById(user.getUserName()).orElseThrow(() -> new ResourceNotFoundException("없음"));
+        user1.setPassword(user.getPassword());
+        String encodedPassword = passwordEncoder.encode(user.getPassword());
+        return userRepository.save(user1);
+    }
+
+    // 유저 - 회원탈퇴
+    public void deleteUser(String username) {
+        User user = userRepository.findById(username)
+                .orElseThrow(() -> new ResourceNotFoundException("해당 유저를 찾을 수 없습니다."));
+
+        userRepository.delete(user);
+    }
+    //두개의 지정 날짜 사이에 가입한 회원 조회
+    public List<User> userbetweenFind1 (LocalDate date1, LocalDate date2) {
+        return userRepository.findAllByCreatedAtBetween(date1, date2);
+    }
+    public void deleteUser2(String userName) {
+        userRepository.deleteByUserName(userName);
+    }
 }
+
+
