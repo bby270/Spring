@@ -157,6 +157,13 @@ public class UserService {
     public void saveUser(User user) {
         userRepository.save(user);
     }
+    //지정 날짜에 가입한 회원 조회후 삭제
+    public void deleteUserByDate(LocalDate date) {
+        Optional<List<User>> users = userRepository.findBycreatedAt(date);
+        if (!users.isEmpty()){
+            userRepository.deleteAll();
+        }
+    }
 }
 
 

@@ -25,4 +25,5 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<List<User>> createdAtbetweendate (LocalDate date1, LocalDate date2);
     List<User> findAllByCreatedAtBetween(LocalDate startDate, LocalDate endDate);
     void deleteByUserName(String userName);
+
 }
