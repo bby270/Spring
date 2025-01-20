@@ -192,6 +192,7 @@ public class UserController {
         session.invalidate();
         return new ResponseEntity<>("회원 탈퇴가 완료되었습니다.", HttpStatus.OK);
     }
+
     //두개의 지정 날짜 사이에 가입한 회원 조회
     @DeleteMapping("/delete/{date1}/{date2}")
     public ResponseEntity<String> deleteUsersBetweenDates(
@@ -202,15 +203,16 @@ public class UserController {
         if (session == null || session.getAttribute("username") == null) {
             throw new UnauthorizedUserException("로그인한 사용자만 접근 가능합니다.");
         }
-        List<User> users = userService.userbetweenFind(date1,date2);
-        if (users.isEmpty()){
-            return new ResponseEntity<>("지정된 날짜 범위에서 사용자르 찿을 수 없음",HttpStatus.NO_CONTENT);
+        List<User> users = userService.userbetweenFind(date1, date2);
+        if (users.isEmpty()) {
+            return new ResponseEntity<>("지정된 날짜 범위에서 사용자르 찿을 수 없음", HttpStatus.NO_CONTENT);
         }
-        for(User user:users) {
+        for (User user : users) {
             userService.deleteUser(user.getUserName());
         }
-        return new ResponseEntity<>("사용자가 삭제가 완료 되었습니다.",HttpStatus.OK);
+        return new ResponseEntity<>("사용자가 삭제가 완료 되었습니다.", HttpStatus.OK);
     }
+
     //두개의 지정 날짜 사이에 가입한 회원 조회
     @PutMapping("/update/{date1}/{date2}")
     public ResponseEntity<String> updateUsersBetweenDates(
@@ -236,17 +238,16 @@ public class UserController {
         }
         return new ResponseEntity<>("사용자 업데이트 완료", HttpStatus.OK);
     }
+
     //지정 날짜에 가입한 회원 조회후 삭제
     @DeleteMapping("/user/{date}")
     public ResponseEntity<String> deleteUserByDate(@PathVariable("date") LocalDate date) {
-        try{
+        try {
             userService.deleteUserByDate(date);
-            return new ResponseEntity<>("지정된 날짜에 가입한 회원이 삭제 되었습니다.",HttpStatus.OK);
-        }catch (Exception e) {
-            return new ResponseEntity<>("삭제 중 오류가 발생했습니다",HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("지정된 날짜에 가입한 회원이 삭제 되었습니다.", HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>("삭제 중 오류가 발생했습니다", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 }
-
-
 

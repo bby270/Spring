@@ -142,10 +142,12 @@ public class UserService {
 
         userRepository.delete(user);
     }
+
     //두개의 지정 날짜 사이에 가입한 회원 조회
-    public List<User> userbetweenFind1 (LocalDate date1, LocalDate date2) {
+    public List<User> userbetweenFind1(LocalDate date1, LocalDate date2) {
         return userRepository.findAllByCreatedAtBetween(date1, date2);
     }
+
     public void deleteUser2(String userName) {
         userRepository.deleteByUserName(userName);
     }
@@ -154,17 +156,21 @@ public class UserService {
     public List<User> userbetweenFind2(LocalDate date1, LocalDate date2) {
         return userRepository.findAllByCreatedAtBetween(date1, date2);
     }
+
     public void saveUser(User user) {
         userRepository.save(user);
     }
+
     //지정 날짜에 가입한 회원 조회후 삭제
     public void deleteUserByDate(LocalDate date) {
         Optional<List<User>> users = userRepository.findBycreatedAt(date);
-        if (!users.isEmpty()){
+        if (!users.isEmpty()) {
             userRepository.deleteAll();
         }
     }
 }
+
+
 
 
 
