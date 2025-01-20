@@ -149,6 +149,15 @@ public class UserService {
     public void deleteUser2(String userName) {
         userRepository.deleteByUserName(userName);
     }
+
+    // 두 날짜 사이에 가입한 사용자 조회
+    public List<User> userbetweenFind2(LocalDate date1, LocalDate date2) {
+        return userRepository.findAllByCreatedAtBetween(date1, date2);
+    }
+    public void saveUser(User user) {
+        userRepository.save(user);
+    }
 }
+
 
 

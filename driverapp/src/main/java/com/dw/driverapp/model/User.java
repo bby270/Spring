@@ -37,7 +37,15 @@ public class User {
     private int point;
 
 
-
+    public void setemail(String email) {
+        this.email = email;
+    }
+    public void setPoint(int point) {
+        this.point = point;
+    }
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
 
 
     public UserDTO toDTO(){
@@ -53,5 +61,4 @@ public class User {
         );
 
     }
-
 }

@@ -211,5 +211,31 @@ public class UserController {
         }
         return new ResponseEntity<>("사용자가 삭제가 완료 되었습니다.",HttpStatus.OK);
     }
+
+    @PutMapping("/update/{date1}/{date2}")
+    public ResponseEntity<String> updateUsersBetweenDates(
+            @PathVariable LocalDate date1,
+            @PathVariable LocalDate date2,
+            @RequestBody UserDTO userDTO,
+            HttpServletRequest request) {
+
+        HttpSession session = request.getSession(false);
+        if (session == null || session.getAttribute("username") == null) {
+            throw new UnauthorizedUserException("로그인한 사용자만 접근 가능합니다.");
+        }
+        List<User> users = userService.userbetweenFind(date1, date2);
+        if (users.isEmpty()) {
+            return new ResponseEntity<>("No users found in the given date range", HttpStatus.NO_CONTENT);
+        }
+        for (User user : users) {
+            user.setemail(userDTO.getEmail());
+            user.setRealName(userDTO.getRealName());
+            user.setPassword(userDTO.getPassword());
+            user.setPoint(userDTO.getPoint());
+            userService.saveUser(user);
+        }
+        return new ResponseEntity<>("Users updated successfully", HttpStatus.OK);
+    }
 }
+
 
