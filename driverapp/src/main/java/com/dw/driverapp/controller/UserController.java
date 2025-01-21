@@ -1,6 +1,7 @@
 package com.dw.driverapp.controller;
 
 import com.dw.driverapp.dto.UserDTO;
+import com.dw.driverapp.dto.UserPointDTO;
 import com.dw.driverapp.exception.UnauthorizedUserException;
 import com.dw.driverapp.model.User;
 import com.dw.driverapp.service.UserService;
@@ -8,12 +9,15 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cglib.core.Local;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -193,6 +197,43 @@ public class UserController {
         return new ResponseEntity<>("회원 탈퇴가 완료되었습니다.", HttpStatus.OK);
     }
 
+    // 유저- 가장 먼저 가입한 유저 조회
+    @GetMapping("/admin/user/first")
+    public ResponseEntity<List<User>> firstUser() {
+        return new ResponseEntity<>(userService.firstUser(), HttpStatus.OK);
+    }
+
+    // 유저- 가장 최근 가입한 유저 조회
+    @GetMapping("/admin/user/point/last")
+    public ResponseEntity<List<User>> lastUser() {
+        return new ResponseEntity<>(userService.lastUser(), HttpStatus.OK);
+    }
+
+    // 관리자- 포인트가 가장 많은 회원 조회
+    @GetMapping("/admin/user/point/most")
+    public ResponseEntity<List<User>> userPointMost() {
+        return new ResponseEntity<>(userService.userPointMost(), HttpStatus.OK);
+    }
+
+    // 관리자- 포인트가 가장 적은 회원 조회
+    @GetMapping("/admin/user/point/least")
+    public ResponseEntity<List<User>> userPointLeast() {
+        return new ResponseEntity<>(userService.userPointLeast(), HttpStatus.OK);
+    }
+
+    // 관리자- 회원들의 평균 포인트 조회
+    @GetMapping("/admin/user/point/average")
+    public ResponseEntity<Double> userPointAverage() {
+        Double averagePoint = userService.userPointAverage();
+        return ResponseEntity.ok(averagePoint);
+    }
+
+    // 관리자- 모든 회원들의 포인트 조회
+    @GetMapping("admin/user/point/all")
+    public ResponseEntity<List<UserPointDTO>> userAllPoint() {
+        return new ResponseEntity<>(userService.userAllPoint(), HttpStatus.OK);
+    }
+
     //두개의 지정 날짜 사이에 가입한 회원 조회
     @DeleteMapping("/delete/{date1}/{date2}")
     public ResponseEntity<String> deleteUsersBetweenDates(
@@ -249,5 +290,79 @@ public class UserController {
             return new ResponseEntity<>("삭제 중 오류가 발생했습니다", HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
+
+    //지정 날짜에 가입한 회원 조회후 수정
+    @PutMapping("/user/{date}")
+    public ResponseEntity<List<UserDTO>> updateUserByJoinDate(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd")
+                                                              LocalDate date, @RequestBody UserDTO userDTO) {
+        try {
+            List<UserDTO> updatedUsers = userService.updateUserByJoinDate(date, userDTO);
+            return ResponseEntity.ok(updatedUsers);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
+        }
+    }
+
+    //지정날짜 이전에 가입한회원조회 후 삭제
+    @DeleteMapping("user/under/delete/{date}")
+    public ResponseEntity<String> deleteUsersUnderJoinDate(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        try {
+            userService.deleteUsersUnderJoinDate(date);
+            return ResponseEntity.ok("이전 사용자 " + date + " 삭제 완료");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("사용자 삭제 중 오류 발생.");
+        }
+    }
+
+    //지정날짜 이전에 가입한 회원조회 후 수정
+    @PutMapping("user/under/updste/{date}")
+    public ResponseEntity<String> updateUsersUnderJoinDate(
+            @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate date,
+            @RequestBody User updateUserInfo) {
+        try{
+            userService.updateUsersUnderJoinDate(date,updateUserInfo);
+            return ResponseEntity.ok("지정된 날짜 이전ㅇ에 가입한 사용자들의 정보가 수정되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("사용자 수정 중 오류가 발생했습니다." + e.getMessage());
+        }
+    }
+    //지정날짜 이후에 가입한 회원조회 후 삭제
+    @DeleteMapping("user/over/delete/{date}")
+    public ResponseEntity<String>deleteUsersAfterJoinDate(
+            @PathVariable("date")@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
+        try{
+            userService.deleteUsersAfterJoinDate(date);
+            return ResponseEntity.ok("지정된 날짜 이후에 가입한 사용자들을 삭제 완료" + date);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("사용자 삭제 중 오류 발생" + e.getMessage());
+        }
+    }
+    //지정날짜 이후에 가입한회원조회 후 수정
+    @PutMapping("/user/over/update/{date}")
+    public ResponseEntity<String> updateUsersAfterJoinDate(@PathVariable("date")@DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate date,
+                                                          @RequestBody User updateUserInfo) {
+        try{
+           userService.updateUsersAfterJoinDate(date, updateUserInfo);
+           return ResponseEntity.ok("지정된 날짜 이후에 가입한 사용자들의 정보가 수정 되었습니다.");
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("사용자 수정 중 오류가 발생했습니다." + e.getMessage());
+        }
+    }
+    //user_authority 으로 회원 조회후 삭제
+    @DeleteMapping("user/authority/delete/{user_authority}")
+    public ResponseEntity<String> deleteUsersByAuthority1(
+            @PathVariable("user_authority") String Authority) {
+        try {
+            userService.deleteUsersByAuthority1(Authority);
+            return ResponseEntity.ok("해당 권한을 가진 사용자들이 삭제 되었습니다. 권한: " + Authority);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("사용자 삭제 중 오류가 발생했습니다. " + e.getMessage());
+        }
+    }
 }
+
 

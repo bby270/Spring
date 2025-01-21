@@ -25,5 +25,19 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<List<User>> createdAtbetweendate (LocalDate date1, LocalDate date2);
     List<User> findAllByCreatedAtBetween(LocalDate startDate, LocalDate endDate);
     void deleteByUserName(String userName);
+    @Query("select u from User u where u.createdAt = (select min(u.createdAt) from User u)")
+    Optional<List<User>> findFirstCreatedAt();
+    @Query("select u from User u where u.createdAt = (select max(u.createdAt) from User u)")
+    Optional<List<User>> findLastCreatedAt();
+    @Query("select u from User u where u.point = (select min(u.point)from User u)")
+    Optional<List<User>> leastPointUser();
+    @Query("select u from User u where u.point = (select max(u.point)from User u)")
+    Optional<List<User>> MostPointUser();
+    @Query("select avg(u.point) from User u")
+    Optional<Double> findAveragePoint();
+
+    List<User> findByCreatedAt(LocalDate createAt);
+    List<User> findByCreatedAtBefore(LocalDate joinDate);
+    List<User> findByCreatedAtAfter(LocalDate joinDate);
 
 }

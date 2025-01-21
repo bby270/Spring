@@ -1,6 +1,7 @@
 package com.dw.driverapp.service;
 
 import com.dw.driverapp.dto.UserDTO;
+import com.dw.driverapp.dto.UserPointDTO;
 import com.dw.driverapp.exception.InvalidRequestException;
 import com.dw.driverapp.exception.ResourceNotFoundException;
 import com.dw.driverapp.exception.UnauthorizedUserException;
@@ -10,6 +11,7 @@ import com.dw.driverapp.repository.SubjectRepository;
 import com.dw.driverapp.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -19,6 +21,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class UserService {
@@ -142,12 +145,49 @@ public class UserService {
 
         userRepository.delete(user);
     }
+     // 유저- 가장 먼저 가입한 유저 조회
+    public List<User> firstUser() {
+        return userRepository.findFirstCreatedAt()
+                .filter(users -> !users.isEmpty())
+                .orElseThrow(() -> new ResourceNotFoundException("정보를 찾을 수 없습니다."));
+    }
+
+    // 유저- 가장 최근 가입한 유저 조회
+    public List<User> lastUser() {
+        return userRepository.findLastCreatedAt()
+                .filter(users -> !users.isEmpty())
+                .orElseThrow(() -> new ResourceNotFoundException("정보를 찾을 수 없습니다."));
+    }
+    // 관리자- 포인트가 가장 많은 회원 조회
+    public List<User> userPointMost(){
+        return userRepository.MostPointUser()
+                .filter(users -> !users.isEmpty())
+                .orElseThrow(()-> new ResourceNotFoundException("정보를 찾을 수 없습니다."));
+    }
+
+    //관리자- 포인트가 가장 적은 회원 조회
+    public List<User> userPointLeast(){
+        return userRepository.leastPointUser()
+                .filter(users -> !users.isEmpty())
+                .orElseThrow(()-> new ResourceNotFoundException("정보를 찾을 수 없습니다."));
+    }
+    // 관리자- 회원들이 평균 포인트 조회
+    public Double userPointAverage(){
+        return userRepository.findAveragePoint()
+                .orElseThrow(()-> new ResourceNotFoundException("정보를 불러올 수 없습니다."));
+    }
+
+    // 관리자- 모든 회원들의 포인트 조회
+    public List<UserPointDTO> userAllPoint(){
+        return userRepository.findAll().stream()
+                .map(User::todto)
+                .collect(Collectors.toList());
+    }
 
     //두개의 지정 날짜 사이에 가입한 회원 조회
     public List<User> userbetweenFind1(LocalDate date1, LocalDate date2) {
         return userRepository.findAllByCreatedAtBetween(date1, date2);
     }
-
     public void deleteUser2(String userName) {
         userRepository.deleteByUserName(userName);
     }
@@ -156,7 +196,6 @@ public class UserService {
     public List<User> userbetweenFind2(LocalDate date1, LocalDate date2) {
         return userRepository.findAllByCreatedAtBetween(date1, date2);
     }
-
     public void saveUser(User user) {
         userRepository.save(user);
     }
@@ -168,7 +207,86 @@ public class UserService {
             userRepository.deleteAll();
         }
     }
+    //지정 날짜에 가입한 회원 조회후 수정
+    public List<UserDTO> updateUserByJoinDate(LocalDate joinDate, UserDTO userDTO) {
+        List<User> users = userRepository.findByCreatedAt(joinDate);
+        if (users.isEmpty()) {
+            throw new RuntimeException("이 가입 날짜에 사용자를 찾을 수 없습니다.");
+        }
+        for (User user : users) {
+            if (userDTO.getEmail() != null) {
+                user.setEmail(userDTO.getEmail());
+            }
+            if (userDTO.getRealName() != null) {
+                user.setRealName(userDTO.getRealName());
+            }
+            if (userDTO.getPoint() != 0) {
+                user.setPoint(userDTO.getPoint());
+            }
+        }
+        List<UserDTO> updatedUsers = users.stream()
+                .map(User::toDTO)
+                .collect(Collectors.toList());
+        return updatedUsers;
+    }
+    //지정날짜 이전에 가입한회원조회 후 삭제
+      public void deleteUsersUnderJoinDate(LocalDate joinDate) {
+        List<User> users = userRepository.findByCreatedAtBefore(joinDate);
+        if (users.isEmpty()) {
+            throw new RuntimeException("이전에 검색된 사용자가 없습니다. " + joinDate);
+        }
+        userRepository.deleteAllInBatch(users);
+    }
+
+    //지정날짜 이전에 가입한 회원조회 후 수정
+    public void updateUsersUnderJoinDate(LocalDate joinDate, User updateUserInfo) {
+        List<User> users = userRepository.findByCreatedAtBefore(joinDate);
+        if (users.isEmpty()) {
+            throw new RuntimeException("지정된 날짜 이전에 가입한 사용자가 있습니다." + joinDate);
+        }
+            for (User user : users) {
+                user.setEmail(updateUserInfo.getEmail());
+                user.setRealName(updateUserInfo.getRealName());
+            }
+            userRepository.saveAll(users);
+            }
+
+    //지정날짜 이후에 가입한 회원조회 후 삭제
+
+    public void deleteUsersAfterJoinDate(LocalDate joinDate) {
+        List<User> users = userRepository.findByCreatedAtAfter(joinDate);
+        if (users.isEmpty()){
+            throw new RuntimeException("지정된 날짜 이후에 가입한 사용자가 없습니다." + joinDate);
+        }
+        userRepository.deleteAll(users);
+    }
+    //지정날짜 이후에 가입한회원조회 후 수정
+    public void updateUsersAfterJoinDate(LocalDate joinDate, User updateUserInfo) {
+        List<User> users = userRepository.findByCreatedAtAfter(joinDate);
+        if (users.isEmpty()) {
+            throw new RuntimeException("지정된 날짜가 이후엔 가입한 사용자가 없습니다." + joinDate);
+        }
+        for (User user : users) {
+            user.setemail(updateUserInfo.getEmail());
+            user.setRealName(updateUserInfo.getRealName());
+        }
+        userRepository.saveAll(users);
+    }
+
+    //user_authority 으로 회원 조회후 삭제
+    public void deleteUsersByAuthority1(String Authority) {
+       Optional <List<User>> users = userRepository.findByAuthority_AuthorityName(Authority);
+        if (users.isEmpty()) {
+            throw new RuntimeException("해당 권한을 가진 사용자가 없습니다. 권한: " + Authority);
+        }
+        userRepository.deleteAll();
+    }
 }
+
+
+
+
+
 
 
 

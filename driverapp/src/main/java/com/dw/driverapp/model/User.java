@@ -1,6 +1,7 @@
 package com.dw.driverapp.model;
 
 import com.dw.driverapp.dto.UserDTO;
+import com.dw.driverapp.dto.UserPointDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -64,5 +65,11 @@ public class User {
 
     public void setEmail(String email) {
         this.email = email;
+    }
+    public UserPointDTO todto(){
+        return new UserPointDTO(
+                this.userName,
+                this.point
+        );
     }
 }
