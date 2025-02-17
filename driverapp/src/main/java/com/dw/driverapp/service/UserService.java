@@ -82,7 +82,7 @@ public class UserService {
 
     // 유저- realname으로 정보 조회
     public List<User> realNameFind(String realname) {
-        return userRepository.findByRealName(realname)
+        return userRepository.findByRealName1(realname)
                 .filter(users -> !users.isEmpty())
                 .orElseThrow(() -> new ResourceNotFoundException("입력하신 realname의 정보를 가진 회원이 존재하지 않습니다."));
     }
@@ -145,7 +145,8 @@ public class UserService {
 
         userRepository.delete(user);
     }
-     // 유저- 가장 먼저 가입한 유저 조회
+
+    // 유저- 가장 먼저 가입한 유저 조회
     public List<User> firstUser() {
         return userRepository.findFirstCreatedAt()
                 .filter(users -> !users.isEmpty())
@@ -158,130 +159,59 @@ public class UserService {
                 .filter(users -> !users.isEmpty())
                 .orElseThrow(() -> new ResourceNotFoundException("정보를 찾을 수 없습니다."));
     }
+
     // 관리자- 포인트가 가장 많은 회원 조회
-    public List<User> userPointMost(){
+    public List<User> userPointMost() {
         return userRepository.MostPointUser()
                 .filter(users -> !users.isEmpty())
-                .orElseThrow(()-> new ResourceNotFoundException("정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new ResourceNotFoundException("정보를 찾을 수 없습니다."));
     }
 
     //관리자- 포인트가 가장 적은 회원 조회
-    public List<User> userPointLeast(){
+    public List<User> userPointLeast() {
         return userRepository.leastPointUser()
                 .filter(users -> !users.isEmpty())
-                .orElseThrow(()-> new ResourceNotFoundException("정보를 찾을 수 없습니다."));
+                .orElseThrow(() -> new ResourceNotFoundException("정보를 찾을 수 없습니다."));
     }
+
     // 관리자- 회원들이 평균 포인트 조회
-    public Double userPointAverage(){
+    public Double userPointAverage() {
         return userRepository.findAveragePoint()
-                .orElseThrow(()-> new ResourceNotFoundException("정보를 불러올 수 없습니다."));
+                .orElseThrow(() -> new ResourceNotFoundException("정보를 불러올 수 없습니다."));
     }
 
     // 관리자- 모든 회원들의 포인트 조회
-    public List<UserPointDTO> userAllPoint(){
+    public List<UserPointDTO> userAllPoint() {
         return userRepository.findAll().stream()
                 .map(User::todto)
                 .collect(Collectors.toList());
     }
 
-    //두개의 지정 날짜 사이에 가입한 회원 조회
-    public List<User> userbetweenFind1(LocalDate date1, LocalDate date2) {
-        return userRepository.findAllByCreatedAtBetween(date1, date2);
-    }
-    public void deleteUser2(String userName) {
-        userRepository.deleteByUserName(userName);
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
     }
 
-    // 두 날짜 사이에 가입한 사용자 조회
-    public List<User> userbetweenFind2(LocalDate date1, LocalDate date2) {
-        return userRepository.findAllByCreatedAtBetween(date1, date2);
-    }
-    public void saveUser(User user) {
+    // real_name을 기준으로 회원 수정
+    public UserDTO updateUserRealName(String realName) {
+        List<User> users = userRepository.findByRealName(realName);
+
+        if (user == null) {
+            return null;
+        }
+        if (user.getEmail() != null) {
+            user.setEmail(user.getEmail());
+        }
+        if (user.getPassword() != null) {
+            user.setPassword(user.getPassword());
+        }
+        if (user.getPoint() >= 0) {
+            user.setPoint(user.getPoint());
+        }
         userRepository.save(user);
-    }
-
-    //지정 날짜에 가입한 회원 조회후 삭제
-    public void deleteUserByDate(LocalDate date) {
-        Optional<List<User>> users = userRepository.findBycreatedAt(date);
-        if (!users.isEmpty()) {
-            userRepository.deleteAll();
-        }
-    }
-    //지정 날짜에 가입한 회원 조회후 수정
-    public List<UserDTO> updateUserByJoinDate(LocalDate joinDate, UserDTO userDTO) {
-        List<User> users = userRepository.findByCreatedAt(joinDate);
-        if (users.isEmpty()) {
-            throw new RuntimeException("이 가입 날짜에 사용자를 찾을 수 없습니다.");
-        }
-        for (User user : users) {
-            if (userDTO.getEmail() != null) {
-                user.setEmail(userDTO.getEmail());
-            }
-            if (userDTO.getRealName() != null) {
-                user.setRealName(userDTO.getRealName());
-            }
-            if (userDTO.getPoint() != 0) {
-                user.setPoint(userDTO.getPoint());
-            }
-        }
-        List<UserDTO> updatedUsers = users.stream()
-                .map(User::toDTO)
-                .collect(Collectors.toList());
-        return updatedUsers;
-    }
-    //지정날짜 이전에 가입한회원조회 후 삭제
-      public void deleteUsersUnderJoinDate(LocalDate joinDate) {
-        List<User> users = userRepository.findByCreatedAtBefore(joinDate);
-        if (users.isEmpty()) {
-            throw new RuntimeException("이전에 검색된 사용자가 없습니다. " + joinDate);
-        }
-        userRepository.deleteAllInBatch(users);
-    }
-
-    //지정날짜 이전에 가입한 회원조회 후 수정
-    public void updateUsersUnderJoinDate(LocalDate joinDate, User updateUserInfo) {
-        List<User> users = userRepository.findByCreatedAtBefore(joinDate);
-        if (users.isEmpty()) {
-            throw new RuntimeException("지정된 날짜 이전에 가입한 사용자가 있습니다." + joinDate);
-        }
-            for (User user : users) {
-                user.setEmail(updateUserInfo.getEmail());
-                user.setRealName(updateUserInfo.getRealName());
-            }
-            userRepository.saveAll(users);
-            }
-
-    //지정날짜 이후에 가입한 회원조회 후 삭제
-
-    public void deleteUsersAfterJoinDate(LocalDate joinDate) {
-        List<User> users = userRepository.findByCreatedAtAfter(joinDate);
-        if (users.isEmpty()){
-            throw new RuntimeException("지정된 날짜 이후에 가입한 사용자가 없습니다." + joinDate);
-        }
-        userRepository.deleteAll(users);
-    }
-    //지정날짜 이후에 가입한회원조회 후 수정
-    public void updateUsersAfterJoinDate(LocalDate joinDate, User updateUserInfo) {
-        List<User> users = userRepository.findByCreatedAtAfter(joinDate);
-        if (users.isEmpty()) {
-            throw new RuntimeException("지정된 날짜가 이후엔 가입한 사용자가 없습니다." + joinDate);
-        }
-        for (User user : users) {
-            user.setemail(updateUserInfo.getEmail());
-            user.setRealName(updateUserInfo.getRealName());
-        }
-        userRepository.saveAll(users);
-    }
-
-    //user_authority 으로 회원 조회후 삭제
-    public void deleteUsersByAuthority1(String Authority) {
-       Optional <List<User>> users = userRepository.findByAuthority_AuthorityName(Authority);
-        if (users.isEmpty()) {
-            throw new RuntimeException("해당 권한을 가진 사용자가 없습니다. 권한: " + Authority);
-        }
-        userRepository.deleteAll();
+        return user.toDTO();
     }
 }
+
 
 
 

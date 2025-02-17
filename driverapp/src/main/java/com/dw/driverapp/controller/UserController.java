@@ -234,135 +234,18 @@ public class UserController {
         return new ResponseEntity<>(userService.userAllPoint(), HttpStatus.OK);
     }
 
-    //두개의 지정 날짜 사이에 가입한 회원 조회
-    @DeleteMapping("/delete/{date1}/{date2}")
-    public ResponseEntity<String> deleteUsersBetweenDates(
-            @PathVariable LocalDate date1,
-            @PathVariable LocalDate date2,
-            HttpServletRequest request) {
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("username") == null) {
-            throw new UnauthorizedUserException("로그인한 사용자만 접근 가능합니다.");
+    // real_name 으로 회원 조회 후 수정
+    @PutMapping("/realname/update/{realName}")
+    public ResponseEntity<UserDTO> updateUserRealName(
+            @PathVariable("realName") String realName) {
+        UserDTO updatedUser = userService.updateUserRealName(realName);
+        if (updatedUser == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
-        List<User> users = userService.userbetweenFind(date1, date2);
-        if (users.isEmpty()) {
-            return new ResponseEntity<>("지정된 날짜 범위에서 사용자르 찿을 수 없음", HttpStatus.NO_CONTENT);
-        }
-        for (User user : users) {
-            userService.deleteUser(user.getUserName());
-        }
-        return new ResponseEntity<>("사용자가 삭제가 완료 되었습니다.", HttpStatus.OK);
+        return ResponseEntity.ok(updatedUser);
     }
 
-    //두개의 지정 날짜 사이에 가입한 회원 조회
-    @PutMapping("/update/{date1}/{date2}")
-    public ResponseEntity<String> updateUsersBetweenDates(
-            @PathVariable LocalDate date1,
-            @PathVariable LocalDate date2,
-            @RequestBody UserDTO userDTO,
-            HttpServletRequest request) {
+    
 
-        HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("username") == null) {
-            throw new UnauthorizedUserException("로그인한 사용자만 접근 가능합니다.");
-        }
-        List<User> users = userService.userbetweenFind(date1, date2);
-        if (users.isEmpty()) {
-            return new ResponseEntity<>("지정된 날짜 범위에서 사용자를 찿을 수 없습니다.", HttpStatus.NO_CONTENT);
-        }
-        for (User user : users) {
-            user.setemail(userDTO.getEmail());
-            user.setRealName(userDTO.getRealName());
-            user.setPassword(userDTO.getPassword());
-            user.setPoint(userDTO.getPoint());
-            userService.saveUser(user);
-        }
-        return new ResponseEntity<>("사용자 업데이트 완료", HttpStatus.OK);
-    }
-
-    //지정 날짜에 가입한 회원 조회후 삭제
-    @DeleteMapping("/user/{date}")
-    public ResponseEntity<String> deleteUserByDate(@PathVariable("date") LocalDate date) {
-        try {
-            userService.deleteUserByDate(date);
-            return new ResponseEntity<>("지정된 날짜에 가입한 회원이 삭제 되었습니다.", HttpStatus.OK);
-        } catch (Exception e) {
-            return new ResponseEntity<>("삭제 중 오류가 발생했습니다", HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
-
-    //지정 날짜에 가입한 회원 조회후 수정
-    @PutMapping("/user/{date}")
-    public ResponseEntity<List<UserDTO>> updateUserByJoinDate(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd")
-                                                              LocalDate date, @RequestBody UserDTO userDTO) {
-        try {
-            List<UserDTO> updatedUsers = userService.updateUserByJoinDate(date, userDTO);
-            return ResponseEntity.ok(updatedUsers);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.emptyList());
-        }
-    }
-
-    //지정날짜 이전에 가입한회원조회 후 삭제
-    @DeleteMapping("user/under/delete/{date}")
-    public ResponseEntity<String> deleteUsersUnderJoinDate(@PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        try {
-            userService.deleteUsersUnderJoinDate(date);
-            return ResponseEntity.ok("이전 사용자 " + date + " 삭제 완료");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("사용자 삭제 중 오류 발생.");
-        }
-    }
-
-    //지정날짜 이전에 가입한 회원조회 후 수정
-    @PutMapping("user/under/updste/{date}")
-    public ResponseEntity<String> updateUsersUnderJoinDate(
-            @PathVariable("date") @DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate date,
-            @RequestBody User updateUserInfo) {
-        try{
-            userService.updateUsersUnderJoinDate(date,updateUserInfo);
-            return ResponseEntity.ok("지정된 날짜 이전ㅇ에 가입한 사용자들의 정보가 수정되었습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("사용자 수정 중 오류가 발생했습니다." + e.getMessage());
-        }
-    }
-    //지정날짜 이후에 가입한 회원조회 후 삭제
-    @DeleteMapping("user/over/delete/{date}")
-    public ResponseEntity<String>deleteUsersAfterJoinDate(
-            @PathVariable("date")@DateTimeFormat(pattern = "yyyy-MM-dd") LocalDate date) {
-        try{
-            userService.deleteUsersAfterJoinDate(date);
-            return ResponseEntity.ok("지정된 날짜 이후에 가입한 사용자들을 삭제 완료" + date);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("사용자 삭제 중 오류 발생" + e.getMessage());
-        }
-    }
-    //지정날짜 이후에 가입한회원조회 후 수정
-    @PutMapping("/user/over/update/{date}")
-    public ResponseEntity<String> updateUsersAfterJoinDate(@PathVariable("date")@DateTimeFormat(pattern = "yyyy-MM-dd")LocalDate date,
-                                                          @RequestBody User updateUserInfo) {
-        try{
-           userService.updateUsersAfterJoinDate(date, updateUserInfo);
-           return ResponseEntity.ok("지정된 날짜 이후에 가입한 사용자들의 정보가 수정 되었습니다.");
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("사용자 수정 중 오류가 발생했습니다." + e.getMessage());
-        }
-    }
-    //user_authority 으로 회원 조회후 삭제
-    @DeleteMapping("user/authority/delete/{user_authority}")
-    public ResponseEntity<String> deleteUsersByAuthority1(
-            @PathVariable("user_authority") String Authority) {
-        try {
-            userService.deleteUsersByAuthority1(Authority);
-            return ResponseEntity.ok("해당 권한을 가진 사용자들이 삭제 되었습니다. 권한: " + Authority);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("사용자 삭제 중 오류가 발생했습니다. " + e.getMessage());
-        }
-    }
 }
-
 

@@ -3,6 +3,7 @@ package com.dw.driverapp.repository;
 import com.dw.driverapp.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -13,7 +14,7 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<User> findByUserName(String userName);
     Optional<User> findByEmail(String email);
     Optional<List<User>> findByBirthdate(LocalDate birthdate);
-    Optional<List<User>> findByRealName (String realName);
+    Optional<List<User>> findByRealName1(String realName);
     Optional<List<User>> findByAuthority_AuthorityName(String authorityName);
 
     @Query("select u from User u where u.createdAt > :date")
@@ -23,21 +24,19 @@ public interface UserRepository extends JpaRepository<User, String> {
     Optional<List<User>> findBycreatedAt (LocalDate date);
     @Query("select u from User u where  u.createdAt BETWEEN :date1 AND :date2")
     Optional<List<User>> createdAtbetweendate (LocalDate date1, LocalDate date2);
-    List<User> findAllByCreatedAtBetween(LocalDate startDate, LocalDate endDate);
-    void deleteByUserName(String userName);
     @Query("select u from User u where u.createdAt = (select min(u.createdAt) from User u)")
     Optional<List<User>> findFirstCreatedAt();
     @Query("select u from User u where u.createdAt = (select max(u.createdAt) from User u)")
     Optional<List<User>> findLastCreatedAt();
-    @Query("select u from User u where u.point = (select min(u.point)from User u)")
+    @Query("select u from User u where u.point = (select mi" +
+            "  n(u.point)from User u)")
     Optional<List<User>> leastPointUser();
     @Query("select u from User u where u.point = (select max(u.point)from User u)")
     Optional<List<User>> MostPointUser();
     @Query("select avg(u.point) from User u")
     Optional<Double> findAveragePoint();
-
-    List<User> findByCreatedAt(LocalDate createAt);
-    List<User> findByCreatedAtBefore(LocalDate joinDate);
-    List<User> findByCreatedAtAfter(LocalDate joinDate);
-
+    List<User> findByRealName(String realName);
 }
+
+
+
