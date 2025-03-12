@@ -1,0 +1,205 @@
+/* figure */
+figure {
+    width: 1180px;
+    margin: 0px auto;
+    padding-top: 260px;
+    padding-bottom: 200px;
+}
+
+figure .submit {
+    width: 1180px;
+    line-height: 45px;
+    position: relative;
+}
+
+figure .submit h1 {
+    width: 190px;
+    line-height: 45px;
+    margin-left: 97px;
+    border-bottom: 1px solid #1f1f1f;
+    text-align: center;
+    float: left;
+    color: #222225;
+}
+figure .title {
+    width: 880px;
+    margin-top: 60px;
+    margin-left: 140px;
+    margin-right: 140px;
+    justify-content: space-between;
+    line-height: 45px;
+    border-bottom: 2px solid #1f1f1f;
+    display: flex;
+    color: #444447;
+    
+}
+figure .title li:first-child{
+    width: 500px;
+    font: bold 25px/2 "arial";
+    float: left;
+    padding-top: 1px;
+    text-align: start;
+}
+
+figure .title li:last-child{
+    width: 160px;
+    float: right;
+    text-align: center;
+    padding-top: 20px;
+    font: bold 15px/1.5 "arial"; 
+}
+
+figure .subject {
+    width: 880px;
+    padding-top: 10px;
+    margin-left: 140px;
+    margin-right: 140px;
+    font-size: 20px;
+    color: #606060;
+}
+
+figure .name {
+    padding-top: 130px;
+    margin-right: 160px;
+    text-align: right;
+    line-height: 25px;
+    color: #444447;
+}
+figure .name span {
+    font: bold 15px/1.5 "arial";
+}
+figure .name p:last-child {
+    float: right;
+}
+figure .gather {
+    width: 1020px;
+    height: 40px;
+}
+figure .gather button{
+        width: 60px;
+        height: 30px;
+        margin-left: 5px;
+        margin-top: 20px;
+        font-size: 1.1rem;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        float: right;
+        
+     }
+    
+figure .gather button:hover {
+    background-color: #999;
+}
+
+figure .save form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 920px;
+    margin-left: 122px ;
+    margin-top: 0px;
+   
+}
+
+figure .save label {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #4A4A4A;
+    font: bold 16px/1 "arial";
+}
+
+figure .save textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    resize: vertical;
+}
+
+figure .save textarea:focus {
+    border-color: #4A4A4A;
+    background-color: #fff;
+    outline: none;
+}
+
+figure .save button {
+    width: 50px;
+    margin-left: 5px;
+    padding: 10px;
+    font-size: 13px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    float: right;
+}
+
+figure .save button:hover {
+    background-color: #999;
+}
+figure .reply {
+    width: 230px;
+    margin-top: 60px;
+    padding-left: 140px;
+    font: bold 25px/1 "arial";
+    color: #222225;
+}
+
+figure .look {
+    width: 880px;
+    padding-top: 10px;
+    padding-inline: 60px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000;
+    margin-left: 140px;
+    margin-right: 140px;
+    margin-top: 15px;
+    
+}
+
+figure .look li {
+    font: bold 17px/1 "arial";
+    color: #444447;
+}
+
+figure .question {
+    width: 880px;
+    margin-left: 90px;
+    margin-right: 90px;
+}
+figure .question li {
+    width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    font: bold 16px/1 "arial";
+    font-style: #111;
+    
+}
+
+figure .question li a {
+    width: 880px;
+    padding-top: 10px;
+    padding-inline: 60px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000;
+    color: #444447;
+    margin-left: 50px;
+    margin-top: 15px;
+}

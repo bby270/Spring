@@ -15,8 +15,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.net.ssl.HandshakeCompletedEvent;
 import java.util.List;
 
-@RestController
 @RequestMapping("/api")
+@RestController
 public class BoardController {
 
     @Autowired

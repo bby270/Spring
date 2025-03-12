@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/login.css">
+    <script src="/js/admin.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/logout.js"></script>
+
+</head>
+
+<body>
+<header>
+    <img src="/img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href='#' onclick="move()" >MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+
+<section>
+    <form>
+        <h1>로그인 정보</h1>
+        <div class="box">
+            USER NAME : <input type="text" name="username" placeholder="USER NAME을 입력하세요"><br><br>
+            &nbsp;PASSWORD : <input type="password" name="password" placeholder="PASSWORD를 입력하세요"><br><br><br>
+            <input id="btn" type="button" value="로그인" onclick="submit_go();" />
+        </div>
+        <p><a href="register.html">비회원 회원가입</a></p>
+    </form>
+</section>
+
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+                <li>CUSTOMER CENTER</li>
+                <br>
+                <li>1577-****</li>
+            </ul>
+        </div>
+
+        <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+                <li>대표자 : 김덕배</li>
+                <li>대표전화 : 010-****-****</li>
+                <li>담당자 : 곽두팔</li>
+                <li>담당자전화 : 010-****-***</li>
+                <li>사업자등록번호 : 231-**-*****</li>
+                <li>학원코드 : ****</li>
+                <li>등록번호 : 0000</li>
+                <li>전문학원지정번호 : ****호</li>
+            </ul>
+        </div>
+    </div>
+
+
+</footer>
+
+<script>
+    function submit_go() {
+        console.log("버튼클릭");
+        let input_id = document.querySelector("input[name='username']");
+        let input_pwd = document.querySelector("input[name='password']");
+
+        if (!input_id.value) {
+            alert('아이디를 입력해주세요.')
+            input_id.focus();
+            return;
+        }
+        if (!input_pwd.value) {
+            alert('패스워드를 입력해주세요.')
+            input_pwd.focus();
+            return;
+        }
+        console.log(input_id.value + " " + input_pwd.value);
+        const data = {
+            "userName": input_id.value,
+            "password": input_pwd.value,
+        }
+        $.ajax({
+            url: '/api/user/login',  // 데이터를 요청할 URL
+            type: 'POST',                   // HTTP 메서드 (GET, POST 등)
+            data: JSON.stringify(data), // 서버에 전달할 데이터 (옵션)
+            contentType: 'application/json; charset=utf-8', // JSON 형식 명시
+            success: function (response) {
+                // 요청이 성공했을 때 실행할 코드
+                console.log(response);
+                sessionStorage.setItem("user", JSON.stringify(response));
+                alert('로그인이 완료 되었습니다.')
+                window.location.href = '/index.html';
+            },
+            error: function (xhr, status, error) {
+                // 요청이 실패했을 때 실행할 코드
+                alert('입력하신 정보가 올바르지 않습니다.')
+                console.error(error);
+            }
+        });
+    }
+
+    // Add event listener for the Enter key
+    document.querySelector("form").addEventListener("keypress", function(event) {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevents the default form submission behavior
+            submit_go(); // Calls the login function
+        }
+    });
+</script>
+
+</body>
+
+</html>

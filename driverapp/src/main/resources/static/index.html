@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DW 자동차 운전면허 학원</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/index.css">
+    <script src="/js/logout.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/admin.js"></script>
+</head>
+
+<body>
+<header>
+    <img src="/img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href='#' onclick="move()" >MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+<section>
+    <div class="inner">
+        <div class="wrap" id="subject-list">
+
+        </div>
+        <div id="videoPopup" class="popup">
+            <div class="popup-content">
+                <div class="video-overlay-text">
+                    DW 자동차 운전면허 학원 기능 시험장
+                </div>
+
+                <span id="closeVideoBtn" class="close-btn" >&times;</span>
+                <video  muted autoplay>
+                    <source src="/mp4/강남운전면허시험장 2종보통 장내기능 100점 (독학).mp4" type="video/mp4" >
+                    이 브라우저는 비디오 태그를 지원하지 않습니다.
+                </video>
+                <div class="popup-footer">
+                    <button id="closeBtn" class="popup-close-btn">닫기</button>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="wrap1">
+            <article>
+                <div class="another">
+                    <h2><a href="notice.html">공지사항</a></h2>
+                    <ul class="notice-list" id="notice-list"></ul>
+                </div>
+            </article>
+
+            <article>
+                <div class="another">
+                    <h2><a href="QNA.html">Q&A 게시판</a></h2>
+                    <ul class="qna-list" id="qna-list"></ul>
+                </div>
+            </article>
+        </div>
+    </div>
+
+    </div>
+
+
+</section>
+
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+                <li>CUSTOMER CENTER</li>
+                <br>
+                <li>1577-****</li>
+            </ul>
+        </div>
+
+        <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+                <li>대표자 : 김덕배</li>
+                <li>대표전화 : 010-****-****</li>
+                <li>담당자 : 곽두팔</li>
+                <li>담당자전화 : 010-****-***</li>
+                <li>사업자등록번호 : 231-**-*****</li>
+                <li>학원코드 : ****</li>
+                <li>등록번호 : 0000</li>
+                <li>전문학원지정번호 : ****호</li>
+            </ul>
+        </div>
+    </div>
+
+
+</footer>
+
+<script>
+
+window.addEventListener("load", function() {
+
+    const videoPopup = document.getElementById("videoPopup");
+    const closeVideoBtn = document.getElementById("closeVideoBtn");
+    const closeBtn = document.getElementById("closeBtn");
+
+
+    videoPopup.style.display = "flex";
+
+
+    closeVideoBtn.addEventListener("click", function() {
+        videoPopup.style.display = "none";
+    });
+
+
+    closeBtn.addEventListener("click", function() {
+        videoPopup.style.display = "none";
+    });
+});
+
+
+ function fetchNotices() {
+    $.ajax({
+        url: '/api/notice/all',
+        type: 'GET',
+        success: function(data) {
+
+            let noticeList = $('#notice-list');
+            noticeList.empty();
+
+
+            const maxNotices = 3;
+
+            data.slice(0, maxNotices).forEach(function(notice) {
+                let listItem = `
+                    <li>
+                        <p><a href="noticeCheck.html?id=${notice.id}">${notice.title}</a></p>
+                    </li>
+                `;
+                noticeList.append(listItem);
+            });
+
+
+        },
+        error: function(error) {
+            console.error("공지사항을 불러오는 데 실패했습니다:", error);
+            alert("공지사항을 불러오는 데 실패했습니다.");
+        }
+    });
+}
+
+$(document).ready(function() {
+    fetchNotices();
+});
+
+
+    // 공지사항 목록을 가져오는 함수
+    function fetchNotices() {
+        $.ajax({
+            url: '/api/notice/all',  // 공지사항 목록 API 엔드포인트
+            type: 'GET',
+            success: function(data) {
+                let noticeList = $('#notice-list');
+                noticeList.empty();
+
+                const maxNotices = 3;  // 최대 3개의 공지사항 항목만 표시
+
+                // 공지사항 항목들을 목록에 추가
+                data.slice(0, maxNotices).forEach(function(notice) {
+                    let listItem = `
+                        <li>
+                            <p><a href="noticeCheck.html?id=${notice.id}">${notice.title}</a></p>
+                        </li>
+                    `;
+                    noticeList.append(listItem);
+                });
+            },
+            error: function(error) {
+                console.error("공지사항을 불러오는 데 실패했습니다:", error);
+                alert("공지사항을 불러오는 데 실패했습니다.");
+            }
+        });
+    }
+
+    // QNA 목록을 가져오는 함수
+    function fetchQNA() {
+        $.ajax({
+            url: '/api/board/all',  // QNA 목록 API 엔드포인트
+            type: 'GET',
+            success: function(data) {
+                let qnaList = $('#qna-list');
+                qnaList.empty();
+
+                const maxQnas = 3;  // 최대 3개의 QNA 항목만 표시
+
+                // QNA 항목들을 목록에 추가
+                data.slice(0, maxQnas).forEach(function(qna) {
+                    let listItem = `
+                        <li>
+                            <p><a href="/replyQ&A.html?id=${qna.id}">${qna.title}</a></p>
+                        </li>
+                    `;
+                    qnaList.append(listItem);
+                });
+            },
+            error: function(error) {
+                console.error("QNA를 불러오는 데 실패했습니다:", error);
+                alert("QNA를 불러오는 데 실패했습니다.");
+            }
+        });
+    }
+
+    // 페이지 로딩 시 공지사항과 QNA 목록을 불러옴
+    $(document).ready(function() {
+        fetchNotices();
+        fetchQNA();
+    });
+
+
+
+    $(document).ready(function() {
+       getsubject();
+
+       function getsubject() {
+           $.ajax({
+               url: '/api/img/all',
+               type: 'GET',
+               success: function(data) {
+                   let subjectlist = $('#subject-list');
+                   subjectlist.empty();
+                   data.forEach(function(image) {
+                       let listItem = `
+                        <article>
+                          <div class="pic">
+                            <a href="${image.fileName}.html">
+                            <img src="/img/${image.imageUrl}" alt="${image.title}"></a>
+                            <h2><a href="${image.fileName}.html"><p>${image.title}</p></a></h2>
+                          <div>
+                        </article>
+                       `;
+                       subjectlist.append(listItem);
+                   });
+               },
+               error: function(error) {
+                   console.error("강의 전체 정보를 불러오는 데 실패했습니다.:", error);
+                   alert("강의 전체 정보를 불러오는 데 실패했습니다.");
+               }
+           });
+       }
+   });
+</script>
+
+</body>
+
+</html>

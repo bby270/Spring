@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/oneTwoNormalExplain.css">
+    <script src="/js/logout.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/admin.js"></script>
+    <title>2종 보통</title>
+
+</head>
+<body>
+<header>
+    <img src="/img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href='#' onclick="move()" >MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+<section>
+    <div class="inner4">
+        <h1 id="title"></h1>
+        <p7 id="price"></p7><br><br>
+        <button class="register-btn" type="button" onclick="add()">수강신청</button><br><br><br>
+        <p1 id="type"></p1><br><br>
+        <p5 id="ep"></p5>
+        <img src="/img/cropped_sedan_image_1180x450.png">
+        <span>기본조작 채점항목</span>
+        <table>
+
+            <tr>
+                <td style="background: rgb(175, 175, 170);">시험 항목</td>
+                <td style=" background: rgb(175, 175, 170);">감점</td>
+                <td style="background: rgb(175, 175, 170);">감점방법</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">기어변속</td>
+                <td style="background:rgb(218, 218, 218);">5</td>
+                <td style="background:rgb(218, 218, 218);">시험관이 주차 브레이크를 완전히 정지상태로 조작하고, 응시생에게 시동을 켜도록 지시하였을 때, 응시생이 정지
+                    상태에서 시험관의 지시를 받고 기어변속(클러치 페달조작을 포함한다)을 하지 못한 경우
+                </td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">전조등 조작</td>
+                <td style="background:rgb(218, 218, 218);">5</td>
+                <td style="background:rgb(218, 218, 218);">정지 상태에서 시험관의 지시를 받고 전조등을 조작하지 못한 경우(하향, 상향 각 1회씩 전조등 조작시험을
+                    실시한다)
+                </td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">방향 지시등조작</td>
+                <td style="background:rgb(218, 218, 218);">5</td>
+                <td style="background:rgb(218, 218, 218);">정지 상태에서 시험관의 지시를 받고 방향지시등을 조작하지 못한 경우</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">와이퍼 조작</td>
+                <td style="background:rgb(218, 218, 218);">5</td>
+                <td style="background:rgb(218, 218, 218);">정지 상태에서 시험관의 지시를 받고 와이퍼를 조작하지 못한 경우</td>
+            </tr>
+
+        </table>
+        <p2>기본주행 채점항목</p2>
+        <table class="second">
+            <tr>
+                <td style="background: rgb(175, 175, 170);">시험항목</td>
+                <td style=" width: 50px; background: rgb(175, 175, 170);">감점</td>
+                <td style="background: rgb(175, 175, 170);">감점방법</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">차로 준수</td>
+                <td style="background:rgb(218, 218, 218);">15</td>
+                <td style="background:rgb(218, 218, 218);">가목부터 마목까지 과제수행 중 차의 바퀴 중 어느 하 나라도 중앙선, 차선 또는 길가장자리구역선을 접촉하거 나
+                    벗어난 때
+                </td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">돌발상황에서 급정지</td>
+                <td style="background:rgb(218, 218, 218);">10</td>
+                <td style="background:rgb(218, 218, 218);">돌발등이 켜짐과 동시에 2초 이내에 정지하지 못하거나 정지 후 3초 이내에 비상점멸등을 작동하지 않은 때 또는
+                    출발 시 비상점멸등을 끄지 아니한
+                </td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">경사로에서의 정지 및 출발</td>
+                <td style="background:rgb(218, 218, 218);">10</td>
+                <td style="background:rgb(218, 218, 218);">경사로 정지검지구역 내에 정지 후 출발 때 후방으로 50센티미터 이상 밀린 때</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">좌회전 또는 우회전</td>
+                <td style="background:rgb(218, 218, 218);">5</td>
+                <td style="background:rgb(218, 218, 218);">진로변경 때 방향지시등을 켜지 아니한 때 마다</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">가속코스</td>
+                <td style="background:rgb(218, 218, 218);">10</td>
+                <td style="background:rgb(218, 218, 218);">가속구간 내에서 속도가 매시 20킬로미터 미만 시</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">신호교차로</td>
+                <td style="background:rgb(218, 218, 218);">5</td>
+                <td style="background:rgb(218, 218, 218);">교차로 내에서 20초 이상 이유 없이 정차한 때 마다</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">직각주차</td>
+                <td style="background:rgb(218, 218, 218);">10</td>
+                <td style="background:rgb(218, 218, 218);">
+                    <li>차 바퀴가 검지선을 접촉한 때마다</li>
+                    <li>주차브레이크를 작동하지 않을 때</li>
+                    <li>지정시간(2분) 초과 시마다</li>
+                </td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">방향지시등 작동</td>
+                <td style="background:rgb(218, 218, 218);">5</td>
+                <td style="background:rgb(218, 218, 218);">
+                    <li>출발 때 방향지시등을 켜지 아니한 때</li>
+                    <li>종료 때 방향지시등을 켜지 아니한 때</li>
+                </td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">시동상태 유지</td>
+                <td style="background:rgb(218, 218, 218);">5</td>
+                <td style="background:rgb(218, 218, 218);">가목부터 마목까지 과제수행 중 엔진시동 상태를 유지하 지 못하거나 4천RPM이상 엔진 회전 때 마다</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">전체 지정시간 (지정속도 유지) 초과</td>
+                <td style="background:rgb(218, 218, 218);">3</td>
+                <td style="background:rgb(218, 218, 218);">
+                    <li>가목부터 마목까지 과제수행 중 전체 지정시간 초과 매 5초마다</li>
+                    <li>가속구간을 제외한 전 구간에서 매시 20킬로미터 초과 시마다</li>
+                </td>
+            </tr>
+        </table>
+        <h2>합격 기준</h2>
+        <p3>각 시험항목별 감점기준에 따라 감점한 결과 100점 만점에 80점 이상을 얻은 경우 합격으로한다.</p3>
+        <h3>실격 기준</h3>
+        <ul>
+            <li>점검이 시작될 때부터 종료될 때까지 좌석안전띠를 착용하지 않은 경우</li>
+            <br>
+            <li>시험 중 안전사고를 일으키거나 차의 바퀴가 하나라도 연석에 접촉한 경우</li>
+            <br>
+            <li>시험관의 지시나 통제를 따르지 않거나 음주,과로 또는 마약,대마 등의 영향으로 정상적인 시험 진행이 어려운 경우</li>
+            <br>
+            <li>특별한 사유 없이 출발지시 후 출발선에서 30초 이내 출발하지 못한 경우</li>
+            <br>
+            <li>경사로에서 정지하지 않고 통과하거나, 지각주차에서 차고에 진입해서 확인선을 접촉하지않거나, 가속코스에서 기어변속을 하지 않는 등 각 시험코스를 어느 하나라도 시도하지 않거나 제대로
+                이행하지 않은 경우
+            </li>
+            <li>경사로 정지구간 이행 후 30초를 초과하여 통과하지 못한 경우 또는 경사로 정지구간에서 후방으로 1미터 이상 밀린 경우</li>
+            <br>
+            <li>신호 교차로에서 신호위반을 하거나 앞 범퍼가 정지선을 넘어간 경우</li><br><br>
+            <p4 id="ins"></p4>
+        </ul>
+
+
+    </div>
+
+</section>
+
+
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+                <li>CUSTOMER CENTER</li>
+                <br>
+                <li>1577-****</li>
+            </ul>
+        </div>
+
+        <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+                <li>대표자 : 김덕배</li>
+                <li>대표전화 : 010-****-****</li>
+                <li>담당자 : 곽두팔</li>
+                <li>담당자전화 : 010-****-***</li>
+                <li>사업자등록번호 : 231-**-*****</li>
+                <li>학원코드 : ****</li>
+                <li>등록번호 : 0000</li>
+                <li>전문학원지정번호 : ****호</li>
+            </ul>
+        </div>
+    </div>
+
+
+</footer>
+<script>
+    $(document).ready(function() {
+   getsub();
+
+   function getsub() {
+       $.ajax({
+           url: '/api/subject/2',
+           type: 'GET',
+           success: function(data) {
+               $('#title').text(data.title);
+               $('#price').text("가격: " + data.price + "P");
+               $('#type').text(data.typeList);
+               $('#ep').text(data.explanation);
+               $('#ins').text("강사: " + data.instructorName);
+           },
+           error: function(error) {
+               alert('사용자 정보를 가져오는 데 실패했습니다.');
+               console.error(error);
+           }
+       });
+   }
+});
+
+     function add() {
+        const user = sessionStorage.getItem('user');
+        const userObj = JSON.parse(user);
+
+        if (!userObj || !userObj.username) {
+            alert('로그인 후에 이용할 수 있습니다.');
+            return;
+        }
+
+        // 서버로 AJAX 요청 보내기 (POST 방식)
+        $.ajax({
+            url: '/api/user/add',  // 실제 API 엔드포인트
+            type: 'POST',
+            data: {
+                username: userObj.username,  // 로그인한 사용자 이름
+                subjectId: 2 // 선택한 과목 ID
+            },
+            success: function(response) {
+                alert('장바구니에 과목이 추가되었습니다.');
+                window.location.href = 'cart.html';
+            },
+            error: function(error) {
+                alert('장바구니에 과목 추가에 실패했습니다.');
+                console.error(error);
+            }
+        });
+    }
+</script>
+</body>
+</html>

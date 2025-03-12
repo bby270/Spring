@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/twoSmallExplain.css">
+    <script src="/js/logout.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/admin.js"></script>
+    <title>2종 소형</title>
+</head>
+<body>
+<header>
+    <img src="/img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href='#' onclick="move()" >MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+
+<section>
+    <div class="inner4">
+        <h1 id="title"></h1>
+        <p7 id="price"></p7><br><br>
+        <button class="register-btn" type="button" onclick="add()">수강신청</button><br><br><br>
+        <p1 id="type"></p1><br><br>
+        <p5 id="ep"></p5>
+        <img src="/img/cropped_motorcycle_image_1180x450.png">
+        <p2>면허별 운전가능 범위</p2>
+        <table>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">구분</td>
+                <td style=" background: rgb(175, 175, 170);">125cc 이하</td>
+                <td style="background: rgb(175, 175, 170);">125cc 초과</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">명칭</td>
+                <td style="background:rgb(218, 218, 218);">원동기 장치 자전거</td>
+                <td style="background:rgb(218, 218, 218);">이륜 자동차</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">원동기 면허</td>
+                <td style="background:rgb(218, 218, 218);">운전가능</td>
+                <td style="background:rgb(218, 218, 218);">운전불가</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">2종소형 면허</td>
+                <td style="background:rgb(218, 218, 218);">운전가능</td>
+                <td style="background:rgb(218, 218, 218);">운전가능</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">자동차 면허</td>
+                <td style="background:rgb(218, 218, 218);">운전가능</td>
+                <td style="background:rgb(218, 218, 218);">운전불가</td>
+
+            </tr>
+        </table>
+        <h3>채점 기준</h3>
+        <table>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">시험항목</td>
+                <td style=" width: 60px; background: rgb(175, 175, 170);">감점</td>
+                <td style="background: rgb(175, 175, 170);">감점방법</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">굴절코스 전진</td>
+                <td style="background:rgb(218, 218, 218);">10</td>
+                <td style="background:rgb(218, 218, 218);">검지선을 접촉한 때마다 또는 발이 땅에 닿을 때마다</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">곡선코스 전진</td>
+                <td style="background:rgb(218, 218, 218);">10</td>
+                <td style="background:rgb(218, 218, 218);">검지선을 접촉한 때마다 또는 발이 땅에 닿을 때마다</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">좁은길 코스 통과</td>
+                <td style="background:rgb(218, 218, 218);">10</td>
+                <td style="background:rgb(218, 218, 218);">검지선을 접촉한 때마다 또는 발이 땅에 닿을 때마다</td>
+            </tr>
+            <tr>
+                <td style="background: rgb(175, 175, 170);">연속진로전환코스</td>
+                <td style="background:rgb(218, 218, 218);">10</td>
+                <td style="background:rgb(218, 218, 218);">검지선을 접촉한 때마다,발이 땅에 닿을 때마다 또는 라바콘을 접촉한 때마다</td>
+
+            </tr>
+        </table>
+
+        <h4>시험 코스</h4>
+        <ul>
+            <li>굴절코스: 전진으로 진입하여 검지선접촉이나 발이 땅에 닿지 아니하고 통과</li>
+            <br>
+            <li>곡선코스: 전진으로 진입하여 검지선접촉이나 발이 땅에 닿지 아니하고 통과</li>
+            <br>
+            <li>좁은길코스: 전진으로 진입하여 검지선접촉이나 발이 땅에 닿지 아니하고 통과</li>
+            <br>
+            <li>연속진로전환코스: 화살표 방향으로 진입하여 진로를 변경하면서 검지선 접촉이나 발이 땅에 땋거나 라바콘을 접촉하지 아니하고 통과</li>
+        </ul>
+
+        <h2>합격 기준</h2>
+        <p3>각 시험항목별 감점기준에 따라 감점한 결과 100점 만점에 90점 이상을 얻은 경우 합격으로한다.</p3><br><br><br>
+        <p4 id="ins"></p4>
+
+
+
+    </div>
+</section>
+
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+                <li>CUSTOMER CENTER</li>
+                <br>
+                <li>1577-****</li>
+            </ul>
+        </div>
+
+        <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+                <li>대표자 : 김덕배</li>
+                <li>대표전화 : 010-****-****</li>
+                <li>담당자 : 곽두팔</li>
+                <li>담당자전화 : 010-****-***</li>
+                <li>사업자등록번호 : 231-**-*****</li>
+                <li>학원코드 : ****</li>
+                <li>등록번호 : 0000</li>
+                <li>전문학원지정번호 : ****호</li>
+            </ul>
+        </div>
+    </div>
+
+
+</footer>
+<script>
+    $(document).ready(function() {
+   getsub();
+
+   function getsub() {
+       $.ajax({
+           url: '/api/subject/4',
+           type: 'GET',
+           success: function(data) {
+               $('#title').text(data.title);
+               $('#price').text("가격: " + data.price + "P");
+               $('#type').text(data.typeList);
+               $('#ep').text(data.explanation);
+               $('#ins').text("강사: " + data.instructorName);
+           },
+           error: function(error) {
+               alert('사용자 정보를 가져오는 데 실패했습니다.');
+               console.error(error);
+           }
+       });
+   }
+});
+
+     function add() {
+        const user = sessionStorage.getItem('user');
+        const userObj = JSON.parse(user);
+
+        if (!userObj || !userObj.username) {
+            alert('로그인 후에 이용할 수 있습니다.');
+            return;
+        }
+
+        // 서버로 AJAX 요청 보내기 (POST 방식)
+        $.ajax({
+            url: '/api/user/add',  // 실제 API 엔드포인트
+            type: 'POST',
+            data: {
+                username: userObj.username,  // 로그인한 사용자 이름
+                subjectId: 4 // 선택한 과목 ID
+            },
+            success: function(response) {
+                alert('장바구니에 과목이 추가되었습니다.');
+                window.location.href = 'cart.html';
+            },
+            error: function(error) {
+                alert('장바구니에 과목 추가에 실패했습니다.');
+                console.error(error);
+            }
+        });
+    }
+</script>
+</body>
+</html>

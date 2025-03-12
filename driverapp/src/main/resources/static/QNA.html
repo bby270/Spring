@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DW 자동차 운전면허학원</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/QNA.css">
+  <script src="js/logout.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="js/QNA.js"></script>
+  <script src="/js/admin.js"></script>
+
+</head>
+
+<body>
+<header>
+  <img src="/img/logo1.GIF" alt="logo">
+  <div class="inner">
+    <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+    <ul class="util">
+      <li><a href="login.html" id="loginLink">로그인</a></li>
+      <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+      <li><a href="register.html">회원가입</a></li>
+      <li><a href="cart.html">장바구니</a></li>
+    </ul>
+    <ul class="menu">
+      <li><a href="index.html">HOME</a></li>
+      <li><a href='#' onclick="move()">MYPAGE</a></li>
+      <li><a href="QNA.html">Q&A</a></li>
+      <li><a href="notice.html">NOTICE</a></li>
+      <li><a href="introduction.html">INTRODUCTION</a></li>
+    </ul>
+  </div>
+</header>
+
+<figure>
+  <div class="board">
+    <h1>Q&A게시판</h1>
+
+    <ul class="search">
+      <form action="#" method="get">
+        <div class="search-container">
+          <input class="search-input" type="text" name="search-word" placeholder="검색어를 입력하세요" required>
+          <button class="search-btn" type="button" onclick="search(event)">검색</button>
+        </div>
+      </form>
+    </ul>
+
+    <ul class="title">
+      <li class="next">번호</li>
+      <li class="title-text">제목</li>
+      <li class="author">작성자</li>
+    </ul>
+
+    <ul class="question" id="question"></ul>
+
+    <div class="post">
+      <button type="save" onclick="location.href='QNAadd.html'">등록</button>
+    </div>
+
+    <div class="number">
+      <button type="pass">&lt&lt</button>
+      <button type="pass">&lt</button>
+      <button class="num">1</button>
+      <button class="num">2</button>
+      <button class="num">3</button>
+      <button class="num">4</button>
+      <button class="num">5</button>
+      <button class="num">6</button>
+      <button class="num">7</button>
+      <button class="num">8</button>
+      <button class="num">9</button>
+      <button class="num">10</button>
+      <button type="pass">&gt</button>
+      <button type="pass">&gt&gt</button>
+    </div>
+  </div>
+</figure>
+
+<footer>
+  <div class="inner">
+    <div class="upper">
+      <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+      <ul>
+        <li>CUSTOMER CENTER</li><br>
+        <li>1577-****</li>
+      </ul>
+    </div>
+
+    <div class="under">
+      <h2>DW운전면허학원</h2>
+      <ul>
+        <li>대표자 : 김덕배</li>
+        <li>대표전화 : 010-****-****</li>
+        <li>담당자 : 곽두팔</li>
+        <li>담당자전화 : 010-****-***</li>
+        <li>사업자등록번호 : 231-**-*****</li>
+        <li>학원코드 : **** </li>
+        <li>등록번호 : 0000 </li>
+        <li>전문학원지정번호 : ****호</li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<script>
+  function search(event) {
+    event.preventDefault();  // 폼 제출 기본 동작을 막습니다.
+
+    let searchWord = $('.search-input').val();  // 검색어 입력 값 가져오기
+
+    // 검색어가 없을 경우
+    if (searchWord.trim() === "") {
+      alert("검색어를 입력하세요.");
+      return;
+    }
+
+    // AJAX로 검색 요청 보내기
+    $.ajax({
+      url: `/api/board/title/search/${encodeURIComponent(searchWord)}`,  // 서버 경로에 맞게 수정
+      type: 'GET',
+      success: function(data) {
+        console.log(data);
+        let question = $('#question');
+        question.empty();  // 기존 데이터를 비운 후 새로운 검색 결과를 추가
+
+        // 검색 결과가 없을 경우
+        if (data.length === 0) {
+          question.append("<li>검색된 Q&A가 없습니다.</li>");
+        } else {
+          data.forEach(function(board, index) {
+            let listItem = `
+              <li>
+                <a href="javascript:void(0)">
+                  <span class="next">${index + 1}</span>
+                  <span class="title-text">${board.title}</span>
+                  <span class="author">${board.author}</span>
+                </a>
+                <div class="answer">
+                  <ul>
+                    <li class="co1" onclick="location.href='replyQ&A.html?id=${board.id}';"> ${board.title}</li>
+                    <li class="co2" onclick="location.href='replyQ&A.html?id=${board.id}';">${board.content}</li>
+                    <button type="button" onclick="location.href='correctionQ&A.html?id=${board.id}';">수정</button>
+                  </ul>
+                </div>
+              </li>
+            `;
+            question.append(listItem);
+          });
+
+          // 슬라이딩 이벤트 추가 (기존과 동일)
+          $('figure a').click(function (e) {
+            e.preventDefault();
+            var answer = $(this).next('.answer');
+            var allAnswers = $('.answer');
+
+            allAnswers.not(answer).stop(true, true).animate({
+              maxHeight: '0',
+              opacity: 0
+            }, 500);
+
+            if (answer.css('max-height') === '0px' || answer.css('opacity') === '0') {
+              answer.stop(true, true).animate({
+                maxHeight: answer.prop('scrollHeight') + 'px',  // 내용에 맞게 높이 동적 설정
+                opacity: 1
+              }, 500);
+            } else {
+              answer.stop(true, true).animate({
+                maxHeight: '0',
+                opacity: 0
+              }, 500);
+            }
+          });
+        }
+      },
+      error: function(error) {
+        console.error("Q&A 게시물을 불러오는 데 실패했습니다:", error);
+        alert("Q&A 게시물을 불러오는 데 실패했습니다.");
+      }
+    });
+  }
+
+
+  $('.search-input').on('keypress', function(event) {
+    if (event.key === 'Enter') {
+      search(event);
+    }
+  });
+
+</script>
+</body>
+
+</html>

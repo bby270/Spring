@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My page</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/usermypage.css">
+    <script src="/js/logout.js"></script>
+    <script src="/js/admin.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<header>
+    <img src="/img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href='#' onclick="move()" >MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+<section>
+    <div class="title">
+        <h1>마이 페이지</h1>
+    </div>
+    <div class="box">
+        <h2>내 정보</h2>
+        <div class="info">
+            <ul>
+                <li><strong>ID:</strong> <span id="username"></span><span class="point" id="points"></span></li>
+                <li><strong>비밀번호:</strong> ******
+                    <button class="btn"><a href="password.html" style="color:#333">비밀번호 변경</a></button>
+                </li>
+                <li><strong>이름:</strong> <span id="realName"></span></li>
+                <li><strong>성별:</strong><span id="gender"></span></li>
+                <li><strong>E-mail:</strong> <span id="email"></span></li>
+
+                <li><strong>생년월일:</strong> <span id="birthdate"></span></li>
+                <li><strong>가입일:</strong> <span id="createdAt"></span></li>
+                <li><strong>마지막 로그인:</strong> <span id="lastLoginDate"></span></li>
+
+            </ul>
+        </div>
+    </div>
+    <div class="box">
+        <h2>나의 강의 관리</h2>
+        <ul class="lesson" id="subject-list">
+
+        </ul>
+    </div>
+    <div>
+        <button id="user_out" onclick="delete_user()">회원탈퇴</button>
+    </div>
+</section>
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+                <li>CUSTOMER CENTER</li>
+                <br>
+                <li>1577-****</li>
+            </ul>
+        </div>
+
+        <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+                <li>대표자 : 김덕배</li>
+                <li>대표전화 : 010-****-****</li>
+                <li>담당자 : 곽두팔</li>
+                <li>담당자전화 : 010-****-***</li>
+                <li>사업자등록번호 : 231-**-*****</li>
+                <li>학원코드 : ****</li>
+                <li>등록번호 : 0000</li>
+                <li>전문학원지정번호 : ****호</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+<script>
+    $(document).ready(function() {
+      // 사용자 정보 가져오기
+      $.ajax({
+          url: '/api/user/me',
+          type: 'GET',
+          success: function(response) {
+              $('#username').text(response.userName);
+              $('#points').text(response.point + "P");
+              $('#realName').text(response.realName);
+              $('#gender').text(response.gender);
+              $('#email').text(response.email);
+              $('#birthdate').text(response.birthdate);
+              $('#createdAt').text(response.createdAt);
+              $('#lastLoginDate').text(response.lastLoginDate);
+          },
+          error: function(error) {
+              alert('사용자 정보를 가져오는 데 실패했습니다.');
+              console.error(error);
+          }
+      });
+
+
+      $.ajax({
+          url: '/api/enrollment/subject/completed',
+          type: 'GET',
+          success: function(data) {
+              let subjectList = $('#subject-list');
+              subjectList.empty();
+
+
+              data.forEach(function(enrollment) {
+                  let listItem = `
+                      <li>
+                          <span><a href="/video.html?subjectId=${enrollment.subjectId}">과목명: ${enrollment.title}</a></span>
+                          <span>구매 날짜: [${enrollment.purchaseTime}]</span>
+                          <span>Price: ${enrollment.price}</span>
+                          <span>수강상태: ${enrollment.completionStatus}</span>
+                      </li>
+                  `;
+                  subjectList.append(listItem);
+              });
+          },
+          error: function(xhr, status, error) {
+              console.error("수강 과목 정보 오류:", error);
+          }
+      });
+  });
+
+  // 회원 탈퇴 기능
+  function delete_user() {
+    console.log("버튼 클릭");
+
+
+    const user = JSON.parse(sessionStorage.getItem("user"));
+
+    if (user) {
+        // 탈퇴 확인을 위한 confirm 메시지
+        const confirmation = confirm("정말 회원을 탈퇴하시겠습니까?");
+
+        if (confirmation) {
+            // 사용자가 "확인"을 눌렀을 때 실행되는 부분
+            $.ajax({
+                url: '/api/user/delete',
+                type: 'DELETE',
+                contentType: 'application/json; charset=utf-8',
+                data: JSON.stringify({
+                    userName: user.userName
+                }),
+                success: function(response) {
+                    // 요청 성공 시 처리
+                    console.log(response);
+                    sessionStorage.removeItem("user");
+                    alert('회원 탈퇴가 완료되었습니다.');
+                    window.location.href = '/index.html';
+                },
+                error: function(xhr, status, error) {
+
+                    alert('회원 탈퇴에 실패하였습니다.');
+                    console.error(error);
+                }
+            });
+        } else {
+
+            console.log("회원 탈퇴 취소");
+        }
+    } else {
+        alert('로그인된 사용자 정보가 없습니다.');
+    }
+}
+</script>
+</body>
+</html>

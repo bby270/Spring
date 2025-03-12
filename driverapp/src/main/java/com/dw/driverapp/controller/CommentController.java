@@ -26,7 +26,7 @@ public class CommentController {
     @Autowired
     BoardService boardService;
 
-    // 유저 -> 게시판에 달린 모든 유저 답글 조회
+    // 유저 -> 로그인한 회원이 게시판에 달린 모든 유저 답글 조회
     @GetMapping("/comment/all")
     public ResponseEntity<List<CommentDTO>> getAllComment(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -36,7 +36,7 @@ public class CommentController {
         return new ResponseEntity<>(commentService.getAllComment(), HttpStatus.OK);
     }
 
-    // 유저 -> 게시판에 달린 특정 유저 답글 조회
+    // 유저 -> 로그인한 회원이 게시판에 달린 특정 유저 답글 조회
     @GetMapping("/comment/username/{username}")
     public ResponseEntity<List<CommentDTO>> usernameFind(@PathVariable String username, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -46,7 +46,7 @@ public class CommentController {
         return new ResponseEntity<>(commentService.usernameFind(username), HttpStatus.OK);
     }
 
-    // 유저 -> 게시판에 달린 답글 board id로 조회
+    // 유저 -> 로그인한 회원이 게시판에 달린 답글 board id로 조회
     @GetMapping("/comment/board/{id}")
     public ResponseEntity<List<CommentDTO>> boardIdFind(@PathVariable Long id, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
@@ -61,7 +61,7 @@ public class CommentController {
     public ResponseEntity<CommentDTO> commentAdd(@RequestBody CommentDTO commentDTO, HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("username") == null) {
-            throw new UnauthorizedUserException("로그인한 사용자만 삭제가 가능합니다.");
+            throw new UnauthorizedUserException("로그인한 사용자만 등록이 가능합니다.");
         }
         String username = (String) session.getAttribute("username");
         return new ResponseEntity<>(commentService.commentAdd(commentDTO, username), HttpStatus.OK);
@@ -71,7 +71,7 @@ public class CommentController {
     // 유저- 로그인한 사용자의 답글을 삭제
     @DeleteMapping("/comment/delete/{id}")
     public ResponseEntity<String> deleteComment(@PathVariable Long id,
-                                                    HttpServletRequest request) {
+                                                HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session == null || session.getAttribute("username") == null) {
             throw new UnauthorizedUserException("로그인한 사용자만 삭제가 가능합니다.");

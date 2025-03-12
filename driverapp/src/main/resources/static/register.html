@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/register.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/logout.js"></script>
+    <script src="/js/admin.js"></script>
+
+</head>
+
+<body>
+<header>
+    <img src="/img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href='#' onclick="move()" >MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+
+<section>
+    <h1>회원가입</h1>
+    <form id="signup-form">
+        <div class="box">
+            아이디: <input class="input-box" type="text" name="username" placeholder="아이디 입력해주세요."><br><br>
+            패스워드:<input class="input-box" type="password" name="password" placeholder="패스워드 입력해주세요."><br><br>
+            이메일: <input class="input-box" type="email" name="email" placeholder="이메일 입력해주세요."><br><br>
+            이름: <input class="input-box" type="text" name="realname" placeholder="이름입력해주세요."><br><br>
+            성별:
+            남: <input type="radio" name="gender" value="남">
+            여: <input type="radio" name="gender" value="여"><br><br>
+
+            생년월일:
+            <input type="date" name="birth"><br><br>
+            <button type="submit" onclick="register(event)">회원가입완료</button>
+        </div>
+    </form>
+</section>
+
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+                <li>CUSTOMER CENTER</li>
+                <br>
+                <li>1577-****</li>
+            </ul>
+        </div>
+
+        <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+                <li>대표자 : 김덕배</li>
+                <li>대표전화 : 010-****-****</li>
+                <li>담당자 : 곽두팔</li>
+                <li>담당자전화 : 010-****-***</li>
+                <li>사업자등록번호 : 231-**-*****</li>
+                <li>학원코드 : ****</li>
+                <li>등록번호 : 0000</li>
+                <li>전문학원지정번호 : ****호</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function register(event) {
+        event.preventDefault(); // 폼 제출 방지
+        console.log("버튼클릭");
+
+        let input_id = document.querySelector("input[name='username']");
+        let input_pwd = document.querySelector("input[name='password']");
+        let input_email = document.querySelector("input[name='email']");
+        let input_realname = document.querySelector("input[name='realname']");
+        let input_gender = document.querySelector("input[name='gender']:checked")?.value;
+        let input_birth = document.querySelector("input[name='birth']").value;
+
+        if (!input_id.value) {
+            alert('아이디를 입력해주세요.');
+            input_id.focus();
+            return;
+        }
+        if (!input_pwd.value) {
+            alert('패스워드를 입력해주세요.');
+            input_pwd.focus();
+            return;
+        }
+        if (!input_email.value) {
+            alert('E-mail 입력해주세요.');
+            input_email.focus();
+            return;
+        }
+        if (!input_realname.value) {
+            alert('성명을 입력해주세요.');
+            input_realname.focus();
+            return;
+        }
+        if (!input_gender) {
+            alert('성별을 선택해주세요.');
+            return;
+        }
+        if (!input_birth) {
+            alert('생년월일을 입력해주세요.');
+            return;
+        }
+
+        console.log(input_id.value + " " + input_pwd.value + " " + input_email.value + " " + input_realname.value + " " + input_gender + " " + input_birth);
+
+        const data = {
+            "userName": input_id.value,
+            "password": input_pwd.value,
+            "email": input_email.value,
+            "realName": input_realname.value,
+            "birthdate": input_birth,
+            "gender": input_gender
+        };
+
+        $.ajax({
+            url: '/api/user/register',
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json; charset=utf-8',
+            success: function (response) {
+                console.log("회원가입 성공:", response);
+                sessionStorage.setItem("user", JSON.stringify(data));
+                alert("회원가입이 완료되었습니다.");
+                window.location.href = '/login.html';
+            },
+            error: function (xhr, status, error) {
+                console.error("회원가입 실패:", error);
+                alert("회원가입 중 오류가 발생했습니다. 다시 시도해 주세요.");
+            }
+        });
+    }
+</script>
+
+</body>
+</html>

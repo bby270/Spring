@@ -1,0 +1,83 @@
+@charset 'utf-8';
+
+section {
+    width: 100%;
+    padding: 300px 0px;
+}
+
+section .inner {
+    width: 1180px;
+    margin: 0px auto;
+    padding-bottom: 40px;
+}
+
+section .inner .box1,
+section .inner .box2,
+section .inner .box3 {
+    padding-bottom: 50px;
+    overflow: hidden;
+}
+
+section .inner .box1 h1,
+section .inner .box2 h1,
+section .inner .box3 h1 {
+    color: #1f1f1f;
+    text-align: center;
+    padding-bottom: 20px;
+}
+
+section .inner .box1 table{
+    width:1050px;
+    margin: 0px auto;
+    border-collapse: collapse;
+    border: 2px solid #1f1f1f;
+    background-color: rgb(218, 218, 218);
+    max-height: 400px;
+    overflow-y: scroll;
+    display: block;
+
+}
+section .inner .box2 table{
+    width:420px;
+    margin: 0px auto;
+    border-collapse: collapse;
+    border: 2px solid #1f1f1f;
+    background-color: rgb(218, 218, 218);
+    max-height: 300px;
+    overflow-y: scroll;
+    display: block;
+}
+
+section .inner .box3 table {
+    width:600px;
+    margin: 0px auto;
+    border-collapse: collapse;
+    border: 2px solid #1f1f1f;
+    background-color: rgb(218, 218, 218);
+    max-height: 400px; /* 테이블 높이 제한 */
+    overflow-y: scroll; /* 수직 스크롤 추가 */
+    display: block; /* 블록으로 설정하여 overflow가 작동하게 함 */
+}
+
+section .inner .box1 table th,
+section .inner .box2 table th,
+section .inner .box3 table th {
+    color: #1f1f1f;
+    padding: 15px;
+    background-color: rgb(175, 175, 170);
+    text-align: center;
+}
+
+section .inner .box1 table td,
+section .inner .box2 table td,
+section .inner .box3 table td {
+    color: #222225;
+    text-align: center;
+    padding: 12px;
+    font: bold 14px/1 "arial";
+}
+
+section .inner .box3 .label {
+    text-align: center;
+    padding-bottom: 10px;
+}

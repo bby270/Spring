@@ -9,26 +9,29 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @ToString
 @Entity
 @Table(name="사용자")
 public class User {
     @Id
-    @Column(name="user_name")
+    @Column(name="user_name",nullable = false, unique = true)
     private String userName;
     @Column(name="password", nullable = false)
-    @Setter
     private String password;
     @Column(name="email", nullable = false, unique = true)
     private String email;
     @Column(name = "real_name", nullable = false)
     private String realName;
-    @Column(name="birthdate",nullable = false, unique = true)
+    @Column(name="birthdate",nullable = false)
     private LocalDate birthdate;
+    @Column(name="gender")
+    private String gender;
     @ManyToOne
     @JoinColumn(name = "user_authority")
     private Authority authority;
@@ -36,17 +39,8 @@ public class User {
     private LocalDate createdAt;
     @Column(name="point")
     private int point;
-
-
-    public void setemail(String email) {
-        this.email = email;
-    }
-    public void setPoint(int point) {
-        this.point = point;
-    }
-    public void setRealName(String realName) {
-        this.realName = realName;
-    }
+    @Column(name="last_login_date")
+    private LocalDate lastLoginDate;
 
 
     public UserDTO toDTO(){
@@ -56,15 +50,12 @@ public class User {
                 this.email,
                 this.realName,
                 this.birthdate,
+                this.gender,
                 authority.getAuthorityName(),
-                this.point
+                this.point,
+                this.lastLoginDate
 
         );
-
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
     }
     public UserPointDTO todto(){
         return new UserPointDTO(

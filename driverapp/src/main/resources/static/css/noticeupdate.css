@@ -1,0 +1,66 @@
+@charset 'utf-8';
+/* noticeRegister section */
+
+section {
+    width: 100%;
+    padding:300px 0px;
+}
+
+section .inner3 {
+    width: 1180px;
+    height: 900px;
+    margin: 0px auto;
+    position: relative;
+    padding-top: 100px; /* h1과 겹치지 않게 충분한 여백을 추가 */
+}
+
+section .inner3 h1 {
+    padding-bottom: 10px;
+    position: absolute;
+    border-bottom: 1px solid #1f1f1f;
+    font-size: 30px;
+    top: 30px; /* 상단 여백 조정 */
+    color: #222225;
+}
+
+section .inner3 .content {
+    width: 100%;
+    padding: 30px;
+    background-color: #f9f9f9;
+    margin-top: 50px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+section .inner3 .content label {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #333;
+    display: block;
+}
+
+section .inner3 .content input,
+section .inner3 .content textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+section .inner3 .content button {
+    width: 100%;
+    padding: 12px;
+    background-color: #333;
+    color: white;
+    font-size: 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+section .inner3 .content button:hover {
+    background-color: #555;
+}
+

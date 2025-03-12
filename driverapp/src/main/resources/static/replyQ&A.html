@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DW 자동차 운전면허학원</title>
+    <link rel="stylesheet" href="css/reply.css">
+    <link rel="stylesheet" href="css/style.css">
+    <script src="js/logout.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="js/particularQNA.js"></script>
+</head>
+<body>
+<header>
+    <img src="img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="usermypage.html">MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+<figure>
+    <div class="question-details">
+        <h1>Q&A 상세 보기</h1>
+
+        <!-- 질문 제목과 날짜 -->
+        <ul class="title">
+            <li id="question-title"></li>
+            <li id="question-date"></li>
+        </ul>
+
+        <!-- 질문 내용 -->
+        <div class="subject">
+            <p id="question-content"></p>
+        </div>
+
+        <!-- 작성자 정보 -->
+        <div class="name">
+            <span>작성자 :</span>
+            <p id="question-author"></p>
+        </div>
+
+        <!-- 삭제 버튼 -->
+        <div class="gather">
+            <button type="button" id="deleteBtn" style="display:none;">삭제</button> <!-- 삭제 버튼 initially hidden -->
+        </div>
+
+
+        <div class="save">
+            <!-- 답글 등록 -->
+            <form action="#" method="post">
+                <label for="content">답글 내용</label>
+                <textarea name="content" id="content" placeholder="내용을 입력하세요." rows="5" required></textarea>
+                <button type="button" onclick="submit_go();">저장</button>
+            </form>
+
+            <!-- 답글 목록 -->
+            <div class="reply">
+                <span>답글</span>
+            </div>
+
+            <ul class="look">
+                <li class="number">번호</li>
+                <li class="comment">내용</li>
+                <li class="author">작성자</li>
+            </ul>
+            <div class="list">
+                <ul id="reply-list">
+                    <!-- 답글이 동적으로 채워집니다. -->
+                </ul>
+            </div>
+        </div>
+    </div>
+</figure>
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+                <li>CUSTOMER CENTER</li><br>
+                <li>1577-****</li>
+            </ul>
+        </div>
+
+        <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+                <li>대표자 : 김덕배</li>
+                <li>대표전화 : 010-****-****</li>
+                <li>담당자 : 곽두팔</li>
+                <li>담당자전화 : 010-****-***</li>
+                <li>사업자등록번호 : 231-**-*****</li>
+                <li>학원코드 : **** </li>
+                <li>등록번호 : 0000 </li>
+                <li>전문학원지정번호 : ****호</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+<script>
+    $(document).ready(function () {
+      // 게시글 정보를 서버에서 가져옵니다.
+      const questionId = getQuestionId();  // URL에서 게시글 ID 가져오기
+      $.ajax({
+        url: `/api/board/${questionId}`,  // 게시글 상세 정보를 가져오는 API
+        type: 'GET',
+        success: function (data) {
+          // 게시글 정보가 잘 들어오면, HTML 요소에 데이터 삽입
+          $('#question-title').text(data.title);
+          $('#question-date').text(data.date);
+          $('#question-content').text(data.content);
+          $('#question-author').text(data.author);  // 게시글 작성자 설정
+
+          // 삭제 버튼 표시 여부 확인
+          checkDeleteButtonVisibility(data.author);
+        },
+        error: function (error) {
+          console.error("게시글 정보를 불러오는 데 실패했습니다:", error);
+          alert("게시글 정보를 불러오는 데 실패했습니다.");
+        }
+      });
+
+      // 삭제 버튼 표시 여부 확인
+      function checkDeleteButtonVisibility(questionAuthor) {
+        const user = sessionStorage.getItem("user");  // 로그인한 사용자 정보 가져오기
+
+        // 로그인하지 않은 경우 삭제 버튼 숨김
+        if (!user) {
+          $("#deleteBtn").hide();
+          return;
+        }
+
+        const userObj = JSON.parse(user);  // 로그인한 사용자 정보
+        console.log("로그인한 사용자:", userObj.username);  // 디버깅용 출력
+        console.log("게시글 작성자:", questionAuthor);  // 디버깅용 출력
+
+        // 관리자 권한을 가진 경우
+        if (userObj.authority === "ADMIN") {
+          $("#deleteBtn").show();
+        }
+        // 게시글 작성자와 로그인한 사용자가 일치하면 삭제 버튼 표시
+        else if (userObj.username === questionAuthor) {
+          $("#deleteBtn").show();
+        } else {
+          $("#deleteBtn").hide();
+        }
+      }
+
+      // 게시글 ID를 URL에서 가져오는 함수 예시
+      function getQuestionId() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('id');  // URL에서 'id' 파라미터 값 가져오기
+      }
+    });
+</script>
+
+
+</body>
+</html>

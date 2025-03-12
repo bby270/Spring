@@ -1,0 +1,235 @@
+/* figure */
+figure {
+     width: 100%;
+     max-width: 1180px;
+     padding:300px 0px;
+     margin-left: auto;
+     margin-right: auto;
+}
+figure .board {
+    width: 100%;
+    position: relative;
+}
+
+figure .board h1 {
+    width: 190px;
+    border-bottom: 2px solid #000;
+    text-align: center;
+    float: left;
+    margin-left: 25px
+}
+
+figure .board .search {
+    position: absolute;
+    right: 10px;
+    padding-right: 25px;
+    
+}
+figure .board .search form{
+    font: bolder 18px/1 "arial";
+    color: #000;
+}
+
+figure .board .search input{
+    padding: 6px 13px;
+    border-radius: 8px;
+}
+
+figure .board .search button{
+    width: 50px;
+    margin-left: 5px;
+    padding: 7.5px;
+    font-size: 13px;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    float: right;
+}
+
+figure .board .search button:hover{
+    background-color: #999;
+}
+
+figure .board .title {
+    width: 1000px;
+    align-items: center;
+    padding: 35px 30px 25px 30px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000;
+    color: #000;
+    font: bold 16px/1 "arial";
+    font-style: #111;
+    margin: 0 auto;
+}
+
+figure .board .title .next {
+    display: inline-block;
+    text-align: center;
+    width: 15%;
+}
+
+figure .board .title .title-text {
+    display: inline-block;
+    text-align: center;
+    width: 70%;
+}
+
+figure .board .title .author {
+    display: inline-block;
+    text-align: center;
+    width: 15%;
+}
+
+
+figure .board .question {
+    width: 1000px;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000;
+    flex-direction: column;
+    color: #000;
+    font: bold 16px/1 "arial";
+    font-style: #111;
+    margin: 0 auto;
+}
+
+figure .board .question li a {
+    width: 1000px;
+    padding: 20px 35px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000;
+    color: #000;
+    font: bold 16px/1 "arial";
+    font-style: #111;
+}
+
+figure .board .question .next {
+    display: inline-block;
+    text-align: center;
+    width: 15%;
+}
+
+figure .board .question .title-text {
+    display: inline-block;
+    text-align: center;
+    width: 70%;
+}
+
+figure .board .question .author {
+    display: inline-block;
+    text-align: center;
+    width: 15%;
+}
+
+figure .board .question li .answer {
+    border: 1px solid #ccc;
+    background-color: #f9f9f9;
+    width: 100%;
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: width 0.5s ease, height 0.5s ease, opacity 0.3s ease;
+    position: relative;
+}
+figure .board .question li .answer ul{
+    margin: 10px;
+}
+
+figure .board .question li .answer .co1 {
+    padding: 20px 130px;
+    text-align: left;
+    font: bold 19px/1 "arial";
+    color: #454545;
+    cursor: pointer;
+}
+
+figure .board .question li .answer .co2 {
+    text-align: left;
+    padding: 5px 130px;
+    font: bold 14px/1 "arial";
+    color: #454545;;
+    cursor: pointer;
+}
+
+figure .board .question li .answer ul button {
+    padding: 6px;
+    width: 50px;
+    text-align: center;
+    margin-left: 860px;
+    border: none;
+    background-color: #333;
+    color: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    z-index: 1;
+}
+
+figure .board .question li .answer button:hover {
+    background-color: #999;
+}
+
+figure .post button {
+    position: relative;;
+    margin-top: 40px;
+    margin-right: 25px;
+    float: right;
+
+    width: 60px;
+    height: 40px;
+    border: none;
+    text-align: center;
+
+    background-color: #333;
+    color: #fff;
+
+    border-radius: 10px 10px 10px 10px;
+    cursor: pointer;
+
+
+}
+figure .post button:hover{
+    background-color: #999;
+}
+
+figure .board .number{
+    width: 100%;
+    align-self: center;
+    padding-top: 100px;
+    font-size: bold 15px/1 "arial";
+    text-align: center;
+}
+figure .board .number .num{
+    width: 40px;
+    padding: 6px;
+    font-size: 13px;
+    background-color: #eee;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+figure .board .number .num:hover{
+    background-color: #999;
+}
+
+figure .board .number button {
+    width: 40px;
+    padding: 6px;
+    font-size: 13px;
+    background-color: #ddd;
+    color: #333;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+figure .board .number button:hover{
+    background-color: #888;
+}

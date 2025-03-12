@@ -1,0 +1,65 @@
+@charset 'utf-8';
+section{
+    width: 100%;
+    padding:300px 0px;
+}
+section .inner {
+    width: 1180px;
+    height: 1000px;
+    margin: 0px auto;
+    position: relative;
+}
+section .inner .hi {
+    color:#222225;
+    width: 150px;
+    padding-left:10px;
+}
+section .inner .img{
+    width: 188px;
+}
+section .inner .img img{
+    margin:20px 0px;
+    border-radius: 4px;
+}
+section .inner .text h2{
+    color:#444447;
+    width: 992px;
+    position: absolute;
+    top: 90px;
+    left: 200px;
+}
+section .inner .text p {
+    color: #606060;
+    width: 992px;
+    position: absolute;
+    top: 150px;
+    left: 200px;
+}
+
+section .inner .text #name{
+    font: bold 18px/1 "arial";
+    width: 100px;
+    border-bottom: 1.5px solid #1f1f1f;
+    color: #222225;
+    position: absolute;
+    top: 300px;
+    left: 1000px;
+}
+section .inner h1{
+    color:#222225;
+    text-align: center;
+    padding: 40px 0px 20px 0px;
+}
+section .inner .img2{
+    position: relative;
+}
+
+section .inner .img2 img{
+    width: 1000px;
+    border: 1.5px solid #333;
+    border-radius: 5px;
+    position:absolute;
+    left: 90px;
+    
+
+}

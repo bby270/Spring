@@ -1,0 +1,258 @@
+/* figure */
+figure {
+    width: 100%;
+    max-width: 1180px;
+    padding:300px 0 ;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+figure .question-details {
+    width: 100%;
+    position: relative;
+}
+
+figure .question-details h1 {
+    width: 250px;
+    border-bottom: 2px solid #000;
+    text-align: center;
+    float: left;
+    margin-left: 25px;
+
+}
+
+figure .question-details .title {
+    width: 100%;
+    max-width: 1000px;
+    align-items: center;
+    padding: 25px 50px 0px 50px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000;
+    color: #000;
+    font: bold 16px/1 "arial";
+    font-style: #111;
+    margin: 0 90px 0 90px
+}
+
+figure .question-details .title li {
+    list-style-type: none;
+}
+
+figure .question-details .title li#question-title {
+    font: bold 25px/2 "Arial";
+    text-align: left;
+}
+
+figure .question-details .title li#question-date {
+    font: bold 20px/1.5 "Arial";
+    text-align: right;
+    padding-top: 20px;
+}
+figure .subject {
+    width: 880px;
+    padding-top: 10px;
+    margin-left: 140px;
+    margin-right: 140px;
+    font-size: 20px;
+    color: #606060;
+}
+
+figure .name {
+    width: 100%;
+    max-width: 920px;
+    padding-top: 130px;
+    margin: 0 130px 0 130px;
+    text-align: right;
+    color: #444447;
+}
+figure .name span {
+    font: bold 15px/1.5 "arial";
+}
+figure .name p:last-child {
+    float: right;
+}
+figure .question-details .gather {
+    width: 100%;
+    max-width: 920px;
+    height: 40px;
+    margin: 20px 130px 0 130px;
+}
+
+figure .gather button{
+        width: 60px;
+        height: 30px;
+        font-size: 1.1rem;
+        background-color: #333;
+        color: #fff;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+        float: right;
+     }
+    
+figure .gather button:hover {
+    background-color: #999;
+}
+
+figure .save form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 100%;
+    max-width: 980px;
+    margin: 0 100px 0 100px;
+    margin-top: 10px;
+   
+}
+
+figure .save label {
+    display: block;
+    font-size: 1.1rem;
+    margin-bottom: 8px;
+    color: #4A4A4A;
+    font: bold 16px/1 "arial";
+}
+
+figure .save textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 4px;
+    font-size: 1rem;
+    background-color: #f9f9f9;
+    transition: all 0.3s ease;
+    resize: vertical;
+}
+
+figure .save textarea:focus {
+    border-color: #4A4A4A;
+    background-color: #fff;
+    outline: none;
+}
+
+figure .save button {
+    width: 100px;
+    padding: 7px;
+    font-size: 1.1rem;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    float: right;
+}
+
+figure .save button:hover {
+    background-color: #999;
+}
+figure .reply {
+    width: 200px;
+    margin-top: 60px;
+    padding-left: 87px;
+    font: bold 25px/1 "arial";
+}
+
+figure .look {
+    width: 100%;
+    max-width: 1000px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #1f1f1f;
+    margin-left: 90px;
+    margin-right: 90px;
+    margin-top: 15px;
+}
+
+figure .look li {
+    font: bold 17px/1 "arial";
+    color: #444447;
+}
+figure .look .number{
+    display: inline-block;
+    text-align: center;
+    width: 15%;
+    
+}
+figure .look .comment{
+    display: inline-block;
+    text-align: center;
+    width: 70%;
+}
+figure .look .author{
+    display: inline-block;
+    text-align: center;
+    width: 15%;
+}
+
+
+figure .list {
+    width: 100%;
+    max-width: 1000px;
+    padding-bottom: 10px;
+
+    margin-left: 90px;
+    margin-right: 90px;
+}
+
+figure .list ul#reply-list li {
+    width: 100%;
+    max-width: 1000px;
+    align-items: center;
+    color: #444447;
+    display: inline-block;
+    align-items: center;
+    display: flex;
+    justify-content: space-between;
+    font: bold 16px/1 "arial";
+    border-bottom: 1px solid #1f1f1f;
+    padding-top: 10px;
+    padding-bottom: 10px;
+   
+}
+
+figure .list ul#reply-list li .number {
+    display: inline-block;
+    text-align: center;
+    width: 15%;
+}
+
+figure .list ul#reply-list li .comment {
+    display: inline-block;
+    text-align: center;
+    width: 70%;
+}
+
+figure .list ul#reply-list li.user {
+    display: inline-block;
+    text-align: center;
+    width: 10%;
+}
+
+figure .list button  {
+    width: 50px;
+    height: 25px;
+    text-align: center;
+    margin-left: 20px; 
+    background-color: #333;
+    font: bold 13px/1 "arial";
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+
+    text-align: center;
+    width: 5%;
+
+}
+
+figure .list button:hover{
+    background-color: #999;
+}

@@ -13,5 +13,4 @@ import lombok.ToString;
 public class UserPointDTO {
     private String username;
     private int point;
-
 }

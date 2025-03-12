@@ -9,15 +9,15 @@ VALUES
     ('긴급 휴강 안내', '강사님의 사정으로 인해 2025.01.01은 휴강으로 조정 되었습니다.', NOW()),
     ('새해맞이 이벤트 안내', '새해를 맞아 학업에 지친 수강생님들을 위해 조식 떡국 제공 이벤트를 진행 합니다.',NOW());
 -- 사용자
-INSERT INTO 사용자 (user_name, password, email, real_name, birthdate, user_authority, created_at, point)
+INSERT INTO 사용자 (user_name, password, email, real_name, birthdate,gender, user_authority, created_at, point)
 VALUES
-    ('admin', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm','admin1234@gmail.com','관리자','1999-01-01','ADMIN',NOW(),500000),
-    ('pengsoo', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm', 'pengsoo@email.com', '백병열' , '1999-09-09', 'USER', NOW(), 50000),
-    ('totoro', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm', 'totoro@email.com', '강준우',  '1999-05-24', 'USER', NOW(), 50000),
-    ('fourbie', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm', 'fourbie@email.com', '정길수', '1999-06-06', 'USER', NOW(), 50000),
-    ('pororo', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm', 'pororo@email.com', '김성우', '1999-06-09', 'USER', NOW(), 50000),
-    ('panda', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm', 'panda@email.com', '정강철', '1994-11-11', 'INSTRUCTOR', NOW(), 50000),
-    ('eddie', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm', 'eddie@email.com', '남재우', '1995-09-21', 'INSTRUCTOR', NOW(), 50000);
+    ('admin', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm','admin1234@gmail.com','관리자','1999-01-01','남','ADMIN',NOW(),500000),
+    ('pengsoo', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm', 'pengsoo@email.com', '백병열' , '1999-09-09','남', 'USER', NOW(), 50000),
+    ('totoro', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm', 'totoro@email.com', '강준우',  '1999-05-24','남', 'USER', NOW(), 50000),
+    ('fourbie', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm', 'fourbie@email.com', '정길수', '1999-06-06','남', 'USER', NOW(), 50000),
+    ('pororo', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm', 'pororo@email.com', '김성우', '1999-06-09','남', 'USER', NOW(), 50000),
+    ('panda', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm', 'panda@email.com', '정강철', '1994-11-11','남', 'INSTRUCTOR', NOW(), 50000),
+    ('eddie', '$2b$12$A0kgVpplgbH3ZZ1E89441eacUXljTTt7nP8I3RdLtW0P6/CXdEnCm', 'eddie@email.com', '남재우', '1995-09-21','남', 'INSTRUCTOR', NOW(), 50000);
 
 --과목
 INSERT INTO 과목 (title, explanation, price, instructor_name)
@@ -68,25 +68,26 @@ VALUES
 ('경형 자동차 (일반적으로 660cc 이하)');
 
 -- 이미지
-INSERT INTO 이미지 (image_url)
+INSERT INTO 이미지 (image_url,subject_id,file_name)
 VALUES
-('car photo_url'),
-('motor cycle photo_url'),
-('bus photo_url');
+('img1.1.GIF',1,'oneNormalExplain'),
+('image.png',2,'twoNormalExplain'),
+('bus0.jpg',3,'oneBigExplain'),
+('img2.1.GIF',4,'twoSmallExplain');
 
 -- 비디오
-INSERT INTO 비디오 (video_url,subject_id)
+INSERT INTO 비디오 (video_url,subject_id,img_url)
 VALUES
-('Study video_url(1종보통)',1),
-('Study video_url(2종보통)',2),
-('Study video_url(1종대형)',3),
-('Study video_url(2종소형)',4);
+('/mp4/1종자동수동.mp4',1,'/img/img1.1.GIF'),
+('/mp4/2종 보통.mp4',2,'/img/image.png'),
+('/mp4/1종 대형.mp4',3,'/img/bus0.jpg'),
+('/mp4/2종 소형.mp4',4,'/img/img2.1.GIF');
 
 --수강신청
-INSERT INTO 수강신청 (user_name, subject_id, purchase_time)
-VALUES ('fourbie', 1 ,'2025-01-02 10:00:00'),
-       ('pororo', 2 ,'2025-01-02 11:00:00'),
-       ('totoro',3,'2025-01-03 11:00:00');
+INSERT INTO 수강신청 (user_name, subject_id, purchase_time, completed)
+VALUES ('fourbie', 1 ,'2025-01-02 10:00:00',0),
+       ('pororo', 2 ,'2025-01-02 11:00:00',0),
+       ('totoro',3,'2025-01-03 11:00:00',1);
 
 -- 장바구니
 INSERT INTO 장바구니 (subject_id,user_name)
@@ -111,8 +112,6 @@ VALUES
 (1, 10),
 (1, 11),
 (1, 12),
-(1, 13),
-(1, 14),
 (1, 15),
 (1, 16),
 (1, 17),
@@ -132,8 +131,6 @@ VALUES
 (2, 10),
 (2, 11),
 (2, 12),
-(2, 13),
-(2, 14),
 (2, 19),
 (2, 20),
 (2, 21),
@@ -146,12 +143,17 @@ VALUES
 (3, 16),
 (3, 17),
 (4, 22),
-(4, 13),
-(4, 14),
 (4, 18),
 (4, 21);
 
 -- 데이터 삭제 후 id를 1부터 다시 삽입하는 법
---DELETE FROM 자동차종류;
---ALTER TABLE 자동차종류 AUTO_INCREMENT = 1;
+--DELETE FROM 공지사항;
+--ALTER TABLE 공지사항 AUTO_INCREMENT = 1;
+
+
+ALTER TABLE 장바구니 DROP FOREIGN KEY FK143xiyeukn5pxyutgd5hdekjs;
+ALTER TABLE 장바구니 DROP INDEX UKko5l80niauxjt6seh7wtws999;
+
+ALTER TABLE 장바구니 DROP FOREIGN KEY FK19yn8cr9b97eobdv7fkojxcst;
+ALTER TABLE 장바구니 DROP INDEX UKmcfbxhp457ldnb04irg14pcjj;
 

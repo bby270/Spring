@@ -3,6 +3,7 @@ package com.dw.driverapp.model;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @NoArgsConstructor
@@ -22,5 +23,5 @@ public class Notice {
     @Column(name = "content", nullable = false, columnDefinition = "TEXT") // 65535 byte
     private String content;
     @Column(name="created_date", nullable = false)
-    private LocalDateTime createdDate = LocalDateTime.now();
+    private LocalDate createdDate = LocalDate.now();
 }

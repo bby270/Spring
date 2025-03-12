@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장바구니</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/cart.css">
+
+    <script src="/js/logout.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<header>
+    <img src="/img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="usermypage.html">MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+
+<section>
+    <div class="inner">
+        <div class="cart">
+            <h2>장바구니</h2>
+            <div class="cart-controls">
+                <input type="checkbox" id="select-all">
+                <label for="select-all">전체 선택</label>
+                <button id="delete-selected">선택 삭제</button>
+            </div>
+
+            <div class="cart-items">
+                <!-- 장바구니 항목이 여기 동적으로 추가됩니다. -->
+            </div>
+        </div>
+        <div class="cart-summary">
+            <p>총 금액: <span id="total-price">₩0</span></p>
+            <button id="purchase">구매하기</button>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+                <li>CUSTOMER CENTER</li>
+                <br>
+                <li>1577-****</li>
+            </ul>
+        </div>
+
+        <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+                <li>대표자 : 김덕배</li>
+                <li>대표전화 : 010-****-****</li>
+                <li>담당자 : 곽두팔</li>
+                <li>담당자전화 : 010-****-***</li>
+                <li>사업자등록번호 : 231-**-*****</li>
+                <li>학원코드 : ****</li>
+                <li>등록번호 : 0000</li>
+                <li>전문학원지정번호 : ****호</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+<script>
+    $(document).ready(function() {
+     // 페이지 로드 시 장바구니 항목을 가져옴
+     fetchCartItems();
+
+     // 전체 선택 체크박스 클릭 시 모든 체크박스 선택
+     $('#select-all').on('change', function() {
+         const isChecked = $(this).prop('checked');
+         $('.item-checkbox').prop('checked', isChecked);
+     });
+
+     // 선택 삭제 버튼 클릭 시 선택된 항목 삭제
+     $('#delete-selected').on('click', function() {
+         const selectedItems = $('.item-checkbox:checked').map(function() {
+             return $(this).closest('.cart-item').data('id'); // 선택된 항목들의 cartId를 가져옵니다.
+         }).get();
+
+         if (selectedItems.length === 0) {
+             alert('삭제할 항목을 선택해 주세요.');
+             return;
+         }
+
+         // DELETE 요청으로 선택된 항목들 삭제
+         $.ajax({
+             url: '/api/user/delete/cart-items', // 여러 항목 삭제 엔드포인트
+             method: 'DELETE',
+             contentType: 'application/json',
+             data: JSON.stringify(selectedItems), // 선택된 항목들의 cartId를 요청 본문에 전달
+             success: function(response) {
+                 alert('선택된 항목이 삭제되었습니다.');
+                 fetchCartItems(); // 장바구니 목록 다시 불러오기
+             },
+             error: function(xhr, status, error) {
+                 console.error('삭제 처리에 실패했습니다:', error);
+                 alert('삭제 처리에 실패했습니다.');
+             }
+         });
+     });
+
+     // 구매하기 버튼 클릭 시 선택된 항목 구매
+     $('#purchase').on('click', function() {
+         const selectedItems = $('.item-checkbox:checked').map(function() {
+             return $(this).closest('.cart-item').data('id'); // 선택된 항목들의 cartId를 가져옵니다.
+         }).get();
+
+         if (selectedItems.length === 0) {
+             alert('구매할 항목을 선택해 주세요.');
+             return;
+         }
+
+         $.ajax({
+             url: '/api/cart/enrollment', // 장바구니 항목 구매 API
+             method: 'POST',
+             data: JSON.stringify(selectedItems),
+             contentType: 'application/json',
+             success: function(response) {
+                 alert(response);
+                 fetchCartItems(); // 장바구니 목록 다시 불러오기
+             },
+             error: function(xhr, status, error) {
+                 console.error('포인트가 부족하여 구매할 수 없습니다.', error);
+                 alert('포인트가 부족하여 구매할 수 없습니다.');
+             }
+         });
+     });
+ });
+
+ // 장바구니 항목을 불러오는 함수
+ function fetchCartItems() {
+     $.ajax({
+         url: '/api/cart/login', // 장바구니 항목을 불러오는 API
+         method: 'GET',
+         success: function(response) {
+             if (response.length === 0) {
+                 alert('장바구니가 비어 있습니다.');
+                 updateCartUI([]); // 장바구니 UI를 비웁니다.
+             } else {
+                 updateCartUI(response); // 장바구니 항목을 업데이트
+             }
+         },
+         error: function(xhr, status, error) {
+             console.error('장바구니 목록을 가져오는 데 실패했습니다:', error);
+             alert('장바구니 목록을 불러오는 데 실패했습니다.');
+         }
+     });
+ }
+
+ // 장바구니 UI 업데이트 함수
+ function updateCartUI(cartItems) {
+     const cartContainer = $('.cart-items');
+     cartContainer.empty(); // 기존 항목들을 지웁니다.
+
+     if (cartItems.length === 0) {
+         cartContainer.append('<p>장바구니가 비어 있습니다.</p>'); // 장바구니가 비어 있을 때 메시지 표시
+         $('#total-price').text('₩0'); // 총 금액을 0으로 표시
+         return;
+     }
+
+     // 장바구니 항목들을 UI에 추가
+     cartItems.forEach(item => {
+         const cartItemHtml = `
+             <div class="cart-item" data-id="${item.id}" data-price="${item.price}" data-subjectName="${item.subjectName}">
+                 <input type="checkbox" class="item-checkbox">
+                 <div class="item-info">
+                     <h3>${item.subjectName}</h3>
+                     <p>₩${item.price.toLocaleString()}</p>
+                 </div>
+                 <button class="remove" onclick="removeFromCart(${item.id})">삭제</button>
+             </div>
+         `;
+         cartContainer.append(cartItemHtml); // 각 항목을 카트에 추가
+     });
+
+     updateTotalPrice(cartItems); // 총 금액을 업데이트합니다.
+ }
+
+ // 장바구니에서 항목을 삭제하는 함수 (직접 클릭한 항목 삭제)
+ function removeFromCart(itemId) {
+     $.ajax({
+         url: '/api/user/delete/cart-items', // 여러 항목 삭제 엔드포인트
+         method: 'DELETE',
+         contentType: 'application/json',
+         data: JSON.stringify([itemId]), // 하나의 항목만 삭제하므로, 배열로 묶어 전송
+         success: function(response) {
+             alert('항목이 삭제되었습니다.');
+             fetchCartItems(); // 삭제 후 장바구니 목록 다시 불러오기
+         },
+         error: function(xhr, status, error) {
+             console.error('항목 삭제에 실패했습니다:', xhr.responseText); // 서버에서의 응답 내용을 콘솔에 출력
+             alert('항목 삭제에 실패했습니다.');
+         }
+     });
+ }
+
+ // 총 금액을 계산하고 UI에 반영하는 함수
+ function updateTotalPrice(cartItems) {
+     const totalPrice = cartItems.reduce((sum, item) => sum + item.price, 0);
+     $('#total-price').text(`₩${totalPrice.toLocaleString()}`); // 총 금액을 표시
+ }
+
+</script>
+
+</body>
+</html>

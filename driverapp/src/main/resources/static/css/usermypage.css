@@ -1,0 +1,102 @@
+/* section */
+section {
+    width: 1180px;
+    margin: 0 auto;
+    padding-top: 290px;
+    padding-bottom: 200px;
+}
+
+section .title h1 {
+    font-size: 22px;
+    font-weight: bold;
+    color: #222225;
+    text-align: center;
+}
+
+ section .box {
+    background-color: #e5ebf7;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #b0c4de; 
+    margin-top: 20px;
+}
+
+section h2 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+section .info ul {
+    list-style: none;
+    padding: 0;
+}
+
+section .info li {
+    font-size: 14px;
+    color: #555;
+    margin: 5px 0;
+}
+
+section .point {
+    font-weight: bold;
+    color: #333;
+    float: right;
+}
+
+section .btn {
+    background-color: #bbb;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+}
+section .lesson li {
+    background-color: #dfe2e8;
+    padding: 10px;
+    border-radius: 6px;
+    border: 1px solid #a0aec0;
+    color: #555;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    display:flex;
+    justify-content: space-between;
+    position: relative;
+}
+
+section .lesson li span:first-child a {
+    color: #555;
+}
+
+section .lesson li span:nth-child(2){
+position:absolute;
+left:366.7px;
+
+}
+section .lesson li span:nth-child(3){
+position:absolute;
+left:736.48px;
+}
+
+section .lesson li span:last-child{
+position:absolute;
+left:1032.68px;
+}
+
+
+section  #user_out {
+padding:8px;
+margin-top:20px;
+color:#fff;
+background-color: #777;
+float:right;
+border: 1.5px solid #222225;
+border-radius:5px;
+}
+
+section  #user_out:hover {
+background-color: #888;
+}

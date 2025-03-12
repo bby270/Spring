@@ -1,0 +1,98 @@
+section {
+    width: 100%;
+     padding:280px 0px;
+
+}
+section .inner{
+    width: 1180px;
+    height: 350px;
+    margin: 0px auto;
+    position: relative;
+    
+}
+section .inner h3{
+    color: #444447;
+
+}
+section .inner button{
+    color: #444447;
+
+}
+section .inner label{
+    color: #444447;
+}
+
+section .inner p{
+    color: #1f1f1f;
+}
+section .inner span{
+    color: #1f1f1f;
+}
+ section .inner .cart {
+    background: #fff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: 360px;
+    border: 1px solid #1f1f1f;
+    margin: 0 auto;
+}
+
+section h2 {
+    color: #222225;
+    text-align: center;
+}
+section .cart-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+section .cart-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #fafafa;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 10px;
+}
+
+section .item-info {
+    flex: 1;
+}
+
+section .remove {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+section #delete-selected {
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+section #delete-selected:hover{
+background-color: #c65252;;
+}
+
+section .cart-summary {
+    position: relative;
+}
+ section .cart-summary p{
+    position: absolute;
+    left: 3px;
+    margin-left:410px;
+}
+section .cart-summary #purchase  {
+    position: absolute;
+    padding: 5px;
+    right: 410px;
+    
+}

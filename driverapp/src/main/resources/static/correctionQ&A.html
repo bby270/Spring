@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DW 자동차 운전면허학원</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/correction.css">
+    <script src="/js/logout.js"></script>
+    <script src="/js/admin.js"></script>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<header>
+    <img src="/img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href='#' onclick="move()" >MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+
+    <figure>
+        <div class="submit">
+            <h1>Q&A게시판</h1>
+        </div>
+        <form id="updateForm">
+            <label for="title">제목</label>
+            <input type="text" id="title" name="title" placeholder="제목을 입력하세요." required>
+            <label for="content">내용</label>
+            <textarea name="content" id="content" placeholder="내용을 입력하세요." rows="15" required></textarea>
+            <button type="submit">수정완료</button>
+        </form>
+    </figure>
+
+    <footer>
+        <div class="inner">
+          <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+              <li>CUSTOMER CENTER</li><br>
+              <li>1577-****</li>
+            </ul>
+          </div>
+    
+          <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+              <li>대표자 : 김덕배</li>
+              <li>대표전화 : 010-****-****</li>
+              <li>담당자 : 곽두팔</li>
+              <li>담당자전화 : 010-****-***</li>
+              <li>사업자등록번호 : 231-**-*****</li>
+              <li>학원코드 : **** </li>
+              <li>등록번호 : 0000 </li>
+              <li>전문학원지정번호 : ****호</li>
+            </ul>
+          </div>
+        </div>
+      </footer>
+<script>
+    // URL에서 게시글 ID를 가져오는 함수
+function getBoardIdFromUrl() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get('id');
+}
+
+// 게시글 상세 정보를 서버에서 불러오는 함수
+function fetchBoardDetails(boardId) {
+    $.ajax({
+        url: `/api/board/${boardId}`,  // 게시글 정보를 가져오는 API
+        type: 'GET',
+        success: function(data) {
+            // 서버에서 받아온 데이터를 제목과 내용 폼에 채워넣기
+            $('#title').val(data.title);
+            $('#content').val(data.content);
+        },
+        error: function(error) {
+            console.error("게시글을 불러오는 데 실패했습니다:", error);
+            alert("게시글을 불러오는 데 실패했습니다.");
+        }
+    });
+}
+
+// 페이지가 로드된 후 실행되는 함수
+$(document).ready(function() {
+    const boardId = getBoardIdFromUrl();  // URL에서 ID 가져오기
+    if (boardId) {
+        fetchBoardDetails(boardId);  // 게시글 상세 정보 불러오기
+    }
+
+    // 폼 제출 시 처리
+    $('#updateForm').submit(function(event) {
+        event.preventDefault();  // 폼 제출 기본 동작 방지
+        updateBoard();  // 게시글 수정 요청
+    });
+});
+
+// 게시글 수정 요청을 서버로 보내는 함수
+function updateBoard() {
+    let input_title = document.querySelector("input[name='title']");
+    let input_content = document.querySelector("textarea[name='content']");
+
+    const data = {
+        "title": input_title.value,
+        "content": input_content.value
+    };
+
+    const boardId = getBoardIdFromUrl();
+    // PUT 요청으로 수정된 내용 서버로 전송
+    $.ajax({
+        url: `/api/board/update/${boardId}`,  // 게시글 수정하는 API
+        type: 'PUT',
+        data: JSON.stringify(data),
+        contentType: 'application/json; charset=utf-8',
+        success: function(response) {
+            alert('수정이 완료되었습니다.');
+            window.location.href = `/replyQ&A.html?id=${boardId}`;
+        },
+        error: function(error) {
+            alert('본인 게시글만 수정이 가능합니다.');
+            console.error(error);
+        }
+    });
+}
+
+</script>
+</body>
+</html>

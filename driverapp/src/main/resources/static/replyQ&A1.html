@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DW 자동차 운전면허학원</title>
+    <link rel="stylesheet" href="/css/reply1.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="/js/logout.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/admin.js"></script>
+</head>
+<body>
+<header>
+    <img src="/img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href='#' onclick="move()" >MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+<figure>
+    <div class="submit">
+        <h1>Q&A게시판</h1>
+    </div>
+    <ul class="title">
+        <li>드리프트 가능한가요?</li>
+        <li>2025.01.25</li>
+    </ul>
+    <div class="subject">
+        <p>저는 운전 스킬을 많이 늘리고 싶습니다. 모든 종류의 차량을 가지고 해보고 싶습니다. <br>
+            이제 막 생일이 지나서 겁대가리가 없거든요.</p>
+    </div>
+    <div class="name">
+        <span>작성자 :</span>
+        <p>&nbsp;드라이버</p>
+    </div>
+
+    <div class="gather">
+        <button type="edit"><a href="correctionQ&A.html" style="color:#fff"> 수정</a></button>
+        <button type="delete">삭제</button>
+    </div>
+    <div class="save">
+        <form action="#" method="post">
+            <label for="content">수정 답글 등록</label>
+            <textarea name="content" id="content" placeholder="내용을 입력하세요." rows="5" required></textarea>
+            <button type="submit">수정</button>
+            <button type="submit">삭제</button>
+        </form>
+    </div>
+    <div class="reply">
+        <span>답글</span>
+    </div>
+
+    <ul class="look">
+        <li>번호</li>
+        <li>내용</li>
+        <li>작성자</li>
+    </ul>
+    <ul class="question">
+        <li>
+            <a href="#">
+                <span>01.</span>
+                <span>학원에서 드리프트를 왜 가르쳐줌?</span>
+                <span>정길수</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span>02.</span>
+                <span>드리프트 배우는거 재밌겠다!</span>
+                <span>김성우</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span>03.</span>
+                <span>나는 이미 할 줄 알지롱~</span>
+                <span>백병열</span>
+            </a>
+        </li>
+        <li>
+            <a href="#">
+                <span>04.</span>
+                <span>저도 배우고 싶습니다!!</span>
+                <span>강준우</span>
+            </a>
+        </li>
+    </ul>
+
+</figure>
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+                <li>CUSTOMER CENTER</li>
+                <br>
+                <li>1577-****</li>
+            </ul>
+        </div>
+
+        <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+                <li>대표자 : 김덕배</li>
+                <li>대표전화 : 010-****-****</li>
+                <li>담당자 : 곽두팔</li>
+                <li>담당자전화 : 010-****-***</li>
+                <li>사업자등록번호 : 231-**-*****</li>
+                <li>학원코드 : ****</li>
+                <li>등록번호 : 0000</li>
+                <li>전문학원지정번호 : ****호</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+</body>
+</html>

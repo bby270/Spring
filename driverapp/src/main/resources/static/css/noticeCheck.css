@@ -1,0 +1,94 @@
+@charset 'utf-8';
+
+/* noticeCheck section */
+section {
+    width: 100%;
+    padding:300px 0px;
+}
+
+section .inner2 {
+    width: 1180px;
+    height: 900px;
+    margin: 0px auto;
+    position: relative;
+
+}
+
+.inner2 h1 {
+    padding-bottom: 10px;
+    position: absolute;
+    border-bottom: 1.5px solid #1f1f1f;
+    font-size: 30px;
+    color: #222225;
+    
+}
+.check-list li{
+    width: 100%;
+    height: 100px;
+    padding: 150px 0px 60px 100px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000000;
+    
+}
+
+.check-list p {
+    font: bold 28px/1 "arial";
+    color: #444447;
+   margin: 0 auto;
+}
+.check-list span{
+    font: bold 16px/1 "arial";
+    color: #444447;
+    
+}
+.content p{
+   font: caption 20px/1 "arial";
+    color: #606060;
+    padding: 30px;
+}
+.content .writer{
+    
+    padding: 50px 20px;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    font: bold 18px/1 "arial";
+    color: #444447
+}
+.btn .delete-btn:hover {
+    background-color: #555;
+}
+
+.btn .delete-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #333;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    transition: background-color 0.3s;
+}
+
+.btn .update-btn:hover {
+    background-color: #555;
+}
+
+.btn .update-btn {
+    padding: 5px 10px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #333;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    position: absolute;
+    bottom: 20px;
+    right: 80px;
+}

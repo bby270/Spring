@@ -27,7 +27,7 @@ public class Subject {
             joinColumns = @JoinColumn(name = "subject_id"),
             inverseJoinColumns = @JoinColumn(name = "type_id"))
     private List<Type> typeList = new ArrayList<>();
-    @Column(name = "price")
+    @Column(name = "price", nullable = false)
     private double price;
     @ManyToOne
     @JoinColumn(name = "instructor_name")

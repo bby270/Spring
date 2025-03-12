@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>공지사항</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/noticeCheck.css">
+    <script src="/js/logout.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+<body>
+<header>
+    <img src="/img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href="usermypage.html">MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+<section>
+    <div class="inner2">
+        <h1>공지사항</h1>
+        <ul class="check-list" id="check-list">
+            <!-- 공지사항 내용이 동적으로 들어옵니다. -->
+        </ul>
+        <ul class="content">
+            <li>
+                <p id="notice-content"></p>
+                <span class="writer" id="notice-author"></span>
+            </li>
+        </ul>
+        <ul class="btn">
+            <button class="delete-btn" type="button" id="delete-btn">삭제</button>
+            <button class="update-btn" type="button" id="update-link" style="color:#fff">수정</button>
+        </ul>
+    </div>
+</section>
+
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+                <li>CUSTOMER CENTER</li>
+                <br>
+                <li>1577-****</li>
+            </ul>
+        </div>
+
+        <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+                <li>대표자 : 김덕배</li>
+                <li>대표전화 : 010-****-****</li>
+                <li>담당자 : 곽두팔</li>
+                <li>담당자전화 : 010-****-***</li>
+                <li>사업자등록번호 : 231-**-*****</li>
+                <li>학원코드 : ****</li>
+                <li>등록번호 : 0000</li>
+                <li>전문학원지정번호 : ****호</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+
+<script>
+    function getNoticeIdFromUrl() {
+        const urlParams = new URLSearchParams(window.location.search);
+        return urlParams.get('id');
+    }
+
+    function fetchNoticeDetails(noticeId) {
+        $.ajax({
+            url: `/api/notice/${noticeId}`,
+            type: 'GET',
+            success: function(data) {
+                $('#notice-content').text(data.content);
+                $('#notice-author').text('관리자');
+                $('#check-list').html(`
+                    <li>
+                        <p>${data.title}</p>
+                        <span>${data.createdDate}</span>
+                    </li>
+                `);
+            },
+            error: function(error) {
+                console.error("공지사항을 불러오는 데 실패했습니다:", error);
+                alert("공지사항을 불러오는 데 실패했습니다.");
+            }
+        });
+    }
+
+    function deleteNotice(noticeId) {
+        $.ajax({
+            url: `/api/admin/notice/delete/${noticeId}`,
+            type: 'DELETE',
+            success: function(response) {
+                alert('공지사항이 삭제되었습니다.');
+                window.location.href = '/notice.html';
+            },
+            error: function(error) {
+                alert('공지사항 삭제에 실패했습니다.');
+                console.error(error);
+            }
+        });
+    }
+
+function checkAdminRole() {
+    const user = sessionStorage.getItem("user");
+
+    if (!user) {
+        $(".delete-btn").hide();
+        $(".update-btn").hide();
+        return;
+    }
+
+    const userObj = JSON.parse(user);
+
+    if (userObj && userObj.authority === "ADMIN") {
+        $(".delete-btn").show();
+        $(".update-btn").show();
+    } else {
+        $(".delete-btn").hide();
+        $(".update-btn").hide();
+    }
+}
+
+    $(document).ready(function() {
+        const noticeId = getNoticeIdFromUrl();
+        if (noticeId) {
+            fetchNoticeDetails(noticeId);
+            checkAdminRole();  // 관리자 확인 함수 호출
+
+            $('#update-link').on('click', function() {
+                window.location.href = `/noticeupdate.html?id=${noticeId}`;
+            });
+
+            $('#delete-btn').on('click', function() {
+                const confirmDelete = confirm("정말로 이 공지사항을 삭제하시겠습니까?");
+                if (confirmDelete) {
+                    deleteNotice(noticeId);
+                }
+            });
+        }
+    });
+</script>
+
+
+</body>
+</html>

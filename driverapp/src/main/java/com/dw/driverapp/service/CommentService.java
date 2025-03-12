@@ -35,6 +35,7 @@ public class CommentService {
     // 유저 -> 게시판에 달린 특정 유저 답글 조회
     public List<CommentDTO> usernameFind(String username) {
         return commentRepository.findByUserUserName(username)
+                .filter(comments -> !comments.isEmpty())
                 .orElseThrow(() -> new ResourceNotFoundException("해당 유저의 댓글이 없습니다."))
                 .stream()
                 .map(Comment::toDTO)

@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/noticeRegister.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/js/logout.js"></script>
+    <script src="/js/admin.js"></script>
+
+    <title>공지사항</title>
+</head>
+<body>
+<header>
+    <img src="/img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href='#' onclick="move()" >MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+<section>
+    <div class="inner3">
+        <h1>공지사항</h1>
+        <div class="content">
+            <form action="#" method="post">
+                <label for="title">제목</label>
+                <input type="text" id="title" name="title" placeholder="제목을 입력하세요" required>
+                <!-- label -> for 속성을 사용하여 input과 textarea에 접근가능 -->
+                <label for="content">내용</label>
+                <textarea id="content" name="content" placeholder="내용을 입력하세요" rows="20" required></textarea>
+                <!-- rows=8 -> 8줄을 쓸 수 있게 보여줌,required -> 내용 입력을 안 하면 경고문이 뜸
+                 textarea -> 여러줄에 겹쳐 텍스트를 입력하게 해줌-->
+                <button type="button" onclick="submit_go();">저장</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+                <li>CUSTOMER CENTER</li>
+                <br>
+                <li>1577-****</li>
+            </ul>
+        </div>
+
+        <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+                <li>대표자 : 김덕배</li>
+                <li>대표전화 : 010-****-****</li>
+                <li>담당자 : 곽두팔</li>
+                <li>담당자전화 : 010-****-***</li>
+                <li>사업자등록번호 : 231-**-*****</li>
+                <li>학원코드 : ****</li>
+                <li>등록번호 : 0000</li>
+                <li>전문학원지정번호 : ****호</li>
+            </ul>
+        </div>
+    </div>
+
+
+</footer>
+<script>
+    function submit_go() {
+        console.log("버튼클릭");
+
+        // 제목과 내용을 가져오는 코드
+        let input_title = document.querySelector("input[name='title']");
+        let input_content = document.querySelector("textarea[name='content']");
+
+        if (!input_title.value) {
+            alert('제목을 입력해주세요.');
+            input_title.focus();
+            return;
+        }
+
+        if (!input_content.value) {
+            alert('내용을 입력해주세요.');
+            input_content.focus();
+            return;
+        }
+
+        console.log(input_title.value + " " + input_content.value);
+
+        // 여기서 실제 공지사항을 저장하는 AJAX 호출을 할 수 있습니다.
+        const data = {
+            "title": input_title.value,
+            "content": input_content.value,
+        };
+
+        $.ajax({
+            url: '/api/admin/notice/add',  // 공지사항 저장을 위한 URL
+            type: 'POST',
+            data: JSON.stringify(data),  // 데이터를 JSON 형식으로 보냄
+            contentType: 'application/json; charset=utf-8',
+            success: function(response) {
+                console.log(response);
+                alert('공지사항이 저장되었습니다.');
+                window.location.href = 'notice.html'; // 저장 후 공지사항 페이지로 이동
+            },
+            error: function(xhr, status, error) {
+                console.error(error);
+                alert('저장 중 오류가 발생했습니다.');
+            }
+        });
+    }
+</script>
+</body>
+</html>

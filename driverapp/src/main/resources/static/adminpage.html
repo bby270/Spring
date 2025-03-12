@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>admin page</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/adminpage.css">
+    <script src="/js/logout.js"></script>
+    <script src="/js/admin.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+</head>
+
+<body>
+<header>
+    <img src="/img/logo1.gif" alt="logo">
+    <div class="inner">
+        <h1><a href="index.html">DW 자동차 운전면허 학원</a></h1>
+        <ul class="util">
+            <li><a href="login.html" id="loginLink">로그인</a></li>
+            <li><a href="#" id="logoutLink" style="display: none;" onclick="logout();">로그아웃</a></li>
+            <li><a href="register.html">회원가입</a></li>
+            <li><a href="cart.html">장바구니</a></li>
+        </ul>
+        <ul class="menu">
+            <li><a href="index.html">HOME</a></li>
+            <li><a href='#' onclick="move()">MYPAGE</a></li>
+            <li><a href="QNA.html">Q&A</a></li>
+            <li><a href="notice.html">NOTICE</a></li>
+            <li><a href="introduction.html">INTRODUCTION</a></li>
+        </ul>
+    </div>
+</header>
+
+<section>
+    <div class="inner">
+        <div class="box1">
+            <h1>회원정보</h1>
+            <table border="1">
+
+                <tr>
+                    <th>NO.</th>
+                    <th>USER NAME</th>
+                    <th>이름</th>
+                    <th>Email</th>
+                    <th>생년월일</th>
+                    <th>POINT</th>
+                    <th>가입일</th>
+                    <th>마지막 로그인</th>
+                    <th>성별</th>
+                    <th>권한</th>
+                </tr>
+
+                <tbody id="tr-list"></tbody>
+
+            </table>
+        </div>
+
+        <div class="box2">
+            <h1>강의 상세정보</h1>
+
+            <table border="1">
+
+                <tr>
+                    <th>분류</th>
+                    <th>가격</th>
+                    <th>강의 인원</th>
+                    <th>합계</th>
+                </tr>
+
+                <tbody id="detail-list"></tbody>
+            </table>
+        </div>
+
+        <div class="box3">
+            <h1>구매내역</h1>
+            <div class="label">
+                <label for="startDate"></label>
+                <input type="date" id="startDate">
+                <label for="endDate">~</label>
+                <input type="date" id="endDate">
+                <button onclick="search()">검색</button>
+                <p id="result"></p>
+            </div>
+            <table border="1">
+                <tr>
+                    <th>NO.</th>
+                    <th>이름</th>
+                    <th>강의 목록</th>
+                    <th>가격</th>
+                    <th>구매 날짜</th>
+                    <th>수강 상태</th>
+                </tr>
+
+                <tbody id="buy-list"></tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="inner">
+        <div class="upper">
+            <h2>DW운전면허학원은 언제나 고객과 함께합니다.</h2>
+            <ul>
+                <li>CUSTOMER CENTER</li>
+                <br>
+                <li>1577-****</li>
+            </ul>
+        </div>
+
+        <div class="under">
+            <h2>DW운전면허학원</h2>
+            <ul>
+                <li>대표자 : 김덕배</li>
+                <li>대표전화 : 010-****-****</li>
+                <li>담당자 : 곽두팔</li>
+                <li>담당자전화 : 010-****-***</li>
+                <li>사업자등록번호 : 231-**-*****</li>
+                <li>학원코드 : ****</li>
+                <li>등록번호 : 0000</li>
+                <li>전문학원지정번호 : ****호</li>
+            </ul>
+        </div>
+    </div>
+</footer>
+<script>
+
+    $(document).ready(function() {
+        getuser();
+
+        function getuser() {
+            $.ajax({
+                url: '/api/admin/user/all',
+                type: 'GET',
+                success: function(data) {
+                    let trlist = $('#tr-list');
+                    trlist.empty();
+                    data.forEach(function(user, index) {
+                        let listItem = `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${user.userName}</td>
+                                <td>${user.realName}</td>
+                                <td>${user.email}</td>
+                                <td>${user.birthdate}</td>
+                                <td>${user.point}</td>
+                                <td>${user.createdAt}</td>
+                                <td>${user.lastLoginDate}</td>
+                                <td>${user.gender}</td>
+                                <td>${user.authority.authorityName}</td>
+                            </tr>
+                        `;
+                        trlist.append(listItem);
+                    });
+                },
+                error: function(error) {
+                    console.error("회원정보를 불러오는 데 실패했습니다:", error);
+                    alert("회원정보를 불러오는 데 실패했습니다.");
+                }
+            });
+        }
+    });
+
+
+    $(document).ready(function() {
+        buySubject();
+
+        function buySubject() {
+            $.ajax({
+                url: '/api/enrollment/subject/completed',
+                type: 'GET',
+                success: function(data) {
+                    let buylist = $('#buy-list');
+                    buylist.empty();
+                    data.forEach(function(enrollment, index) {
+                        let listItem = `
+                            <tr>
+                               <td>${index + 1}</td>
+                               <td>${enrollment.username}</td>
+                               <td>${enrollment.title}</td>
+                               <td>${enrollment.price}</td>
+                               <td>${enrollment.purchaseTime}</td>
+                               <td>${enrollment.completionStatus}</td>
+                             </tr>
+                        `;
+                        buylist.append(listItem);
+                    });
+                },
+                error: function(error) {
+                    console.error("회원정보를 불러오는 데 실패했습니다:", error);
+                    alert("회원정보를 불러오는 데 실패했습니다.");
+                }
+            });
+        }
+    });
+
+function search() {
+    let startDate = $("#startDate").val();
+    let endDate = $("#endDate").val();
+
+    if (!startDate || !endDate) {
+        alert("시작 날짜와 종료 날짜를 모두 입력해주세요.");
+        return;
+    }
+
+    $.ajax({
+        url: `/api/enrollment/subject/${startDate}/${endDate}`,
+        type: 'GET',
+        success: function(data) {
+            let buylist = $('#buy-list');
+            buylist.empty();
+
+            data.forEach(function(enrollment, index) {
+                let listItem = `
+                    <tr>
+                        <td>${index + 1}</td>
+                        <td>${enrollment.username}</td>
+                        <td>${enrollment.title}</td>
+                        <td>${enrollment.price}</td>
+                        <td>${enrollment.purchaseTime}</td>
+                        <td>${enrollment.completionStatus}</td>
+                    </tr>
+                `;
+                buylist.append(listItem);
+            });
+        },
+        error: function(error) {
+            console.error("구매 내역을 불러오는 데 실패했습니다:", error);
+            alert("구매 내역을 불러오는 데 실패했습니다.");
+        }
+    });
+}
+
+$(document).ready(function() {
+    $("#searchButton").click(function() {
+        search();
+    });
+});
+
+
+
+    $(document).ready(function() {
+       getdetail();
+
+       function getdetail() {
+           $.ajax({
+               url: '/api/enrollment/detail',
+               type: 'GET',
+               success: function(data) {
+                   let detaillist = $('#detail-list');
+                   detaillist.empty();
+                   data.forEach(function(enrollment) {
+                       let listItem = `
+                           <tr>
+                               <td>${enrollment.title}</td>
+                               <td>${enrollment.price}</td>
+                               <td>${enrollment.persons}</td>
+                               <td>${enrollment.priceSum}</td>
+                           </tr>
+                       `;
+                       detaillist.append(listItem);
+                   });
+               },
+               error: function(error) {
+                   console.error("강의 상세 정보를 불러오는 데 실패했습니다:", error);
+                   alert("강의 상세 정보를 불러오는 데 실패했습니다");
+               }
+           });
+       }
+   });
+
+</script>
+
+</body>
+
+</html>

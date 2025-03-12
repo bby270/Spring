@@ -1,0 +1,113 @@
+/* figure */
+figure {
+    width: 1180px;
+    margin: 0px auto;
+    padding-top: 290px;
+    padding-bottom: 200px;
+}
+figure .board {
+    width: 1180px;
+    line-height: 45px;
+    position: relative;
+}
+figure .board h1 {
+    width: 190px;
+    line-height: 45px;
+    border-bottom: 1.5px solid #1f1f1f;
+    color: #222225;
+    text-align: center;
+    float: left;
+}
+
+figure .board .search {
+    position: absolute;
+    right: 10px;
+    padding: 1px 50px;
+    
+}
+figure .board .search form{
+    font: bolder 18px/1 "arial";
+    color: #000;
+}
+
+figure .board .search input{
+    padding: 6px 13px;
+    border-radius: 8px;
+}
+figure .board .search button{
+width:50px;
+margin-left:5px;
+padding:7.5px;
+font-size:13px;
+background-color:#333;
+color:#fff;
+border:none;
+border-radius:4px;
+cursor:pointer;
+transition:background-color 0.3s ease;
+float:right;
+}
+
+figure .board .search button:hover{
+    background-color: #999;
+} 
+ 
+figure .board .title {
+    width: 1000px;
+    padding: 40px 100px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #000;
+    margin-left: 90px;
+    margin-right: 90px;
+    
+}
+figure .board .title li{
+    font: bold 17px/1 "arial";
+    color: #444447;
+}
+
+figure .board .question{
+    width: 100px;
+    margin-left: 90px;
+    margin-right: 90px;
+}
+figure .board .question li {
+    width: 1000px;
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+    font: bold 16px/1 "arial";
+    font-style: #111;
+    color: #444447;
+}
+figure .board .question li a {
+    width: 100%;
+    padding: 20px 100px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #1f1f1f;
+    color: #444447;
+}
+figure .board .post {
+    position: absolute;
+    right:30px;
+    margin-top: 70px;
+
+    display: block;
+    width: 60px;
+    height: 40px;
+
+    text-align: center;
+    line-height: 40px;
+    margin-right: 30px;
+    background-color: #333;
+    color: #fff;
+
+    border-radius: 10px 10px 10px 10px;
+    cursor: pointer;
+
+}
+figure .board .post:hover{
+    background-color: #999;
+}

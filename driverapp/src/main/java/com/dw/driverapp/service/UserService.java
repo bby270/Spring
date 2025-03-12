@@ -11,7 +11,6 @@ import com.dw.driverapp.repository.SubjectRepository;
 import com.dw.driverapp.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -43,19 +42,23 @@ public class UserService {
         if (user.isPresent()) {
             throw new InvalidRequestException("입력하신 정보가 이미 존재합니다.");
         }
-        return userRepository.save(
-                new User(
-                        userDTO.getUserName(),
-                        passwordEncoder.encode(userDTO.getPassword()),
-                        userDTO.getEmail(),
-                        userDTO.getRealName(),
-                        userDTO.getBirthdate(),
-                        authorityRepository.findById("User")
-                                .orElseThrow(() -> new ResourceNotFoundException("NO ROLE")),
-                        LocalDate.now(),
-                        10000)
-        ).toDTO();
+        User newUser = new User(
+                userDTO.getUserName(),
+                passwordEncoder.encode(userDTO.getPassword()),
+                userDTO.getEmail(),
+                userDTO.getRealName(),
+                userDTO.getBirthdate(),
+                userDTO.getGender(),
+                authorityRepository.findById("User")
+                        .orElseThrow(() -> new ResourceNotFoundException("NO ROLE")),
+                LocalDate.now(),
+                10000,
+                LocalDate.now()
+        );
+
+        return userRepository.save(newUser).toDTO();
     }
+
 
     // 관리자 - 모든 회원정보 조회
     public List<User> getAllUser() {
@@ -74,15 +77,10 @@ public class UserService {
         return userRepository.findById(username).orElseThrow(() -> new ResourceNotFoundException("입력하신 회원이 존재하지 않습니다."));
     }
 
-    // 유저- email으로 정보 조회
-    public User userEmailFind(String email) {
-        return userRepository.findByEmail(email)
-                .orElseThrow(() -> new ResourceNotFoundException("입력하신 email의 정보를 가진 회원이 존재하지 않습니다."));
-    }
 
     // 유저- realname으로 정보 조회
     public List<User> realNameFind(String realname) {
-        return userRepository.findByRealName1(realname)
+        return userRepository.findByRealName(realname)
                 .filter(users -> !users.isEmpty())
                 .orElseThrow(() -> new ResourceNotFoundException("입력하신 realname의 정보를 가진 회원이 존재하지 않습니다."));
     }
@@ -187,38 +185,39 @@ public class UserService {
                 .collect(Collectors.toList());
     }
 
-    public UserService(UserRepository userRepository) {
-        this.userRepository = userRepository;
+    // 유저 - 포인트 내역 조회
+    public User userPoint(String username) {
+        return userRepository.findByUserName(username)
+                .orElseThrow(() -> new ResourceNotFoundException("회원이 존재하지 않습니다."));
     }
 
-    // real_name을 기준으로 회원 수정
-    public UserDTO updateUserRealName(String realName) {
-        List<User> users = userRepository.findByRealName(realName);
+    // 유저- 현재 로그인중인 본인의 정보 조회
+    public User userMe(String username) {
+        return userRepository.findByUserName(username)
+                .orElseThrow(() -> new ResourceNotFoundException("사용자 정보를 찾을 수 없습니다."));
+    }
 
-        if (user == null) {
+    // 유저- 로그인한 회원의 본인 회원정보를 수정
+    public User updateUser(String username, User updatedUser) {
+        User user = userRepository.findByUserName(username)
+                .orElseThrow(() -> new ResourceNotFoundException("회원이 존재하지 않습니다."));
+        if (user != null) {
+            user.setRealName(updatedUser.getRealName());
+            user.setEmail(updatedUser.getEmail());
+            return userRepository.save(user);
+        } else {
             return null;
         }
-        if (user.getEmail() != null) {
-            user.setEmail(user.getEmail());
-        }
-        if (user.getPassword() != null) {
-            user.setPassword(user.getPassword());
-        }
-        if (user.getPoint() >= 0) {
-            user.setPoint(user.getPoint());
-        }
-        userRepository.save(user);
-        return user.toDTO();
     }
+
+    public void adminDeleteUser(String username) {
+        Optional<User> user = userRepository.findByUserName(username);
+        if (user.isEmpty()) {
+            throw new IllegalArgumentException("사용자를 찾을 수 없습니다: " + username);
+        }
+        userRepository.delete(user.get());
+    }
+
 }
-
-
-
-
-
-
-
-
-
 
 

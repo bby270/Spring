@@ -15,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
+@Setter
 @ToString
 public class UserDTO {
     private String userName;
@@ -22,6 +23,10 @@ public class UserDTO {
     private String email;
     private String realName;
     private LocalDate birthdate;
+    private String gender;
     private String role;
     private int point;
+    private LocalDate lastLoginDate;
+
+
 }

@@ -6,6 +6,7 @@ import com.dw.driverapp.dto.SubjectDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +30,7 @@ public class Board {
     @JoinColumn(name = "user_name", nullable = false)
     private User author;
     @Column(name = "created_date", nullable = false)
-    private LocalDateTime createdDate = LocalDateTime.now();
+    private LocalDate createdDate = LocalDate.now();
     @Column(name = "modified_date", nullable = false)
     private LocalDateTime modifiedDate = LocalDateTime.now();
     @OneToMany(mappedBy = "board")

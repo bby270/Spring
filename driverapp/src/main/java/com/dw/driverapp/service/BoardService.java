@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -67,7 +68,7 @@ public class BoardService {
         newBoard.setTitle(boardAllDTO.getTitle());
         newBoard.setContent(boardAllDTO.getContent());
         newBoard.setAuthor(author);
-        newBoard.setCreatedDate(LocalDateTime.now());
+        newBoard.setCreatedDate(LocalDate.now());
         newBoard.setModifiedDate(LocalDateTime.now());
         Board savedBoard = boardRepository.save(newBoard);
         return savedBoard.TODTO();
@@ -106,6 +107,7 @@ public class BoardService {
     // 유저- 로그인한 사용자가 올린 게시글만 조회
     public List<BoardAllDTO> loginBoardAll(String username) {
         List<Board> boards = boardRepository.findByAuthor_UserName(username)
+                .filter(boards1 -> !boards1.isEmpty())
                 .orElseThrow(() -> new ResourceNotFoundException("해당 사용자의 게시글이 없습니다."));
         List<BoardAllDTO> boardAllDTOList = new ArrayList<>();
         for (Board board : boards) {

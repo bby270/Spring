@@ -1,5 +1,6 @@
 package com.dw.driverapp.model;
 
+import com.dw.driverapp.dto.VideoDTO;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -18,7 +19,19 @@ public class Video {
 
     @Column(name="video_url",nullable = false)
     private String videoUrl;
+    @Column(name="img_url")
+    private String img;
     @ManyToOne
     @JoinColumn(name="subject_id")
-    private Subject subject_fk; // 외래키로 과목의 타이틀을 불러옴
+    private Subject subject;
+
+    public VideoDTO TODTO(){
+        VideoDTO videoDTO = new VideoDTO();
+        videoDTO.setId(this.id);
+        videoDTO.setVideoUrl(this.videoUrl);
+        videoDTO.setSubjectId(this.subject.getId());
+        videoDTO.setImg(this.img);
+        videoDTO.setTitle(this.subject.getTitle());
+        return videoDTO;
+    }
 }
